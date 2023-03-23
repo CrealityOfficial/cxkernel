@@ -6,19 +6,23 @@
 namespace cxkernel
 {
 	class CXKERNEL_API CXKernel : public QObject
-								, public qtuser_quick::QmlAppModule
+								, public qtuser_quick::AppModule
 	{
+		Q_OBJECT
 	public:
 		CXKernel(QObject* parent = nullptr);
 		virtual ~CXKernel();
 
+		virtual void initialize(QQmlApplicationEngine& engine);
+		virtual void uninitialize();
 	protected:
-		void beforeAppConstruct() override;
-		void afterAppConstruct() override;
-
-		void startLoadQmlEngine(QApplication& app, QQmlApplicationEngine& engine) override;
-		void onAppEngineShutDown() override;
-		void afterAppEngineShutDown() override;
+		virtual QString entryQmlFile();
+		bool loadQmlEngine(QApplication& app, QQmlApplicationEngine& engine) override;
+		void unloadQmlEngine() override;
+		void shutDown() override;
+	protected:
+		QQmlApplicationEngine* m_engine;
+		QQmlContext* m_context;
 	};
 
 	extern CXKernel* cxKernel;
