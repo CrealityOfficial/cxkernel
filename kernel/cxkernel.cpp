@@ -3,6 +3,8 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 
+#include "qtuserqml/gl/rendermanager.h"
+
 namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
@@ -15,6 +17,7 @@ namespace cxkernel
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
 
 		cxKernel = this;
+		m_renderManager = new qtuser_qml::RenderManager(this);
 	}
 
 	CXKernel::~CXKernel()

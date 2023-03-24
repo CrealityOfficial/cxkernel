@@ -3,6 +3,11 @@
 #include "cxkernel/cxkernelinterface.h"
 #include "qtuserquick/main/entry.h"
 
+namespace qtuser_qml
+{
+	class RenderManager;
+}
+
 namespace cxkernel
 {
 	class CXKERNEL_API CXKernel : public QObject
@@ -26,6 +31,8 @@ namespace cxkernel
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
+
+		qtuser_qml::RenderManager* m_renderManager;
 	};
 
 	extern CXKernel* cxKernel;
