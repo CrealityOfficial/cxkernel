@@ -22,7 +22,12 @@ namespace cxkernel
 
 	}
 
-	void CXKernel::initialize(QQmlApplicationEngine& engine)
+	void CXKernel::initializeContext(QQmlApplicationEngine& engine)
+	{
+
+	}
+
+	void CXKernel::initialize()
 	{
 
 	}
@@ -34,8 +39,7 @@ namespace cxkernel
 
 	QString CXKernel::entryQmlFile()
 	{
-		return QLatin1String("qrc:/scence3d/res/main.qml");
-		//engine.load(QUrl());
+		return QLatin1String("qrc:/cxkernel/main.qml");
 	}
 
 	bool CXKernel::loadQmlEngine(QApplication& app, QQmlApplicationEngine& engine)
@@ -44,12 +48,17 @@ namespace cxkernel
 		m_context = m_engine->rootContext();
 
 		QString qml = entryQmlFile();
-		QFile qmlFile(qml);
+		QString checkQml = qml;
+		QFile qmlFile(checkQml.replace("qrc:/", ":/"));
 
 		if (!m_context || !qmlFile.exists())
 			return false;
+		
+		//register context
+		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
+		m_context->setContextProperty("kernel_kernel", this);
 
-		initialize(engine);
+		engine.load(QUrl(qml));
 		return true;
 	}
 
@@ -61,5 +70,11 @@ namespace cxkernel
 	void CXKernel::shutDown()
 	{
 
+	}
+
+	void CXKernel::invokeFromQmlWindow()
+	{
+
+		initialize();
 	}
 }

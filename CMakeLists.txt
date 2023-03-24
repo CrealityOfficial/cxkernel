@@ -6,6 +6,7 @@ set(INC_SRCS ${INC_PREFIX}/cxkernelinterface.h
 			 )
 			 
 set(IMPL_SRCS kernel/cxkernel.cpp)
+set(QRCS res/cxkernel.qrc)
 
 set(SRCS ${INC_SRCS} ${IMPL_SRCS})
 set(ILIBS ${qtuser})
@@ -17,5 +18,6 @@ __add_real_target(cxkernel dll SOURCE ${SRCS}
 								INC ${INCS}
 								DEF ${DEFS}
 								INTERFACE ${INCS}
+								QTQRC ${QRCS}
 								SOURCE_FOLDER
 								)
