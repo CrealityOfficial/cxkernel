@@ -18,10 +18,12 @@ namespace cxkernel
 		CXKernel(QObject* parent = nullptr);
 		virtual ~CXKernel();
 
-		virtual void initializeContext(QQmlApplicationEngine& engine);
+		Q_INVOKABLE void registerContextObject(const QString& name, QObject* object);
+	protected:
+		virtual void initializeContext();
 		virtual void initialize();
 		virtual void uninitialize();
-	protected:
+
 		virtual QString entryQmlFile();
 		bool loadQmlEngine(QApplication& app, QQmlApplicationEngine& engine) override;
 		void unloadQmlEngine() override;

@@ -25,7 +25,19 @@ namespace cxkernel
 
 	}
 
-	void CXKernel::initializeContext(QQmlApplicationEngine& engine)
+	void CXKernel::registerContextObject(const QString& name, QObject* object)
+	{
+		if (!m_context || !object)
+		{
+			qDebug() << QString("CXKernel::registerContextObject null context, or null object.");
+			return;
+		}
+
+
+		m_context->setContextProperty(name, object);
+	}
+
+	void CXKernel::initializeContext()
 	{
 
 	}
@@ -61,6 +73,7 @@ namespace cxkernel
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 		m_context->setContextProperty("kernel_kernel", this);
 
+		initializeContext();
 		engine.load(QUrl(qml));
 		return true;
 	}
