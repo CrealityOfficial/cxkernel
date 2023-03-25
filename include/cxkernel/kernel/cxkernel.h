@@ -9,6 +9,14 @@ namespace qtuser_qml
 	class RenderItemWrapper;
 }
 
+namespace qtuser_core
+{
+	class JobExecutor;
+	class CreativePluginCenter;
+	class ApplicationConfiguration;
+	class CXFileOpenAndSaveManager;
+}
+
 class GLQuickItem;
 namespace cxkernel
 {
@@ -39,6 +47,9 @@ namespace cxkernel
 
 		qtuser_qml::RenderManager* m_renderManager;
 		qtuser_qml::RenderItemWrapper* m_renderWrapper;
+
+		qtuser_core::CreativePluginCenter* m_creativePluginCenter;
+		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
 	};
 
 	extern CXKernel* cxKernel;

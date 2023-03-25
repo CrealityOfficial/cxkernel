@@ -3,6 +3,8 @@
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
 
+#include "qtusercore/module/cxopenandsavefilemanager.h"
+#include "qtusercore/module/creativeplugincenter.h"
 #include "qtuserqml/gl/rendermanager.h"
 #include "qtuserqml/gl/renderitemwrapper.h"
 
@@ -20,6 +22,9 @@ namespace cxkernel
 
 		cxKernel = this;
 		m_renderManager = new qtuser_qml::RenderManager(this);
+
+		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
+		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 	}
 
 	CXKernel::~CXKernel()
@@ -73,7 +78,7 @@ namespace cxkernel
 		
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
-		m_context->setContextProperty("kernel_kernel", this);
+		m_context->setContextProperty("cxkernel_kernel", this);
 
 		initializeContext();
 		engine.load(QUrl(qml));
@@ -101,7 +106,7 @@ namespace cxkernel
 		if (!m_renderWrapper && item)
 		{
 			m_renderWrapper = new qtuser_qml::RenderItemWrapper(item, this);
-			registerContextObject("kernel_render_wrapper", m_renderWrapper);
+			registerContextObject("cxkernel_render_wrapper", m_renderWrapper);
 		}
 	}
 }
