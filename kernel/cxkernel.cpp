@@ -4,6 +4,7 @@
 #include <QtCore/QFile>
 
 #include "qtuserqml/gl/rendermanager.h"
+#include "qtuserqml/gl/renderitemwrapper.h"
 
 namespace cxkernel
 {
@@ -12,6 +13,7 @@ namespace cxkernel
 		: QObject(parent)
 		, m_engine(nullptr)
 		, m_context(nullptr)
+		, m_renderWrapper(nullptr)
 	{
 		if (cxKernel)
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
@@ -92,5 +94,14 @@ namespace cxkernel
 	{
 
 		initialize();
+	}
+
+	void CXKernel::exposureMainItem(GLQuickItem* item)
+	{
+		if (!m_renderWrapper && item)
+		{
+			m_renderWrapper = new qtuser_qml::RenderItemWrapper(item, this);
+			registerContextObject("kernel_render_wrapper", m_renderWrapper);
+		}
 	}
 }

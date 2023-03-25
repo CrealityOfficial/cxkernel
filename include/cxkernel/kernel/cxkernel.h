@@ -6,8 +6,10 @@
 namespace qtuser_qml
 {
 	class RenderManager;
+	class RenderItemWrapper;
 }
 
+class GLQuickItem;
 namespace cxkernel
 {
 	class CXKERNEL_API CXKernel : public QObject
@@ -30,11 +32,13 @@ namespace cxkernel
 		void shutDown() override;
 
 		Q_INVOKABLE void invokeFromQmlWindow();
+		Q_INVOKABLE void exposureMainItem(GLQuickItem* item);
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
 
 		qtuser_qml::RenderManager* m_renderManager;
+		qtuser_qml::RenderItemWrapper* m_renderWrapper;
 	};
 
 	extern CXKernel* cxKernel;
