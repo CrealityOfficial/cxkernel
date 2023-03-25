@@ -3,9 +3,12 @@ __cc_find(trimesh2)
 set(INC_PREFIX include/cxkernel)
 set(INC_SRCS ${INC_PREFIX}/cxkernelinterface.h
 			 ${INC_PREFIX}/kernel/cxkernel.h
+			 ${INC_PREFIX}/interface/renderinterface.h
 			 )
 			 
-set(IMPL_SRCS kernel/cxkernel.cpp)
+set(IMPL_SRCS kernel/cxkernel.cpp
+			  interface/renderinterface.cpp
+			  )
 set(QRCS res/cxkernel.qrc)
 
 set(SRCS ${INC_SRCS} ${IMPL_SRCS})
