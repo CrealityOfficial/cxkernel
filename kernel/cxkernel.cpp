@@ -8,6 +8,10 @@
 #include "qtuserqml/gl/rendermanager.h"
 #include "qtuserqml/gl/renderitemwrapper.h"
 
+#include "cxkernel/kernel/visualscene.h"
+
+#include "cxkernel/interface/renderinterface.h"
+
 namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
@@ -16,20 +20,19 @@ namespace cxkernel
 		, m_engine(nullptr)
 		, m_context(nullptr)
 		, m_renderWrapper(nullptr)
+		, m_visualScene(nullptr)
 	{
 		if (cxKernel)
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
 
 		cxKernel = this;
 		m_renderManager = new qtuser_qml::RenderManager(this);
-
 		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 	}
 
 	CXKernel::~CXKernel()
 	{
-
 	}
 
 	void CXKernel::registerContextObject(const QString& name, QObject* object)
@@ -56,7 +59,6 @@ namespace cxkernel
 
 	void CXKernel::uninitialize()
 	{
-
 	}
 
 	QString CXKernel::entryQmlFile()
@@ -88,15 +90,21 @@ namespace cxkernel
 	void CXKernel::unloadQmlEngine()
 	{
 		uninitialize();
+
+		if (m_renderWrapper)
+		{
+			m_renderWrapper->uninitialize();
+		}
 	}
 
 	void CXKernel::shutDown()
 	{
-
 	}
 
 	void CXKernel::invokeFromQmlWindow()
 	{
+		registerRenderGraph(m_visualScene);
+		renderRenderGraph(m_visualScene);
 
 		initialize();
 	}
@@ -107,6 +115,28 @@ namespace cxkernel
 		{
 			m_renderWrapper = new qtuser_qml::RenderItemWrapper(item, this);
 			registerContextObject("cxkernel_render_wrapper", m_renderWrapper);
+
+			m_visualScene = new VisualScene();
 		}
+	}
+
+	qtuser_qml::RenderManager* CXKernel::renderManager()
+	{
+		return m_renderManager; 
+	}
+
+	qtuser_qml::RenderItemWrapper* CXKernel::renderWrapper()
+	{
+		return m_renderWrapper;
+	}
+
+	qtuser_core::CreativePluginCenter* CXKernel::cxPluginCenter()
+	{
+		return m_creativePluginCenter; 
+	}
+
+	qtuser_core::CXFileOpenAndSaveManager* CXKernel::ioManager()
+	{
+		return m_ioManager;
 	}
 }

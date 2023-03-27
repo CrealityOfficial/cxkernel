@@ -20,6 +20,7 @@ namespace qtuser_core
 class GLQuickItem;
 namespace cxkernel
 {
+	class VisualScene;
 	class CXKERNEL_API CXKernel : public QObject
 								, public qtuser_quick::AppModule
 	{
@@ -43,19 +44,20 @@ namespace cxkernel
 		Q_INVOKABLE void exposureMainItem(GLQuickItem* item);
 
 	public:
-		qtuser_qml::RenderManager* renderManager() { return m_renderManager; }
-		qtuser_qml::RenderItemWrapper* renderWrapper() { return m_renderWrapper; }
-		qtuser_core::CreativePluginCenter* cxPluginCenter() { return m_creativePluginCenter; }
-		qtuser_core::CXFileOpenAndSaveManager* ioManager() { return m_ioManager; }
+		qtuser_qml::RenderManager* renderManager();
+		qtuser_qml::RenderItemWrapper* renderWrapper();
+		qtuser_core::CreativePluginCenter* cxPluginCenter();
+		qtuser_core::CXFileOpenAndSaveManager* ioManager();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
 
 		qtuser_qml::RenderManager* m_renderManager;
 		qtuser_qml::RenderItemWrapper* m_renderWrapper;
-
 		qtuser_core::CreativePluginCenter* m_creativePluginCenter;
 		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
+
+		VisualScene* m_visualScene;
 	};
 
 	extern CXKernel* cxKernel;
