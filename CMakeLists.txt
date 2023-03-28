@@ -1,22 +1,20 @@
 __cc_find(trimesh2)
 
-set(INC_PREFIX include/cxkernel)
-set(INC_SRCS ${INC_PREFIX}/cxkernelinterface.h
-			 ${INC_PREFIX}/kernel/cxkernel.h
-			 ${INC_PREFIX}/kernel/visualscene.h
-			 ${INC_PREFIX}/interface/renderinterface.h
-			 )
-			 
-set(IMPL_SRCS kernel/cxkernel.cpp
-			  kernel/visualscene.cpp
-			  interface/renderinterface.cpp
-			  )
+set(SRCS cxkernel/cxkernelinterface.h
+		 cxkernel/kernel/cxkernel.h
+		 cxkernel/kernel/cxkernel.cpp
+		 cxkernel/kernel/visualscene.h
+		 cxkernel/kernel/visualscene.cpp
+		 cxkernel/render/boxentity.h
+		 cxkernel/render/boxentity.cpp
+		 cxkernel/interface/renderinterface.h
+		 cxkernel/interface/renderinterface.cpp
+		)
 			  
 set(QRCS res/cxkernel.qrc)
 
-set(SRCS ${INC_SRCS} ${IMPL_SRCS})
 set(ILIBS ${qtuser})
-set(INCS ${CMAKE_CURRENT_SOURCE_DIR}/include/)
+set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
 __add_real_target(cxkernel dll SOURCE ${SRCS}

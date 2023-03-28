@@ -3,7 +3,7 @@
 namespace cxkernel
 {
 	VisualScene::VisualScene(Qt3DCore::QNode* parent)
-		:SimpleRenderGraph(parent)
+		:XRenderGraph(parent)
 	{
 
 	}
