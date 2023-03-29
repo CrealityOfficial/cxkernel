@@ -5,10 +5,12 @@
 
 #include "qtusercore/module/cxopenandsavefilemanager.h"
 #include "qtusercore/module/creativeplugincenter.h"
+#include "qtusercore/module/jobexecutor.h"
 #include "qtuserqml/gl/rendermanager.h"
 #include "qtuserqml/gl/renderitemwrapper.h"
 
 #include "cxkernel/kernel/visualscene.h"
+#include "cxkernel/utils/meshloader.h"
 
 #include "cxkernel/interface/renderinterface.h"
 
@@ -29,6 +31,8 @@ namespace cxkernel
 		m_renderManager = new qtuser_qml::RenderManager(this);
 		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
+		m_jobExecutor = new qtuser_core::JobExecutor(this);
+		m_meshLoader = new MeshLoader(this);
 	}
 
 	CXKernel::~CXKernel()
@@ -81,6 +85,8 @@ namespace cxkernel
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 		m_context->setContextProperty("cxkernel_kernel", this);
+		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
+		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
 
 		initializeContext();
 		engine.load(QUrl(qml));
@@ -105,6 +111,8 @@ namespace cxkernel
 	{
 		registerRenderGraph(m_visualScene);
 		renderRenderGraph(m_visualScene);
+
+		m_ioManager->registerOpenHandler(m_meshLoader);
 
 		initialize();
 	}
@@ -138,5 +146,10 @@ namespace cxkernel
 	qtuser_core::CXFileOpenAndSaveManager* CXKernel::ioManager()
 	{
 		return m_ioManager;
+	}
+
+	qtuser_core::JobExecutor* CXKernel::jobExecutor()
+	{
+		return m_jobExecutor;
 	}
 }

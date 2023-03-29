@@ -21,6 +21,7 @@ class GLQuickItem;
 namespace cxkernel
 {
 	class VisualScene;
+	class MeshLoader;
 	class CXKERNEL_API CXKernel : public QObject
 								, public qtuser_quick::AppModule
 	{
@@ -48,6 +49,7 @@ namespace cxkernel
 		qtuser_qml::RenderItemWrapper* renderWrapper();
 		qtuser_core::CreativePluginCenter* cxPluginCenter();
 		qtuser_core::CXFileOpenAndSaveManager* ioManager();
+		qtuser_core::JobExecutor* jobExecutor();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
@@ -56,6 +58,8 @@ namespace cxkernel
 		qtuser_qml::RenderItemWrapper* m_renderWrapper;
 		qtuser_core::CreativePluginCenter* m_creativePluginCenter;
 		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
+		qtuser_core::JobExecutor* m_jobExecutor;
+		MeshLoader* m_meshLoader;
 
 		VisualScene* m_visualScene;
 	};
