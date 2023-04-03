@@ -6,7 +6,7 @@ namespace cxkernel
 		:XRenderGraph(parent)
 	{
 		Qt3DCore::QEntity* root = rootEntity();
-		m_printerEntity = new qtuser_3d::XEntity(root);
+		m_printerEntity = new XEntity(root);
 	}
 
 	VisualScene::~VisualScene()

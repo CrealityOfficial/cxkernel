@@ -1,18 +1,18 @@
 #ifndef CXKERNEL_VISUALSCENE_1679908098344_H
 #define CXKERNEL_VISUALSCENE_1679908098344_H
-#include "qtuser3d/prospective/xrendergraph.h"
-#include "qtuser3d/prospective/xentity.h"
+#include "cxkernel/render/xrendergraph.h"
+#include "cxkernel/render/xentity.h"
 
 namespace cxkernel
 {
-	class VisualScene : public qtuser_3d::XRenderGraph
+	class VisualScene : public XRenderGraph
 	{
 	public:
 		VisualScene(Qt3DCore::QNode* parent = nullptr);
 		virtual ~VisualScene();
 
 	protected:
-		qtuser_3d::XEntity* m_printerEntity;
+		XEntity* m_printerEntity;
 	};
 }
 

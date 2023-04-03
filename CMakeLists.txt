@@ -7,8 +7,14 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/kernel/cxkernel.cpp
 		 cxkernel/kernel/visualscene.h
 		 cxkernel/kernel/visualscene.cpp
-		 cxkernel/render/boxentity.h
-		 cxkernel/render/boxentity.cpp
+		 cxkernel/render/xeffect.h
+		 cxkernel/render/xeffect.cpp
+		 cxkernel/render/xentity.h
+		 cxkernel/render/xentity.cpp
+		 cxkernel/render/xrendergraph.h
+		 cxkernel/render/xrendergraph.cpp
+		 cxkernel/render/xrenderpass.h
+		 cxkernel/render/xrenderpass.cpp
 		 cxkernel/interface/renderinterface.h
 		 cxkernel/interface/renderinterface.cpp
 		 cxkernel/interface/iointerface.h
