@@ -11,6 +11,7 @@
 
 #include "cxkernel/kernel/visualscene.h"
 #include "cxkernel/utils/meshloader.h"
+#include "cxkernel/utils/dumpproxy.h"
 
 #include "cxkernel/interface/renderinterface.h"
 
@@ -32,6 +33,7 @@ namespace cxkernel
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 		m_jobExecutor = new qtuser_core::JobExecutor(this);
 		m_meshLoader = new MeshLoader(this);
+		m_dumpProxy = new DumpProxy(this);
 	}
 
 	CXKernel::~CXKernel()
@@ -127,6 +129,11 @@ namespace cxkernel
 		}
 	}
 
+	void CXKernel::initializeDump(const QString& version, const QString& cloudId, const QString& path)
+	{
+		m_dumpProxy->initialize(version, cloudId, path);
+	}
+
 	qtuser_qml::RenderManager* CXKernel::renderManager()
 	{
 		return m_renderManager; 
@@ -150,5 +157,10 @@ namespace cxkernel
 	qtuser_core::JobExecutor* CXKernel::jobExecutor()
 	{
 		return m_jobExecutor;
+	}
+
+	DumpProxy* CXKernel::dumpProxy()
+	{
+		return m_dumpProxy;
 	}
 }

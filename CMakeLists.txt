@@ -31,15 +31,23 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/data/header.cpp
 		 cxkernel/data/modelndata.h
 		 cxkernel/data/modelndata.cpp
+		 cxkernel/utils/dumpproxy.h
+		 cxkernel/utils/dumpproxy.cpp
 		)
 			  
 set(QRCS res/cxkernel.qrc)
+
+set(LIBS)
+if(CC_BC_WIN)
+	list(APPEND LIBS Dbghelp.lib)
+endif()
 
 set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper)
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
 __add_real_target(cxkernel dll SOURCE ${SRCS}
+								LIB ${LIBS}
 								ILIB ${ILIBS}
 								INC ${INCS}
 								DEF ${DEFS}

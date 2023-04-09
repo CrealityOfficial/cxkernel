@@ -23,6 +23,7 @@ namespace cxkernel
 {
 	class VisualScene;
 	class MeshLoader;
+	class DumpProxy;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
 								, public qtuser_quick::AppModule
 	{
@@ -45,12 +46,14 @@ namespace cxkernel
 		Q_INVOKABLE void invokeFromQmlWindow();
 		Q_INVOKABLE void exposureMainItem(GLQuickItem* item);
 
+		void initializeDump(const QString& version, const QString& cloudId, const QString& path);
 	public:
 		qtuser_qml::RenderManager* renderManager();
 		qtuser_qml::RenderItemWrapper* renderWrapper();
 		qtuser_core::CreativePluginCenter* cxPluginCenter();
 		qtuser_core::CXFileOpenAndSaveManager* ioManager();
 		qtuser_core::JobExecutor* jobExecutor();
+		DumpProxy* dumpProxy();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
@@ -60,6 +63,8 @@ namespace cxkernel
 		qtuser_core::CreativePluginCenter* m_creativePluginCenter;
 		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
 		qtuser_core::JobExecutor* m_jobExecutor;
+		DumpProxy* m_dumpProxy;
+
 		MeshLoader* m_meshLoader;
 	};
 
