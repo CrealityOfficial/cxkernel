@@ -1,5 +1,7 @@
 __cc_find(cxbin)
+__cc_find(QhullWrapper)
 __assert_target(cxbin)
+__assert_target(qhullWrapper)
 
 set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/kernel/data.h
@@ -25,11 +27,15 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/utils/meshloader.cpp
 		 cxkernel/utils/meshloadjob.h
 		 cxkernel/utils/meshloadjob.cpp
+		 cxkernel/data/header.h
+		 cxkernel/data/header.cpp
+		 cxkernel/data/modelndata.h
+		 cxkernel/data/modelndata.cpp
 		)
 			  
 set(QRCS res/cxkernel.qrc)
 
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil)
+set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper)
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
