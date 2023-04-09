@@ -18,11 +18,10 @@ namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
 	CXKernel::CXKernel(QObject* parent)
-		: QObject(parent)
+		: ContextBase(parent)
 		, m_engine(nullptr)
 		, m_context(nullptr)
 		, m_renderWrapper(nullptr)
-		, m_visualScene(nullptr)
 	{
 		if (cxKernel)
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
@@ -109,9 +108,6 @@ namespace cxkernel
 
 	void CXKernel::invokeFromQmlWindow()
 	{
-		registerRenderGraph(m_visualScene);
-		renderRenderGraph(m_visualScene);
-
 		m_ioManager->registerOpenHandler(m_meshLoader);
 
 		initialize();
@@ -123,8 +119,6 @@ namespace cxkernel
 		{
 			m_renderWrapper = new qtuser_qml::RenderItemWrapper(item, this);
 			registerContextObject("cxkernel_render_wrapper", m_renderWrapper);
-
-			m_visualScene = new VisualScene();
 		}
 	}
 

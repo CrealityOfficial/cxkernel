@@ -2,6 +2,7 @@
 #define CXKERNEL_CXKERNEL_1679400879176_H
 #include "cxkernel/cxkernelinterface.h"
 #include "qtuserquick/main/entry.h"
+#include "qtusercore/module/contextbase.h"
 
 namespace qtuser_qml
 {
@@ -22,7 +23,7 @@ namespace cxkernel
 {
 	class VisualScene;
 	class MeshLoader;
-	class CXKERNEL_API CXKernel : public QObject
+	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
 								, public qtuser_quick::AppModule
 	{
 		Q_OBJECT
@@ -60,8 +61,6 @@ namespace cxkernel
 		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
 		qtuser_core::JobExecutor* m_jobExecutor;
 		MeshLoader* m_meshLoader;
-
-		VisualScene* m_visualScene;
 	};
 
 	extern CXKernel* cxKernel;
