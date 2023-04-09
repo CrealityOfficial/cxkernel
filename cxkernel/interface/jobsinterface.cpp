@@ -18,6 +18,11 @@ namespace cxkernel
 		return cxKernel->jobExecutor()->execute(job, front);
 	}
 
+	bool executeJob(qtuser_core::Job* job, bool front)
+	{
+		return cxKernel->jobExecutor()->execute(job, front);
+	}
+
 	void addJobTracer(qtuser_core::JobTracer* tracer)
 	{
 		cxKernel->jobExecutor()->addJobTracer(tracer);
