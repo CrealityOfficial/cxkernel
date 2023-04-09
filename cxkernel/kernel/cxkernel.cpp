@@ -88,6 +88,8 @@ namespace cxkernel
 		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
 
 		initializeContext();
+		m_creativePluginCenter->load();
+
 		engine.load(QUrl(qml));
 		return true;
 	}
@@ -100,6 +102,8 @@ namespace cxkernel
 		{
 			m_renderWrapper->uninitialize();
 		}
+
+		m_creativePluginCenter->uninitialize();
 	}
 
 	void CXKernel::shutDown()
@@ -111,6 +115,7 @@ namespace cxkernel
 		m_ioManager->registerOpenHandler(m_meshLoader);
 
 		initialize();
+		m_creativePluginCenter->initialize();
 	}
 
 	void CXKernel::exposureMainItem(GLQuickItem* item)
