@@ -4,6 +4,11 @@
 
 namespace cxkernel
 {
+    void setLastSaveFileName(const QString& fileName)
+    {
+        cxKernel->ioManager()->setLastSaveFileName(fileName);
+    }
+
     void openLastSaveFolder()
     {
         cxKernel->ioManager()->openLastSaveFolder();
@@ -14,14 +19,19 @@ namespace cxkernel
         cxKernel->ioManager()->setFilterKey(filterKey);
     }
 
-    void saveFile(qtuser_core::CXHandleBase* handler, const QString& defaultName)
+    QString currOpenFile()
     {
-        cxKernel->ioManager()->save(handler, defaultName);
+        return cxKernel->ioManager()->currOpenFile();
     }
 
-    void openFile(qtuser_core::CXHandleBase* handler)
+    void saveFile(qtuser_core::CXHandleBase* handler, const QString& title, const QString& defaultName)
     {
-        cxKernel->ioManager()->open(handler);
+        cxKernel->ioManager()->save(handler, title, defaultName);
+    }
+
+    void openFile(qtuser_core::CXHandleBase* handler, const QString& title)
+    {
+        cxKernel->ioManager()->open(handler, title);
     }
 
     bool openFileWithName(const QString& fileName)
@@ -37,6 +47,11 @@ namespace cxkernel
     bool openFileWithString(const QString& commonName)
     {
         return cxKernel->ioManager()->openWithString(commonName);
+    }
+
+    void openFileWithUrls(const QList<QUrl>& urls)
+    {
+        cxKernel->ioManager()->openWithUrls(urls);
     }
 
     void registerOpenHandler(qtuser_core::CXHandleBase* handler)
