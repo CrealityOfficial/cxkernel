@@ -54,6 +54,7 @@ namespace cxkernel
 		qtuser_core::CXFileOpenAndSaveManager* ioManager();
 		qtuser_core::JobExecutor* jobExecutor();
 		DumpProxy* dumpProxy();
+		MeshLoader* meshLoader();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;

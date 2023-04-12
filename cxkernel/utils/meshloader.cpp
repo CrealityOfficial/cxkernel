@@ -2,12 +2,14 @@
 #include "qtusercore/string/urlutils.h"
 
 #include "cxkernel/utils/meshloadjob.h"
+#include "cxkernel/utils/modelfrommeshjob.h"
 #include "cxkernel/interface/jobsinterface.h"
 
 namespace cxkernel
 {
 	MeshLoader::MeshLoader(QObject* parent)
-		:QObject(parent)
+		: QObject(parent)
+		, m_processor(nullptr)
 	{
 	}
 
@@ -44,5 +46,20 @@ namespace cxkernel
 			jobs.push_back(qtuser_core::JobPtr(loadJob));
 		}
 		executeJobs(jobs);
+	}
+
+	void MeshLoader::addModelFromCreateInput(const ModelCreateInput& input)
+	{
+		if (m_processor)
+		{
+			ModelFromMeshJob* job = new ModelFromMeshJob(m_processor);
+			job->setInput(input);
+			executeJob(qtuser_core::JobPtr(job), true);
+		}
+	}
+
+	void MeshLoader::setModelNDataProcessor(ModelNDataProcessor* processor)
+	{
+		m_processor = processor;
 	}
 }

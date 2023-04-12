@@ -20,7 +20,7 @@ namespace cxkernel
 		void work(qtuser_core::Progressor* progressor);    // invoke from worker thread
 
 	protected:
-		QString m_name;
+		QString m_fileName;
 		TriMeshPtr m_mesh;
 	};
 }

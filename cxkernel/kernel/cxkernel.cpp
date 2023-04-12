@@ -163,4 +163,9 @@ namespace cxkernel
 	{
 		return m_dumpProxy;
 	}
+
+	MeshLoader* CXKernel::meshLoader()
+	{
+		return m_meshLoader;
+	}
 }

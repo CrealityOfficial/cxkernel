@@ -1,7 +1,10 @@
 #include "modelndata.h"
-//#include "utils/trimesh2qgeometryrenderer.h"
+#include "qcxutil/trimesh2/q3drender.h"
 #include "qtuser3d/geometry/geometrycreatehelper.h"
 #include "qhullWrapper/hull/meshconvex.h"
+#include "mmesh/trimesh/trimeshutil.h"
+
+#include "qtusercore/module/progressortracer.h"
 
 namespace cxkernel
 {
@@ -18,23 +21,6 @@ namespace cxkernel
 	int ModelNData::primitiveNum()
 	{
 		return mesh ? (int)mesh->faces.size() : 0;
-	}
-
-	Qt3DRender::QGeometry* ModelNData::createGeometry()
-	{
-		updateRenderData();
-		return qtuser_3d::GeometryCreateHelper::create(renderData, nullptr);
-	}
-
-	void ModelNData::updateRenderData()
-	{
-		//if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-		//	generateGeometryDataFromMesh(mesh.get(), renderData);
-	}
-
-	void ModelNData::updateRenderDataForced()
-	{
-		//generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
@@ -114,5 +100,36 @@ namespace cxkernel
 			datas.emplace_back(trimesh::vec3(p.x, p.y, 0.0f));
 
 		delete m;
+	}
+
+	ModelNDataPtr createModelNData(ModelCreateInput input, ccglobal::Tracer* tracer,
+		const ModelNDataCreateParam& param)
+	{
+		if (input.mesh)
+		{
+			if (tracer)
+				tracer->resetProgressScope();
+
+			input.mesh->normals.clear();
+
+			if(param.dumplicate)
+				mmesh::dumplicateMesh(input.mesh.get(), tracer);
+
+			input.mesh->clear_bbox();
+			input.mesh->need_bbox();
+
+			if(param.toCenter)
+				mmesh::moveTrimesh2Center(input.mesh.get(), false);
+
+			ModelNDataPtr data(new ModelNData());
+			data->mesh = input.mesh;
+			data->input = input;
+			data->hull.reset(qhullWrapper::convex_hull_3d(input.mesh.get()));
+			qcxutil::trimesh2AttributeShade(input.mesh.get(), data->positionAttribute, data->normalAttribute);
+
+			return data;
+		}
+
+		return nullptr;
 	}
 }

@@ -1,14 +1,14 @@
-#ifndef _CREATIVE_KERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
-#define _CREATIVE_KERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
+#ifndef _CXKERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
+#define _CXKERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
 #include "qtusercore/module/job.h"
-#include "data/geometrydata.h"
+#include "cxkernel/data/modelndata.h"
 
-namespace creative_kernel
+namespace cxkernel
 {
-	class BASIC_KERNEL_API ModelFromMeshJob: public qtuser_core::Job
+	class ModelFromMeshJob: public qtuser_core::Job
 	{
 	public:
-		ModelFromMeshJob(QObject* parent = nullptr);
+		ModelFromMeshJob(ModelNDataProcessor* processor, QObject* parent = nullptr);
 		virtual ~ModelFromMeshJob();
 
 		void setInput(ModelCreateInput input);
@@ -22,6 +22,7 @@ namespace creative_kernel
 	protected:
 		ModelCreateInput m_input;
 		ModelNDataPtr m_data;
+		ModelNDataProcessor* m_processor;
 	};
 }
-#endif // _CREATIVE_KERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
+#endif // _CXKERNEL_MODEL_FROM_MESH_JOB_1590984808257_H

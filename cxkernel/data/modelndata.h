@@ -21,6 +21,7 @@ namespace cxkernel
 	{
 		TriMeshPtr mesh;
 
+		QString fileName;    // only for load
 		QString name;
 		QString description;
 		ModelNDataType type = ModelNDataType::mdt_none;
@@ -33,24 +34,38 @@ namespace cxkernel
 		~ModelNData();
 
 		int primitiveNum();
-		Qt3DRender::QGeometry* createGeometry();
-		void updateRenderData();
-		void updateRenderDataForced();
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix);
 		trimesh::box3 localBox();
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 
 		TriMeshPtr mesh;
-		qtuser_3d::GeometryData renderData;
-
 		TriMeshPtr hull;
 
-		QString name;
-		QString description;
-		ModelNDataType type;
+		qtuser_3d::AttributeShade positionAttribute;
+		qtuser_3d::AttributeShade normalAttribute;
+
+		ModelCreateInput input;
 	};
 
 	typedef std::shared_ptr<ModelNData> ModelNDataPtr;
+
+	class ModelNDataProcessor
+	{
+	public:
+		virtual ~ModelNDataProcessor() {}
+		virtual void process(ModelNDataPtr data) = 0;
+	};
+
+	struct ModelNDataCreateParam
+	{
+		bool dumplicate = true;
+		bool toCenter = true;
+	};
+	
+	CXKERNEL_API ModelNDataPtr createModelNData(ModelCreateInput input,
+													   ccglobal::Tracer* tracer = nullptr,
+													   const ModelNDataCreateParam& param = ModelNDataCreateParam()
+													   );
 }
 
 #endif // CXKERNEL_MODELNDATA_1681019989200_H

@@ -23,10 +23,14 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/interface/iointerface.cpp
 		 cxkernel/interface/jobsinterface.h
 		 cxkernel/interface/jobsinterface.cpp
+		 cxkernel/interface/modelninterface.h
+		 cxkernel/interface/modelninterface.cpp
 		 cxkernel/utils/meshloader.h
 		 cxkernel/utils/meshloader.cpp
 		 cxkernel/utils/meshloadjob.h
 		 cxkernel/utils/meshloadjob.cpp
+		 cxkernel/utils/modelfrommeshjob.h
+		 cxkernel/utils/modelfrommeshjob.cpp
 		 cxkernel/data/header.h
 		 cxkernel/data/header.cpp
 		 cxkernel/data/modelndata.h
@@ -42,7 +46,7 @@ if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib)
 endif()
 
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper)
+set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil)
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
