@@ -34,15 +34,16 @@ namespace cxkernel
 		~ModelNData();
 
 		int primitiveNum();
+		Qt3DRender::QGeometry* createGeometry();
+		void updateRenderData();
+		void updateRenderDataForced();
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix);
 		trimesh::box3 localBox();
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
-
-		qtuser_3d::AttributeShade positionAttribute;
-		qtuser_3d::AttributeShade normalAttribute;
+		qtuser_3d::GeometryData renderData;
 
 		ModelCreateInput input;
 	};

@@ -1,5 +1,6 @@
 #include "modelndata.h"
 #include "qcxutil/trimesh2/q3drender.h"
+#include "qcxutil/trimesh2/trimesh2qgeometryrenderer.h"
 #include "qtuser3d/geometry/geometrycreatehelper.h"
 #include "qhullWrapper/hull/meshconvex.h"
 #include "mmesh/trimesh/trimeshutil.h"
@@ -21,6 +22,23 @@ namespace cxkernel
 	int ModelNData::primitiveNum()
 	{
 		return mesh ? (int)mesh->faces.size() : 0;
+	}
+
+	Qt3DRender::QGeometry* ModelNData::createGeometry()
+	{
+		updateRenderData();
+		return qtuser_3d::GeometryCreateHelper::create(renderData, nullptr);
+	}
+
+	void ModelNData::updateRenderData()
+	{
+		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
+			qcxutil::generateGeometryDataFromMesh(mesh.get(), renderData);
+	}
+
+	void ModelNData::updateRenderDataForced()
+	{
+		qcxutil::generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
@@ -125,7 +143,7 @@ namespace cxkernel
 			data->mesh = input.mesh;
 			data->input = input;
 			data->hull.reset(qhullWrapper::convex_hull_3d(input.mesh.get()));
-			qcxutil::trimesh2AttributeShade(input.mesh.get(), data->positionAttribute, data->normalAttribute);
+			data->updateRenderData();
 
 			return data;
 		}
