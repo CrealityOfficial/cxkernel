@@ -23,7 +23,6 @@ namespace cxkernel
 		void setViewport(const QRectF& rect);
 		void updateSurfaceSize(const QSize& size);
 	protected:
-		Qt3DCore::QEntity* sceneGraph() override;
 		void updateRenderSize(const QSize& size) override;
 
 		Qt3DCore::QEntity* rootEntity();

@@ -45,11 +45,6 @@ namespace cxkernel
 		m_surfaceSelector->setExternalRenderTargetSize(size);
 	}
 
-	Qt3DCore::QEntity* XRenderGraph::sceneGraph()
-	{
-		return m_rootEntity;
-	}
-
 	void XRenderGraph::updateRenderSize(const QSize& size)
 	{
 		updateSurfaceSize(size);
