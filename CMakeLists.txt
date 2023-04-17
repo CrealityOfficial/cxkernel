@@ -25,6 +25,8 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/interface/jobsinterface.cpp
 		 cxkernel/interface/modelninterface.h
 		 cxkernel/interface/modelninterface.cpp
+		 cxkernel/interface/undointerface.h
+		 cxkernel/interface/undointerface.cpp
 		 cxkernel/utils/meshloader.h
 		 cxkernel/utils/meshloader.cpp
 		 cxkernel/utils/meshloadjob.h

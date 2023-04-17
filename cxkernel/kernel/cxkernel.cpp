@@ -6,6 +6,7 @@
 #include "qtusercore/module/cxopenandsavefilemanager.h"
 #include "qtusercore/module/creativeplugincenter.h"
 #include "qtusercore/module/jobexecutor.h"
+#include "qtusercore/util/undoproxy.h"
 #include "qtuserqml/gl/rendermanager.h"
 #include "qtuserqml/gl/renderitemwrapper.h"
 
@@ -34,6 +35,7 @@ namespace cxkernel
 		m_jobExecutor = new qtuser_core::JobExecutor(this);
 		m_meshLoader = new MeshLoader(this);
 		m_dumpProxy = new DumpProxy(this);
+		m_undoProxy = new qtuser_core::UndoProxy(this);
 	}
 
 	CXKernel::~CXKernel()
@@ -88,6 +90,7 @@ namespace cxkernel
 		m_context->setContextProperty("cxkernel_kernel", this);
 		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
 		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
+		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
 
 		initializeContext();
 		m_creativePluginCenter->load();
@@ -167,5 +170,10 @@ namespace cxkernel
 	MeshLoader* CXKernel::meshLoader()
 	{
 		return m_meshLoader;
+	}
+
+	qtuser_core::UndoProxy* CXKernel::undoProxy()
+	{
+		return m_undoProxy;
 	}
 }

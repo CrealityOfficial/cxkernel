@@ -16,6 +16,7 @@ namespace qtuser_core
 	class CreativePluginCenter;
 	class ApplicationConfiguration;
 	class CXFileOpenAndSaveManager;
+	class UndoProxy;
 }
 
 class GLQuickItem;
@@ -55,6 +56,7 @@ namespace cxkernel
 		qtuser_core::JobExecutor* jobExecutor();
 		DumpProxy* dumpProxy();
 		MeshLoader* meshLoader();
+		qtuser_core::UndoProxy* undoProxy();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
@@ -65,6 +67,7 @@ namespace cxkernel
 		qtuser_core::CXFileOpenAndSaveManager* m_ioManager;
 		qtuser_core::JobExecutor* m_jobExecutor;
 		DumpProxy* m_dumpProxy;
+		qtuser_core::UndoProxy* m_undoProxy;
 
 		MeshLoader* m_meshLoader;
 	};
