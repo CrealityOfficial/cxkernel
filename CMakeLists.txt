@@ -37,6 +37,13 @@ set(SRCS cxkernel/cxkernelinterface.h
 		 cxkernel/data/modelndata.cpp
 		 cxkernel/utils/dumpproxy.h
 		 cxkernel/utils/dumpproxy.cpp
+		 cxkernel/data/capturetask.h
+		 cxkernel/data/capturetask.cpp
+		 cxkernel/data/captureSetupData.h
+		 cxkernel/utils/capturehelper.h
+		 cxkernel/utils/capturehelper.cpp
+		 cxkernel/utils/capturecontainer.h
+		 cxkernel/utils/capturecontainer.cpp
 		)
 			  
 set(QRCS res/cxkernel.qrc)
