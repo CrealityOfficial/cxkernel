@@ -7,14 +7,9 @@
 #include "qtusercore/module/creativeplugincenter.h"
 #include "qtusercore/module/jobexecutor.h"
 #include "qtusercore/util/undoproxy.h"
-#include "qtuserqml/gl/rendermanager.h"
-#include "qtuserqml/gl/renderitemwrapper.h"
 
-#include "cxkernel/kernel/visualscene.h"
 #include "cxkernel/utils/meshloader.h"
 #include "cxkernel/utils/dumpproxy.h"
-
-#include "cxkernel/interface/renderinterface.h"
 
 namespace cxkernel
 {
@@ -23,13 +18,11 @@ namespace cxkernel
 		: ContextBase(parent)
 		, m_engine(nullptr)
 		, m_context(nullptr)
-		, m_renderWrapper(nullptr)
 	{
 		if (cxKernel)
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
 
 		cxKernel = this;
-		m_renderManager = new qtuser_qml::RenderManager(this);
 		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 		m_jobExecutor = new qtuser_core::JobExecutor(this);
@@ -102,12 +95,6 @@ namespace cxkernel
 	void CXKernel::unloadQmlEngine()
 	{
 		uninitialize();
-
-		if (m_renderWrapper)
-		{
-			m_renderWrapper->uninitialize();
-		}
-
 		m_creativePluginCenter->uninitialize();
 	}
 
@@ -123,28 +110,9 @@ namespace cxkernel
 		m_creativePluginCenter->initialize();
 	}
 
-	void CXKernel::exposureMainItem(GLQuickItem* item)
-	{
-		if (!m_renderWrapper && item)
-		{
-			m_renderWrapper = new qtuser_qml::RenderItemWrapper(item, this);
-			registerContextObject("cxkernel_render_wrapper", m_renderWrapper);
-		}
-	}
-
 	void CXKernel::initializeDump(const QString& version, const QString& cloudId, const QString& path)
 	{
 		m_dumpProxy->initialize(version, cloudId, path);
-	}
-
-	qtuser_qml::RenderManager* CXKernel::renderManager()
-	{
-		return m_renderManager; 
-	}
-
-	qtuser_qml::RenderItemWrapper* CXKernel::renderWrapper()
-	{
-		return m_renderWrapper;
 	}
 
 	qtuser_core::CreativePluginCenter* CXKernel::cxPluginCenter()
