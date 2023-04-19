@@ -2,7 +2,7 @@
 #define CXKERNEL_PUREXEFFECT_1681819876499_H
 #include "cxkernel/cxkernelinterface.h"
 #include "qtuser3d/refactor/xeffect.h"
-#include <QtGui/QVector4D.h>
+#include <QtGui/QVector4D>
 
 namespace cxkernel
 {
