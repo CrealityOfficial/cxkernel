@@ -3,13 +3,12 @@
 #include "cxkernel/cxkernelinterface.h"
 #include "cxkernel/data/header.h"
 
-#include "qtuser3d/entity/boxentity.h"
+#include "cxkernel/render/pureentity.h"
 #include "qtuser3d/entity/printergrid.h"
 #include "qtuser3d/entity/axisentity.h"
 
 namespace cxkernel
 {
-	class BoxEntity;
 	class CXKERNEL_API PrinterEntity : public Qt3DCore::QEntity
 	{
 	public:
@@ -18,7 +17,7 @@ namespace cxkernel
 
 		void updateSize(const trimesh::box& box);
 	protected:
-		BoxEntity* m_boxEntity;
+		cxkernel::PureEntity* m_boxEntity;
 		//qtuser_3d::PrinterGrid* m_printerGrid;
 	};
 }

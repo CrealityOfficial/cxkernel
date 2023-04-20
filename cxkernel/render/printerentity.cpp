@@ -2,14 +2,12 @@
 
 #include "qcxutil/trimesh2/conv.h"
 
-#include "cxkernel/render/boxentity.h"
-
 namespace cxkernel
 {
 	PrinterEntity::PrinterEntity(Qt3DCore::QNode* parent)
 		: QEntity(parent)
 	{
-		m_boxEntity = new BoxEntity(this);
+		m_boxEntity = new PureEntity(this);
 		//QVector4D greyColor = QVector4D(0.309804f, 0.313725f, 0.325490f, 1.0f);
 		//m_boxEntity = new qtuser_3d::BoxEntity(this);
 		//m_boxEntity->setColor(greyColor);
@@ -26,7 +24,7 @@ namespace cxkernel
 
 	void PrinterEntity::updateSize(const trimesh::box& box)
 	{
-		m_boxEntity->updateSize(box);
+		m_boxEntity->setGeometry(qcxutil::createCubeLines(box), Qt3DRender::QGeometryRenderer::Lines);
 		//qtuser_3d::Box3D qBox = qcxutil::triBox2Box3D(box);
 		//m_boxEntity->updateGlobal(qBox, false);
 		//m_printerGrid->updateBounding(qBox, 1);
