@@ -17,6 +17,7 @@ namespace cxkernel
 {
 	class MeshLoader;
 	class DumpProxy;
+	class QmlUI;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
 								, public qtuser_quick::AppModule
 	{
@@ -46,6 +47,7 @@ namespace cxkernel
 		DumpProxy* dumpProxy();
 		MeshLoader* meshLoader();
 		qtuser_core::UndoProxy* undoProxy();
+		QmlUI* qmlUI();
 	protected:
 		QQmlApplicationEngine* m_engine;
 		QQmlContext* m_context;
@@ -55,6 +57,7 @@ namespace cxkernel
 		qtuser_core::JobExecutor* m_jobExecutor;
 		DumpProxy* m_dumpProxy;
 		qtuser_core::UndoProxy* m_undoProxy;
+		QmlUI* m_qmlUI;
 
 		MeshLoader* m_meshLoader;
 	};
