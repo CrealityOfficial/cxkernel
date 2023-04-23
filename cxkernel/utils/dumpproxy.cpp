@@ -40,10 +40,11 @@ LONG ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 	QString version = proxy->version();
 	QString path = proxy->dumpPath();
 	std::string strDumpPath = path.toStdString();
-	sprintf(szDumpFile, ("%s/%04d%02d%02d_%02d%02d%02d_Creality Print %s.dmp"),
+	sprintf(szDumpFile, ("%s/%04d%02d%02d_%02d%02d%02d_%s %s.dmp"),
 		strDumpPath.c_str(),
 		stTime.wYear, stTime.wMonth, stTime.wDay,
 		stTime.wHour, stTime.wMinute, stTime.wSecond,
+		PROJECT_NAME,
 		version.toStdString().c_str());
 
 	//creative_kernel::sensorAnlyticsTrace("Creality Print", "Crash");
