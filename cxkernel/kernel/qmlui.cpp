@@ -67,6 +67,17 @@ namespace cxkernel
 		m_engine->removeImageProvider(name);
 	}
 
+	void QmlUI::setObjectOwnership(QObject* object)
+	{
+		if (!m_engine)
+		{
+			qWarning() << "QmlUI::setObjectOwnerShip: [Null Engine]";
+			return;
+		}
+
+		m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
+	}
+
 	void QmlUI::setEngine(QQmlApplicationEngine* engine, QQmlContext* context)
 	{
 		m_engine = engine;
