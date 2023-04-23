@@ -18,6 +18,7 @@ namespace cxkernel
 		void registerImageProvider(const QString& name, QQuickImageProvider* provider);
 		void removeImageProvider(const QString& name);
 
+		void setObjectOwnership(QObject* object);
 		void setEngine(QQmlApplicationEngine* engine, QQmlContext* context);
 		Q_INVOKABLE void registerRootWindow(QObject* object);
 		

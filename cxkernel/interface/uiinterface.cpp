@@ -23,4 +23,9 @@ namespace cxkernel
 	{
 		cxKernel->qmlUI()->removeImageProvider(name);
 	}
+
+	void setObjectOwnership(QObject* object)
+	{
+		cxKernel->qmlUI()->setObjectOwnership(object);
+	}
 }
