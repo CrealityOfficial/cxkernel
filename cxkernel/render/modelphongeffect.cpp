@@ -24,10 +24,17 @@ namespace cxkernel
 		setParameter("ambient", ambient);
 		setParameter("diffuse", diffuse);
 		setParameter("specular", specular);
+
+		m_remParameter = setParameter("renderModel", 1);
 	}
 
 	ModelPhongEffect::~ModelPhongEffect()
 	{
 
+	}
+
+	void ModelPhongEffect::setRenderEffectMode(RenderEffectMode mode)
+	{
+		m_remParameter->setValue((int)mode);
 	}
 }

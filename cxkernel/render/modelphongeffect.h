@@ -6,13 +6,22 @@
 
 namespace cxkernel
 {
+	enum class RenderEffectMode
+	{
+		rem_face = 1,
+		rem_line,
+		rem_face_line
+	};
+
 	class CXKERNEL_API ModelPhongEffect : public qtuser_3d::XEffect
 	{
 	public:
 		ModelPhongEffect(Qt3DCore::QNode* parent = nullptr);
 		virtual ~ModelPhongEffect();
 
+		void setRenderEffectMode(RenderEffectMode mode);
 	protected:
+		Qt3DRender::QParameter* m_remParameter;
 	};
 }
 
