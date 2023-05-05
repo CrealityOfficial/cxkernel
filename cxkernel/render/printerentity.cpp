@@ -9,9 +9,6 @@ namespace cxkernel
 	{
 		m_boxEntity = new PureEntity(this);
 		//QVector4D greyColor = QVector4D(0.309804f, 0.313725f, 0.325490f, 1.0f);
-		//m_boxEntity = new qtuser_3d::BoxEntity(this);
-		//m_boxEntity->setColor(greyColor);
-		//
 		//m_printerGrid = new qtuser_3d::PrinterGrid(this);
 		//m_printerGrid->setLineColor(greyColor);
 		//m1.translate(0.0f, 0.0f, -0.05f);
