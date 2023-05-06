@@ -42,13 +42,6 @@ namespace cxkernel
 
 	void CaptureContainer::finish()
 	{
-		if (m_previewHelper)
-		{
-			m_previewHelper->clear();
-			delete 	m_previewHelper;
-			m_previewHelper = nullptr;
-		}
-
 	}
 
 	void CaptureContainer::executePreivew(CaptureTask* task, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix)
@@ -57,6 +50,14 @@ namespace cxkernel
 			return;
 
 		m_previewHelper->capturePreview(task->m_func, viewCenter, upVector, eyePosition, projectionMatrix, QString::number(task->m_state));
+	}
+
+	void CaptureContainer::onPreviewCaptureFinish()
+	{
+		if (m_previewHelper)
+		{
+			m_previewHelper->onPreviewCaptureFinish();
+		}
 	}
 
 	void CaptureContainer::captureScene(CaptureTask* task, QString scene_name, qtuser_3d::Box3D box)

@@ -3,13 +3,13 @@
 #include "qtuser3d/entity/basicentity.h"
 #include "qtuser3d/framegraph/texturerendertarget.h"
 #include "qtuser3d/effect/effectmanager.h"
+#include "cxkernel/render/capturexentity.h"
 
 namespace cxkernel
 {
 	CaptureHelper::CaptureHelper(QObject* parent)
 		:QObject(parent)
 		, m_index("0")
-		, m_captureEffect(nullptr)
 	{
 		m_renderTarget = new qtuser_3d::TextureRenderTarget();
 
@@ -24,11 +24,7 @@ namespace cxkernel
 		m_basicEntity = new qtuser_3d::BasicEntity();
 		m_basicEntity->createParameter("color", QColor(255, 255, 255, 255));
 
-		m_captureEntity = new qtuser_3d::BasicEntity();
-
-		createCaptureEffect();
-		m_captureEntity->setEffect(m_captureEffect);
-		m_captureEntity->setObjectName("captureEntity");
+		m_captureEntity = new cxkernel::CaptureEntity();
 	}
 
 	CaptureHelper::~CaptureHelper()
@@ -127,31 +123,13 @@ namespace cxkernel
 		m_colorPicker->requestCapture();
 	}
 
-	void CaptureHelper::createCaptureEffect()
-	{
-		QString filter = QString("modelcapture");
-		QString effectName = QString("modelsimple.") + filter;
-		if (m_captureEffect == nullptr)
-		{
-			m_captureEffect = EFFECTCREATE(effectName, m_captureEntity);
-
-			Qt3DRender::QParameter* parameter = new Qt3DRender::QParameter("ambient", QVector4D(0.8f, 0.8f, 0.8f, 1.0f), m_captureEffect);
-			m_captureEffect->addParameter(parameter);
-
-			parameter = new Qt3DRender::QParameter("diffuse", QVector4D(0.5f, 0.5f, 0.5f, 1.0f), m_captureEffect);
-			m_captureEffect->addParameter(parameter);
-
-			parameter = new Qt3DRender::QParameter("specular", QVector4D(0.8f, 0.8f, 0.8f, 1.0f), m_captureEffect);
-			m_captureEffect->addParameter(parameter);
-
-			parameter = new Qt3DRender::QParameter("stateColors", QVector4D(0.55f, 0.55f, 0.55f, 1.0f), m_captureEffect);
-			m_captureEffect->addParameter(parameter);
-		}
-	}
-
 	void CaptureHelper::captureModelComplete()
 	{
-		m_captureEntity->setGeometry(nullptr);
+		if (m_captureEntity)
+		{
+			m_captureEntity->onCaptureComplete();
+		}
+		
 	}
 
 	void CaptureHelper::capturePreview(captureCallbackFunc func, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix, QString name)
@@ -170,6 +148,16 @@ namespace cxkernel
 
 		m_colorPicker->setFilterKey("rt", 0);
 
+	}
+
+	void CaptureHelper::onPreviewCaptureFinish()
+	{
+		m_renderTarget->resize(QSize(90, 90));
+
+		if (m_colorPicker)
+		{
+			m_colorPicker->setFilterKey("_pre_capture_finish_", 0);
+		}
 	}
 
 	void CaptureHelper::captureComplete(QImage& image)

@@ -26,6 +26,7 @@ namespace cxkernel
 		void start(qtuser_3d::Box3D& box, int resolution_x, int resolution_y, Qt3DRender::QFrameGraphNode* frameGraph, Qt3DCore::QNode* sceneGraph);
 		void finish();
 		void executePreivew(cxkernel::CaptureTask* task, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix);
+		void onPreviewCaptureFinish();
 
 		void captureModel(cxkernel::CaptureTask* task, QString model_name, Qt3DRender::QGeometry* geometry, QMatrix4x4 entityPos, qtuser_3d::Box3D box);
 		void captureScene(cxkernel::CaptureTask* task, QString scene_name, qtuser_3d::Box3D box);

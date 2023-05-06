@@ -19,6 +19,7 @@ namespace qtuser_3d
 
 namespace cxkernel
 {
+	class CaptureEntity;
 
 	class CXKERNEL_API CaptureHelper : public QObject
 	{
@@ -38,12 +39,13 @@ namespace cxkernel
 		void captureModel(const CaptureSetupData& captureSetInfo, captureCallbackFunc func);
 
 		void capturePreview(captureCallbackFunc func, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix, QString name = "-1");
+		void onPreviewCaptureFinish();
 
 		void captureModelComplete();
 	protected:
 		void captureComplete(QImage& image);
 
-		void createCaptureEffect();
+		//void createCaptureEffect();
 
 	protected:
 		qtuser_3d::ColorPicker* m_colorPicker;
@@ -52,8 +54,10 @@ namespace cxkernel
 
 		Qt3DCore::QNode* m_sceneGraph;
 
-		qtuser_3d::BasicEntity* m_captureEntity;
-		Qt3DRender::QEffect* m_captureEffect;
+		//qtuser_3d::BasicEntity* m_captureEntity;
+		//Qt3DRender::QEffect* m_captureEffect;
+
+		cxkernel::CaptureEntity* m_captureEntity;
 
 		QString m_index;
 		captureCallbackFunc m_func;
