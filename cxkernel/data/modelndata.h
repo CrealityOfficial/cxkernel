@@ -40,6 +40,7 @@ namespace cxkernel
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix);
 		trimesh::box3 localBox();
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
+		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
