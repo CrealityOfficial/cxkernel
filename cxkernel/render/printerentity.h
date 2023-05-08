@@ -4,8 +4,6 @@
 #include "cxkernel/data/header.h"
 
 #include "cxkernel/render/pureentity.h"
-#include "qtuser3d/entity/printergrid.h"
-#include "qtuser3d/entity/axisentity.h"
 
 namespace cxkernel
 {

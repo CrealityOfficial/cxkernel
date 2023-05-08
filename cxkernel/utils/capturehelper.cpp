@@ -1,6 +1,5 @@
 #include "capturehelper.h"
 #include "qtuser3d/framegraph/colorpicker.h"
-#include "qtuser3d/entity/basicentity.h"
 #include "qtuser3d/framegraph/texturerendertarget.h"
 #include "qtuser3d/effect/effectmanager.h"
 #include "cxkernel/render/capturexentity.h"
@@ -21,8 +20,8 @@ namespace cxkernel
 		m_colorPicker->setTextureRenderTarget(m_renderTarget);
 
 		m_colorPicker->setRequestCallback(std::bind(&CaptureHelper::captureComplete, this, std::placeholders::_1));
-		m_basicEntity = new qtuser_3d::BasicEntity();
-		m_basicEntity->createParameter("color", QColor(255, 255, 255, 255));
+		m_basicEntity = new cxkernel::PureEntity();
+		m_basicEntity->setColor(QVector4D(1.0f, 1.0f, 1.0f, 1.0f));
 
 		m_captureEntity = new cxkernel::CaptureEntity();
 	}
@@ -91,9 +90,7 @@ namespace cxkernel
 
 		QString filter = "capture_" + index;     // QString("index%1").arg(index);
 		m_colorPicker->setFilterKey(filter, 0);
-
-		QString effectName = QString("pure.") + filter;
-		m_basicEntity->setEffect(EFFECTCREATE(effectName, m_basicEntity));
+		m_basicEntity->addPassFilter(0, filter);
 
 		m_colorPicker->requestCapture();
 	}

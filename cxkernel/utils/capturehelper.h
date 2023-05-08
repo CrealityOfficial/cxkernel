@@ -10,10 +10,11 @@
 #include "cxkernel/data/captureSetupData.h"
 #include "cxkernel/data/capturetask.h"
 
+#include "cxkernel/render/pureentity.h"
+
 namespace qtuser_3d
 {
 	class ColorPicker;
-	class BasicEntity;
 	class TextureRenderTarget;
 }
 
@@ -49,7 +50,7 @@ namespace cxkernel
 
 	protected:
 		qtuser_3d::ColorPicker* m_colorPicker;
-		qtuser_3d::BasicEntity* m_basicEntity;
+		cxkernel::PureEntity* m_basicEntity;
 		qtuser_3d::TextureRenderTarget* m_renderTarget;
 
 		Qt3DCore::QNode* m_sceneGraph;
