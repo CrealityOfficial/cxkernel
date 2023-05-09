@@ -5,7 +5,9 @@ namespace cxkernel
 	ModelPhongEffect::ModelPhongEffect(Qt3DCore::QNode* parent)
 		: XEffect(parent)
 	{
-		addRenderPass(new qtuser_3d::XRenderPass("modelphong"));
+		qtuser_3d::XRenderPass* pass = new qtuser_3d::XRenderPass("modelphong");
+		pass->setPassCullFace();
+		addRenderPass(pass);
 
 		QVariantList values;
 		values << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
