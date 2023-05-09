@@ -8,6 +8,8 @@
 #include "qtusercore/module/jobexecutor.h"
 #include "qtusercore/util/undoproxy.h"
 
+#include <cxcloud/service_center.h>
+
 #include "cxkernel/utils/meshloader.h"
 #include "cxkernel/utils/dumpproxy.h"
 #include "cxkernel/kernel/qmlui.h"
@@ -30,6 +32,7 @@ namespace cxkernel
 		m_meshLoader = new MeshLoader(this);
 		m_dumpProxy = new DumpProxy(this);
 		m_undoProxy = new qtuser_core::UndoProxy(this);
+		cxcloud_ = new cxcloud::ServiceCenter(this);
 		m_qmlUI = new QmlUI(this);
 	}
 
@@ -86,6 +89,7 @@ namespace cxkernel
 		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
 		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
 		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
+		m_context->setContextProperty("cxkernel_cxcloud", cxcloud_);
 		m_context->setContextProperty("cxkernel_ui", m_qmlUI);
 		m_qmlUI->setEngine(m_engine, m_context);
 
@@ -147,6 +151,10 @@ namespace cxkernel
 	qtuser_core::UndoProxy* CXKernel::undoProxy()
 	{
 		return m_undoProxy;
+	}
+
+	cxcloud::ServiceCenter* CXKernel::cxcloud() {
+		return cxcloud_;
 	}
 
 	QmlUI* CXKernel::qmlUI()

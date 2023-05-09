@@ -13,6 +13,12 @@ namespace qtuser_core
 	class UndoProxy;
 }
 
+namespace cxcloud {
+
+class ServiceCenter;
+
+}  // namespace cxcloud
+
 namespace cxkernel
 {
 	class MeshLoader;
@@ -47,6 +53,7 @@ namespace cxkernel
 		DumpProxy* dumpProxy();
 		MeshLoader* meshLoader();
 		qtuser_core::UndoProxy* undoProxy();
+		cxcloud::ServiceCenter* cxcloud();
 		QmlUI* qmlUI();
 	protected:
 		QQmlApplicationEngine* m_engine;
@@ -57,6 +64,7 @@ namespace cxkernel
 		qtuser_core::JobExecutor* m_jobExecutor;
 		DumpProxy* m_dumpProxy;
 		qtuser_core::UndoProxy* m_undoProxy;
+		cxcloud::ServiceCenter* cxcloud_;
 		QmlUI* m_qmlUI;
 
 		MeshLoader* m_meshLoader;
