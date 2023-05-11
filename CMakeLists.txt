@@ -4,7 +4,7 @@ __assert_target(cxbin)
 __assert_target(qhullWrapper)
 
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
-set(QRCS res/cxkernel.qrc)
+set(QRCS res/cxkernel.qrc res/images.qrc)
 
 set(LIBS)
 if(CC_BC_WIN)
