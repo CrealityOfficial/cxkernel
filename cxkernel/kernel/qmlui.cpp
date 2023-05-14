@@ -10,6 +10,8 @@ namespace cxkernel
 		, m_rootWindow(nullptr)
 		, m_engine(nullptr)
 		, m_context(nullptr)
+		, m_expression(nullptr)
+		, m_jsEngine(new QJSEngine(this))
 	{
 
 	}
@@ -87,6 +89,8 @@ namespace cxkernel
 	void QmlUI::registerRootWindow(QObject* object)
 	{
 		m_rootWindow = object;
+
+		m_expression = new QQmlExpression(m_context, m_rootWindow, QString(""), this);
 	}
 
 	QObject* QmlUI::itemByName(const QString& name)
@@ -95,5 +99,44 @@ namespace cxkernel
 			return nullptr;
 
 		return m_rootWindow->findChild<QObject*>(name);
+	}
+
+	QVariant QmlUI::invokeQmlJs(const QString& script)
+	{
+		qDebug() << QString("QmlUI::invokeQmlJs : [%1]").arg(script);
+
+		m_expression->setExpression(script);
+		QVariant ret = m_expression->evaluate();
+
+		if (m_expression->hasError())
+		{
+			qDebug() << QString("Qml JavaSript Error [%1].").arg(m_expression->error().toString());
+		}
+		return ret;
+	}
+
+	QJSValue QmlUI::invokeJS(const QString& script, const QString& name, QObject* context)
+	{
+		if (!context || name.isEmpty()) 
+		{
+			qDebug() << QString("QmlUI::invokeJS . name ,context error.");
+			return QJSValue();
+		}
+
+		qDebug() << QString("QmlUI::invokeJS : [%1]").arg(script);
+		m_jsEngine->globalObject().deleteProperty(name);
+		m_jsEngine->globalObject().setProperty(name, m_engine->newQObject(context));
+
+		QJSValue ret = m_jsEngine->evaluate(script);
+
+		if (ret.isUndefined() || ret.isError())
+		{
+			qDebug() << QString("JavaSript Error.");
+			qDebug() << QString("[%1] : [%2]").arg(ret.property("name").toString())
+				.arg(ret.property("message").toString());
+			//qDebug() << QString("[line] : [%1]").arg(ret.property("lineNumber").toInt());
+		}
+
+		return ret;
 	}
 }

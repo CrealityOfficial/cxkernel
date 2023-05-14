@@ -12,6 +12,9 @@ namespace cxkernel
 	CXKERNEL_API void removeImageProvider(const QString& name);
 
 	CXKERNEL_API void setObjectOwnership(QObject* object);
+
+	CXKERNEL_API QVariant invokeQmlJs(const QString& script);
+	CXKERNEL_API QJSValue invokeJS(const QString& script, const QString& name, QObject* context);
 }
 
 #endif // CXKERNEL_UIINTERFACE_1681977959351_H
