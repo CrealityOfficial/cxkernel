@@ -13,6 +13,7 @@
 #include "cxkernel/utils/meshloader.h"
 #include "cxkernel/utils/dumpproxy.h"
 #include "cxkernel/kernel/qmlui.h"
+#include "cxkernel/kernel/const.h"
 
 namespace cxkernel
 {
@@ -26,6 +27,7 @@ namespace cxkernel
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
 
 		cxKernel = this;
+		m_const = new CXKernelConst(this);
 		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 		m_jobExecutor = new qtuser_core::JobExecutor(this);
@@ -160,5 +162,10 @@ namespace cxkernel
 	QmlUI* CXKernel::qmlUI()
 	{
 		return m_qmlUI;
+	}
+
+	CXKernelConst* CXKernel::cxConst()
+	{
+		return m_const;
 	}
 }

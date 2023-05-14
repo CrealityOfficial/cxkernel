@@ -28,4 +28,14 @@ namespace cxkernel
 	{
 		cxKernel->qmlUI()->setObjectOwnership(object);
 	}
+
+	QVariant invokeQmlJs(const QString& script)
+	{
+		return cxKernel->qmlUI()->invokeQmlJs(script);
+	}
+
+	QJSValue invokeJS(const QString& script, const QString& name, QObject* context)
+	{
+		return cxKernel->qmlUI()->invokeJS(script, name, context);
+	}
 }

@@ -3,6 +3,8 @@
 #include "cxkernel/cxkernelinterface.h"
 #include <QtQml/QQmlContext>
 #include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QJSValue>
+#include <QtQml/QQmlExpression>
 
 namespace cxkernel
 {
@@ -23,8 +25,14 @@ namespace cxkernel
 		Q_INVOKABLE void registerRootWindow(QObject* object);
 		
 		Q_INVOKABLE QObject* itemByName(const QString& name);
+
+		Q_INVOKABLE QVariant invokeQmlJs(const QString& script);
+		Q_INVOKABLE QJSValue invokeJS(const QString& script, const QString& name, QObject* context);
 	protected:
 		QQmlApplicationEngine* m_engine;
+		QJSEngine* m_jsEngine;
+		QQmlExpression* m_expression;
+
 		QQmlContext* m_context;
 		QObject* m_rootWindow;
 	};
