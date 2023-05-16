@@ -16,6 +16,8 @@
 #include "cxkernel/kernel/const.h"
 #include "cxkernel/utils/tools.h"
 
+#include "cxkernel/interface/uiinterface.h"
+
 namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
@@ -59,6 +61,11 @@ namespace cxkernel
 	void CXKernel::openMeshFile()
 	{
 		m_ioManager->open(m_meshLoader);
+	}
+
+	void CXKernel::invokeScript(const QString& script)
+	{
+		cxkernel::invokeQmlJs(script);
 	}
 
 	void CXKernel::initializeContext()

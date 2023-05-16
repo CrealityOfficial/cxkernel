@@ -36,6 +36,7 @@ namespace cxkernel
 
 		Q_INVOKABLE void registerContextObject(const QString& name, QObject* object);
 		Q_INVOKABLE void openMeshFile();
+		Q_INVOKABLE void invokeScript(const QString& script);
 	protected:
 		virtual void initializeContext();
 		virtual void initialize();
