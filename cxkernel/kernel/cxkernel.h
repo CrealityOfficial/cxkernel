@@ -25,6 +25,7 @@ namespace cxkernel
 	class DumpProxy;
 	class QmlUI;
 	class CXKernelConst;
+	class Tools;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
 								, public qtuser_quick::AppModule
 	{
@@ -70,6 +71,7 @@ namespace cxkernel
 		cxcloud::ServiceCenter* cxcloud_;
 		QmlUI* m_qmlUI;
 		CXKernelConst* m_const;
+		Tools* m_tools;
 
 		MeshLoader* m_meshLoader;
 	};

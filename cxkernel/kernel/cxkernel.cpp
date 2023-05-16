@@ -14,6 +14,7 @@
 #include "cxkernel/utils/dumpproxy.h"
 #include "cxkernel/kernel/qmlui.h"
 #include "cxkernel/kernel/const.h"
+#include "cxkernel/utils/tools.h"
 
 namespace cxkernel
 {
@@ -36,6 +37,7 @@ namespace cxkernel
 		m_undoProxy = new qtuser_core::UndoProxy(this);
 		cxcloud_ = new cxcloud::ServiceCenter(this);
 		m_qmlUI = new QmlUI(this);
+		m_tools = new Tools(this);
 	}
 
 	CXKernel::~CXKernel()
@@ -98,6 +100,8 @@ namespace cxkernel
 		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
 		m_context->setContextProperty("cxkernel_cxcloud", cxcloud_);
 		m_context->setContextProperty("cxkernel_ui", m_qmlUI);
+		m_context->setContextProperty("cxkernel_tools", m_tools);
+
 		m_qmlUI->setEngine(m_engine, m_context);
 
 		initializeContext();
