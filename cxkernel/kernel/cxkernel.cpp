@@ -54,6 +54,11 @@ namespace cxkernel
 		m_context->setContextProperty(name, object);
 	}
 
+	void CXKernel::openMeshFile()
+	{
+		m_ioManager->open(m_meshLoader);
+	}
+
 	void CXKernel::initializeContext()
 	{
 
