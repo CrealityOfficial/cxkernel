@@ -34,6 +34,7 @@ namespace cxkernel {
         pickPass->setPassCullFace(Qt3DRender::QCullFace::Back);
         pickPass->setPassDepthTest(Qt3DRender::QDepthTest::Less);
         pickPass->addFilterKeyMask("pick", 0);
+        pickPass->setPassBlend(Qt3DRender::QBlendEquationArguments::One, Qt3DRender::QBlendEquationArguments::Zero);
 
         qtuser_3d::XEffect* effect = new qtuser_3d::XEffect(this);
         effect->addRenderPass(viewPass);
