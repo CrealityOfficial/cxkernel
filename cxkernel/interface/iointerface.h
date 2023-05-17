@@ -13,8 +13,8 @@ namespace cxkernel
 	CXKERNEL_API QString currOpenFile();
 
 	CXKERNEL_API void saveFile(qtuser_core::CXHandleBase* handler = nullptr,
-		const QString& title = QString(),
-		const QString& defaultName = QString()
+		const QString& defaultName = QString(),
+		const QString& title = QString()
 	);
 
 	CXKERNEL_API void openFile(qtuser_core::CXHandleBase* handler = nullptr,

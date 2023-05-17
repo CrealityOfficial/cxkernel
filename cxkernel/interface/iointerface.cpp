@@ -24,9 +24,9 @@ namespace cxkernel
         return cxKernel->ioManager()->currOpenFile();
     }
 
-    void saveFile(qtuser_core::CXHandleBase* handler, const QString& title, const QString& defaultName)
+    void saveFile(qtuser_core::CXHandleBase* handler, const QString& defaultName, const QString& title)
     {
-        cxKernel->ioManager()->save(handler, title, defaultName);
+        cxKernel->ioManager()->save(handler, defaultName, title);
     }
 
     void openFile(qtuser_core::CXHandleBase* handler, const QString& title)
