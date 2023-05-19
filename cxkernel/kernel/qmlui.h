@@ -5,6 +5,7 @@
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QJSValue>
 #include <QtQml/QQmlExpression>
+#include <QtQuick/QQuickImageProvider>
 
 namespace cxkernel
 {
