@@ -1,5 +1,4 @@
 #include "lineentity.h"
-#include "qtuser3d/effect/effectmanager.h"
 #include "qtuser3d/geometry/linecreatehelper.h"
 #include "cxkernel/render/purexeffect.h"
 #include "cxkernel/render/coloreffect.h"

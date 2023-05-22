@@ -1,7 +1,6 @@
 #include "capturehelper.h"
 #include "qtuser3d/framegraph/colorpicker.h"
 #include "qtuser3d/framegraph/texturerendertarget.h"
-#include "qtuser3d/effect/effectmanager.h"
 #include "cxkernel/render/capturexentity.h"
 
 namespace cxkernel
