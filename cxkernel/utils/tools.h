@@ -12,6 +12,7 @@ namespace cxkernel
 		virtual ~Tools();
 
 		Q_INVOKABLE void shaderBinary();
+		Q_INVOKABLE void autoGenerate(const QString& code);
 	};
 }
 
