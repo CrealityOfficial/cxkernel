@@ -2,6 +2,7 @@
 #define CXKERNEL_MODELENTITY_1681899751632_H
 #include "cxkernel/cxkernelinterface.h"
 #include "qtuser3d/refactor/xentity.h"
+#include "cxkernel/render/modelphongeffect.h"
 
 namespace cxkernel
 {
@@ -10,6 +11,9 @@ namespace cxkernel
 	public:
 		ModelEntity(Qt3DCore::QNode* parent = nullptr);
 		virtual ~ModelEntity();
+
+	protected:
+		ModelPhongEffect* m_effect;
 	};
 }
 
