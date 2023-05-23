@@ -36,7 +36,14 @@ namespace cxkernel
 		}
 
 		QString templateName = codes.at(0);
+
 		qtuser_core::TemplateLibrary library;
+		QString templatePath = SOURCE_ROOT + QString("/qtuser/core/qtusercore/auto/templates/");
+
+		QStringList pathList;
+		pathList << templatePath;
+		library.addSearchPath(pathList);
+
 		qtuser_core::Template* t = library.get(templateName);
 		if (!t)
 		{
@@ -45,7 +52,7 @@ namespace cxkernel
 		}
 
 		codes.pop_front();
-		QStringList names = codes.at(1).split("-");
+		QStringList names = codes.at(0).split("-");
 		codes.pop_front();
 
 		QHash<QString, QString> values;
