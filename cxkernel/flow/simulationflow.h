@@ -3,6 +3,8 @@
 #include "qtuser3d/framegraph/xrendergraph.h"
 #include "cxkernel/data/modelndata.h"
 #include "cxkernel/render/modelentity.h"
+#include "cxkernel/flow/cxmodel.h"
+#include "cxkernel/render/printerentity.h"
 
 namespace cxkernel
 {
@@ -16,14 +18,17 @@ namespace cxkernel
 
 		void init();
 		void uninit();
-
 	protected:
 		virtual void initialize();
 		virtual void unInitialize();
+
+		CXModelPtr model(int index);
 	protected:
 		void process(cxkernel::ModelNDataPtr data) override;
 
 	protected:
+		QList<CXModelPtr> m_models;
+		PrinterEntity* m_printer;
 	};
 }
 #endif // CXKERNEL_SIMULATIONFLOW_1684896500824_H
