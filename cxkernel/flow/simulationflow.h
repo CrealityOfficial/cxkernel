@@ -8,12 +8,17 @@
 
 namespace cxkernel
 {
+	struct SimulationConfig
+	{
+		bool showPrinter = true;
+	};
+
 	class CXKERNEL_API SimulationFlow : public qtuser_3d::XRenderGraph
 		, public cxkernel::ModelNDataProcessor
 	{
 		Q_OBJECT
 	public:
-		SimulationFlow(Qt3DCore::QNode* parent = nullptr);
+		SimulationFlow(const SimulationConfig& config, Qt3DCore::QNode* parent = nullptr);
 		virtual ~SimulationFlow();
 
 		void init();
@@ -23,12 +28,18 @@ namespace cxkernel
 		virtual void unInitialize();
 
 		CXModelPtr model(int index);
-	protected:
-		void process(cxkernel::ModelNDataPtr data) override;
 
+		void pushModel(ModelNDataPtr data);
+		void pushModels(const QList<ModelNDataPtr>& datas);
+		void clearModels();
+	protected:
+		void process(ModelNDataPtr data) override;
+		virtual void onModelLoaded(ModelNDataPtr data);
 	protected:
 		QList<CXModelPtr> m_models;
 		PrinterEntity* m_printer;
+
+		SimulationConfig m_config;
 	};
 }
 #endif // CXKERNEL_SIMULATIONFLOW_1684896500824_H

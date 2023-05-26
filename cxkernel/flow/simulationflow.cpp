@@ -5,10 +5,12 @@
 
 namespace cxkernel
 {
-	SimulationFlow::SimulationFlow(Qt3DCore::QNode* parent)
+	SimulationFlow::SimulationFlow(const SimulationConfig& config, Qt3DCore::QNode* parent)
 		:XRenderGraph(parent)
+		, m_config(config)
 	{
 		m_printer = new PrinterEntity(this);
+		m_printer->setEnabled(m_config.showPrinter);
 	}
 
 	SimulationFlow::~SimulationFlow()
@@ -51,10 +53,35 @@ namespace cxkernel
 		return nullptr;
 	}
 
-	void SimulationFlow::process(cxkernel::ModelNDataPtr data)
+	void SimulationFlow::pushModel(ModelNDataPtr data)
 	{
+		if (!data)
+			return;
+
 		CXModel* model = new CXModel(new ModelEntity(this));
 		model->setData(data);
 		m_models.push_back(CXModelPtr(model));
+	}
+
+	void SimulationFlow::pushModels(const QList<ModelNDataPtr>& datas)
+	{
+		for (ModelNDataPtr data : datas)
+			pushModel(data);
+	}
+
+	void SimulationFlow::clearModels()
+	{
+		m_models.clear();
+	}
+
+	void SimulationFlow::process(cxkernel::ModelNDataPtr data)
+	{
+		onModelLoaded(data);
+		pushModel(data);
+	}
+
+	void SimulationFlow::onModelLoaded(ModelNDataPtr data)
+	{
+
 	}
 }

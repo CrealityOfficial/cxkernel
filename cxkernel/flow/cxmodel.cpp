@@ -11,7 +11,7 @@ namespace cxkernel
 
 	CXModel::~CXModel()
 	{
-
+		delete m_entity;
 	}
 
 	void CXModel::setData(ModelNDataPtr data)
