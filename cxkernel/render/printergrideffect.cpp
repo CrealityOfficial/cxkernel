@@ -5,7 +5,7 @@ namespace cxkernel
 	PrinterGridEffect::PrinterGridEffect(Qt3DCore::QNode* parent)
 		: XEffect(parent)
 	{
-		addRenderPass(new qtuser_3d::XRenderPass("printergrid"));
+		addRenderPass(new qtuser_3d::XRenderPass("printergrid_cx"));
 
 		m_xshowColorParam = setParameter("xshowcolor", QVector4D(0.65f, 0.23f, 0.23f, 1.0f));
 		m_yshowColorParam = setParameter("yshowcolor", QVector4D(0.65f, 0.23f, 0.23f, 1.0f));
