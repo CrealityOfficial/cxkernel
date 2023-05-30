@@ -79,6 +79,12 @@ namespace cxkernel
 		return b;
 	}
 
+	float ModelNData::localZ()
+	{
+		trimesh::box3 b = localBox();
+		return b.min.z - offset.z;
+	}
+
 	void ModelNData::convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas)
 	{
 		std::vector<trimesh::vec2> hullPoints2D;
@@ -120,7 +126,7 @@ namespace cxkernel
 		delete m;
 	}
 
-	bool ModelNData::traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset)
+	bool ModelNData::traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool _offset)
 	{
 		if (!mesh || faceID < 0 || faceID >= (int)mesh->faces.size())
 			return false;
@@ -131,7 +137,7 @@ namespace cxkernel
 		position.push_back(matrix * mesh->vertices.at(face.y));
 		position.push_back(matrix * mesh->vertices.at(face.z));
 
-		if (offset)
+		if (_offset)
 		{
 			trimesh::vec3 n = trimesh::trinorm(position.at(0), position.at(1), position.at(2));
 			trimesh::normalize(n);
@@ -159,12 +165,14 @@ namespace cxkernel
 			input.mesh->clear_bbox();
 			input.mesh->need_bbox();
 
+			trimesh::vec3 offset;
 			if(param.toCenter)
-				mmesh::moveTrimesh2Center(input.mesh.get(), false);
+				offset = mmesh::moveTrimesh2Center(input.mesh.get(), false);
 
 			ModelNDataPtr data(new ModelNData());
 			data->mesh = input.mesh;
 			data->input = input;
+			data->offset = offset;
 			data->hull.reset(qhullWrapper::convex_hull_3d(input.mesh.get()));
 			data->updateRenderData();
 

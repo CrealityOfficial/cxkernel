@@ -39,6 +39,8 @@ namespace cxkernel
 		void updateRenderDataForced();
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix);
 		trimesh::box3 localBox();
+		float localZ();
+
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 
@@ -46,6 +48,7 @@ namespace cxkernel
 		TriMeshPtr hull;
 		qtuser_3d::GeometryData renderData;
 
+		trimesh::vec3 offset;
 		ModelCreateInput input;
 	};
 
