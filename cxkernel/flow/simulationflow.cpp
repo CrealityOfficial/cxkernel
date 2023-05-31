@@ -5,12 +5,10 @@
 
 namespace cxkernel
 {
-	SimulationFlow::SimulationFlow(const SimulationConfig& config, Qt3DCore::QNode* parent)
+	SimulationFlow::SimulationFlow(Qt3DCore::QNode* parent)
 		:XRenderGraph(parent)
-		, m_config(config)
 	{
 		m_printer = new PrinterEntity(this);
-		m_printer->setEnabled(m_config.showPrinter);
 	}
 
 	SimulationFlow::~SimulationFlow()
@@ -45,6 +43,16 @@ namespace cxkernel
 
 	}
 
+	QList<CXModelPtr> SimulationFlow::models()
+	{
+		return m_models;
+	}
+
+	void SimulationFlow::showPrinter(bool show)
+	{
+		m_printer->setEnabled(show);
+	}
+
 	CXModelPtr SimulationFlow::model(int index)
 	{
 		if (index >= 0 && index < m_models.size())
@@ -58,13 +66,14 @@ namespace cxkernel
 		if (!data)
 			return;
 
-		CXModel* model = new CXModel(new ModelEntity(this));
+		CXModelPtr model(new CXModel(new ModelEntity(this)));
 		model->setData(data);
 
 		trimesh::box3 box = data->calculateBox();
 		model->offset(trimesh::vec3(0.0f, 0.0f, -box.min.z));
 
-		m_models.push_back(CXModelPtr(model));
+		onCXModelCreated(model);
+		m_models.push_back(model);
 	}
 
 	void SimulationFlow::pushModels(const QList<ModelNDataPtr>& datas)
@@ -85,6 +94,11 @@ namespace cxkernel
 	}
 
 	void SimulationFlow::onModelLoaded(ModelNDataPtr data)
+	{
+
+	}
+
+	void SimulationFlow::onCXModelCreated(CXModelPtr model)
 	{
 
 	}
