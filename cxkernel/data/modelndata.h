@@ -37,7 +37,7 @@ namespace cxkernel
 		Qt3DRender::QGeometry* createGeometry();
 		void updateRenderData();
 		void updateRenderDataForced();
-		trimesh::box3 calculateBox(const trimesh::fxform& matrix);
+		trimesh::box3 calculateBox(const trimesh::fxform& matrix = trimesh::fxform::identity());
 		trimesh::box3 localBox();
 		float localZ();
 

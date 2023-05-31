@@ -60,6 +60,10 @@ namespace cxkernel
 
 		CXModel* model = new CXModel(new ModelEntity(this));
 		model->setData(data);
+
+		trimesh::box3 box = data->calculateBox();
+		model->offset(trimesh::vec3(0.0f, 0.0f, -box.min.z));
+
 		m_models.push_back(CXModelPtr(model));
 	}
 
