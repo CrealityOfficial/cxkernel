@@ -27,6 +27,14 @@ namespace cxkernel
 		return m_data;
 	}
 
+	NestDataPtr CXModel::nestData()
+	{
+		if (!m_nest)
+			m_nest.reset(new NestData());
+
+		return m_nest;
+	}
+
 	void CXModel::offset(const trimesh::vec3& offset)
 	{
 		m_position += offset;
@@ -48,6 +56,11 @@ namespace cxkernel
 	trimesh::fxform CXModel::matrix()
 	{
 		return m_xf;
+	}
+
+	trimesh::box3 CXModel::globalBox()
+	{
+		return m_data->calculateBox(m_xf);
 	}
 
 	void CXModel::updateMatrix()

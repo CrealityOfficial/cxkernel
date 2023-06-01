@@ -13,16 +13,20 @@ namespace cxkernel
 
 		void setData(ModelNDataPtr data);
 		ModelNDataPtr data();
+		NestDataPtr nestData();
 
 		void offset(const trimesh::vec3& offset);
 		void setPosition(const trimesh::vec3& position);
 		void setRotate(const trimesh::quaternion& rotate);
 		trimesh::fxform matrix();
+
+		trimesh::box3 globalBox();
 	protected:
 		void updateMatrix();
 	protected:
 		ModelEntity* m_entity;
 		ModelNDataPtr m_data;
+		NestDataPtr m_nest;
 
 		trimesh::vec3 m_position;
 		trimesh::quaternion m_rotate;

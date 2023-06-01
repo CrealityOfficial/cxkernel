@@ -14,7 +14,9 @@ namespace cxkernel
 		virtual ~PrinterEntity();
 
 		void updateSize(const trimesh::box& box);
+		trimesh::box3 boundingBox();
 	protected:
+		trimesh::box3 m_bounding;
 		cxkernel::PureEntity* m_boxEntity;
 		//qtuser_3d::PrinterGrid* m_printerGrid;
 	};

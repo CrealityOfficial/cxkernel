@@ -11,7 +11,7 @@ if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib)
 endif()
 
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud)
+set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud libnest2d clipper3r)
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
