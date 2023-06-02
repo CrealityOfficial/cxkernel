@@ -44,15 +44,15 @@ namespace cxkernel {
         Qt3DRender::QGeometry* g = qtuser_3d::createWorldIndicatorGeometry();
         setGeometry(g);
 
-		setScreenPos(QPoint(250, 250));
+		//setScreenPos(QPoint(250, 250));
 	}
 
 	WorldIndicatorEntity::~WorldIndicatorEntity()
 	{
-		if (m_cameraController)
+		/*if (m_cameraController)
 		{
 			m_cameraController->screenCamera()->removeCameraObserver(this);
-		}
+		}*/
 	}
 
     /*qtuser_3d::Pickable* WorldIndicatorEntity::pickable() const
