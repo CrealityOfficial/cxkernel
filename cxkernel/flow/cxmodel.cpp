@@ -1,5 +1,6 @@
 #include "cxmodel.h"
 #include "qcxutil/trimesh2/conv.h"
+#include "mmesh/trimesh/algrithm3d.h"
 
 namespace cxkernel
 {
@@ -88,6 +89,19 @@ namespace cxkernel
 		return nestData()->path(m_data->hull, trimesh::fromQuaterian(m_rotate));
 	}
 
+	std::vector<trimesh::vec3> CXModel::debug_path(bool origin)
+	{
+		std::vector<trimesh::vec3> paths = outline_path();
+
+		trimesh::vec3 pos = position();
+		trimesh::fxform xf = trimesh::fxform::trans(trimesh::vec3(pos.x, pos.y, 0.0f));
+		if (!origin)
+			xf = xf * trimesh::fromQuaterian(nestData()->nestRotate());
+
+		mmesh::applyMatrix2Points(paths, xf);
+		return paths;
+	}
+
 	std::vector<trimesh::vec3> CXModel::concave_path()
 	{
 		TriMeshPtr mesh = createGlobalMesh();
@@ -97,6 +111,11 @@ namespace cxkernel
 	TriMeshPtr CXModel::createGlobalMesh()
 	{
 		return m_data->createGlobalMesh(m_xf);
+	}
+
+	void CXModel::setVisible(bool visible)
+	{
+		m_entity->setEnabled(visible);
 	}
 
 	void CXModel::updateMatrix()
