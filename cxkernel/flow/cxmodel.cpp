@@ -27,10 +27,10 @@ namespace cxkernel
 		return m_data;
 	}
 
-	NestDataPtr CXModel::nestData()
+	qcxutil::NestDataPtr CXModel::nestData()
 	{
 		if (!m_nest)
-			m_nest.reset(new NestData());
+			m_nest.reset(new qcxutil::NestData());
 
 		return m_nest;
 	}
@@ -47,10 +47,20 @@ namespace cxkernel
 		updateMatrix();
 	}
 
+	trimesh::vec3 CXModel::position()
+	{
+		return m_position;
+	}
+
 	void CXModel::setRotate(const trimesh::quaternion& rotate)
 	{
 		m_rotate = rotate;
 		updateMatrix();
+	}
+
+	trimesh::quaternion CXModel::rotate()
+	{
+		return m_rotate;
 	}
 
 	trimesh::fxform CXModel::matrix()
@@ -58,9 +68,35 @@ namespace cxkernel
 		return m_xf;
 	}
 
+	trimesh::quaternion CXModel::placeRotate(float r)
+	{
+		return nestData()->placeRotate(r);
+	}
+
+	void CXModel::setNestRotation(float r)
+	{
+		nestData()->setNestRotation(r);
+	}
+
 	trimesh::box3 CXModel::globalBox()
 	{
 		return m_data->calculateBox(m_xf);
+	}
+
+	std::vector<trimesh::vec3> CXModel::outline_path()
+	{
+		return nestData()->path(m_data->hull, trimesh::fromQuaterian(m_rotate));
+	}
+
+	std::vector<trimesh::vec3> CXModel::concave_path()
+	{
+		TriMeshPtr mesh = createGlobalMesh();
+		return nestData()->concave_path(mesh);
+	}
+
+	TriMeshPtr CXModel::createGlobalMesh()
+	{
+		return m_data->createGlobalMesh(m_xf);
 	}
 
 	void CXModel::updateMatrix()

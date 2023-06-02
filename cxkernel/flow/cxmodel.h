@@ -2,6 +2,7 @@
 #define CXKERNEL_CXMODEL_1684898814122_H
 #include "cxkernel/render/modelentity.h"
 #include "cxkernel/data/modelndata.h"
+#include "qcxutil/util/nestdata.h"
 
 namespace cxkernel
 {
@@ -13,20 +14,29 @@ namespace cxkernel
 
 		void setData(ModelNDataPtr data);
 		ModelNDataPtr data();
-		NestDataPtr nestData();
 
 		void offset(const trimesh::vec3& offset);
 		void setPosition(const trimesh::vec3& position);
+		trimesh::vec3 position();
 		void setRotate(const trimesh::quaternion& rotate);
-		trimesh::fxform matrix();
+		trimesh::quaternion rotate();
 
+		trimesh::fxform matrix();
 		trimesh::box3 globalBox();
+
+		trimesh::quaternion placeRotate(float r);
+		void setNestRotation(float r);
+		std::vector<trimesh::vec3> outline_path();
+		std::vector<trimesh::vec3> concave_path();
+
+		TriMeshPtr createGlobalMesh();
 	protected:
 		void updateMatrix();
+		qcxutil::NestDataPtr nestData();
 	protected:
 		ModelEntity* m_entity;
 		ModelNDataPtr m_data;
-		NestDataPtr m_nest;
+		qcxutil::NestDataPtr m_nest;
 
 		trimesh::vec3 m_position;
 		trimesh::quaternion m_rotate;
