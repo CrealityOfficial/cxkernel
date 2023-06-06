@@ -26,6 +26,7 @@ namespace cxkernel
 	class QmlUI;
 	class CXKernelConst;
 	class Tools;
+	class DeviceUtil;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
 								, public qtuser_quick::AppModule
 	{
@@ -72,6 +73,7 @@ namespace cxkernel
 		cxcloud::ServiceCenter* cxcloud_;
 		QmlUI* m_qmlUI;
 		CXKernelConst* m_const;
+		DeviceUtil* m_deviceUtil;
 		Tools* m_tools;
 
 		MeshLoader* m_meshLoader;
