@@ -1,3 +1,14 @@
+/**
+ * @file undointerface.h
+ * @author zenggui (anoob@sina.cn)
+ * @brief 
+ * @version 0.1
+ * @date 2023-06-07
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef CREATIVE_KERNEL_UNDOINTERFACE_1592736512631_H
 #define CREATIVE_KERNEL_UNDOINTERFACE_1592736512631_H
 #include "cxkernel/cxkernelinterface.h"

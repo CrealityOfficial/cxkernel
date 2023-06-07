@@ -1,3 +1,14 @@
+/**
+ * @file uiinterface.h
+ * @author zenggui (anoob@sina.cn)
+ * @brief 
+ * @version 0.1
+ * @date 2023-06-07
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef CXKERNEL_UIINTERFACE_1681977959351_H
 #define CXKERNEL_UIINTERFACE_1681977959351_H
 #include "cxkernel/cxkernelinterface.h"

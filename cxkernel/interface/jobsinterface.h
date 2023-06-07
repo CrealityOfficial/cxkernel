@@ -1,3 +1,14 @@
+/**
+ * @file jobsinterface.h
+ * @author zenggui (anoob@sina.cn)
+ * @brief 
+ * @version 0.1
+ * @date 2023-06-07
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef _JOBSINTERFACE_1592716998224_H
 #define _JOBSINTERFACE_1592716998224_H
 #include "cxkernel/cxkernelinterface.h"
