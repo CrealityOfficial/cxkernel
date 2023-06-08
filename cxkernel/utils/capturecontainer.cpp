@@ -114,6 +114,37 @@ namespace cxkernel
 		m_previewHelper->captureModel(captureSetInfo, task->m_func);
 	}
 
+	void CaptureContainer::captureProjectModels(cxkernel::CaptureTask* task, QString model_name, qtuser_3d::Box3D box)
+	{
+		CaptureSetupData captureSetInfo;
+
+		QVector3D dir(0.0f, 1.0f, -1.0f);
+		QVector3D right(1.0f, 0.0f, 0.0f);
+		captureSetInfo.upVector = QVector3D::crossProduct(right, dir);
+		captureSetInfo.upVector.normalize();
+
+		QVector3D bsize = box.size();
+		captureSetInfo.viewCenter = box.center();
+		float angle = 45.0f;
+		float radius = bsize.length() / 2.0f;
+		float newDistance = 1.3f * radius / sinf(angle * 3.14159265 / 180.0f / 2.0f);
+
+		captureSetInfo.eyePosition = captureSetInfo.viewCenter - dir.normalized() * newDistance;
+		float nearPlane = newDistance - radius;
+		float farPlane = newDistance + radius;
+
+		captureSetInfo.projectionMatrix.setToIdentity();
+		captureSetInfo.projectionMatrix.perspective(angle, 1.0f, nearPlane, farPlane);
+
+		captureSetInfo.captureImageName = model_name;
+
+		if (m_previewHelper)
+		{
+			m_previewHelper->captureModel(captureSetInfo, task->m_func, true);
+		}
+		
+	}
+
 	void CaptureContainer::captureModelComplete()
 	{
 		if (m_previewHelper)

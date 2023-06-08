@@ -29,6 +29,7 @@ namespace cxkernel
 		void onPreviewCaptureFinish();
 
 		void captureModel(cxkernel::CaptureTask* task, QString model_name, Qt3DRender::QGeometry* geometry, QMatrix4x4 entityPos, qtuser_3d::Box3D box);
+		void captureProjectModels(cxkernel::CaptureTask* task, QString model_name, qtuser_3d::Box3D box);
 		void captureScene(cxkernel::CaptureTask* task, QString scene_name, qtuser_3d::Box3D box);
 
 	public slots:

@@ -2,6 +2,7 @@
 #include "qtuser3d/framegraph/colorpicker.h"
 #include "qtuser3d/framegraph/texturerendertarget.h"
 #include "cxkernel/render/capturexentity.h"
+#include <Qt3DExtras/QPlaneGeometry>
 
 namespace cxkernel
 {
@@ -94,10 +95,13 @@ namespace cxkernel
 		m_colorPicker->requestCapture();
 	}
 
-	void CaptureHelper::captureModel(const CaptureSetupData& captureSetInfo, captureCallbackFunc func)
+	void CaptureHelper::captureModel(const CaptureSetupData& captureSetInfo, captureCallbackFunc func, bool bProject)
 	{
-		if (!captureSetInfo.geometry)
-			return;
+		if (!bProject)
+		{
+			if (!captureSetInfo.geometry)
+				return;
+		}
 
 		qDebug() << "CaptureHelper::captureModel " << captureSetInfo.captureImageName;
 		m_index = captureSetInfo.captureImageName;
@@ -110,11 +114,18 @@ namespace cxkernel
 
 		m_func = func;
 
-		m_captureEntity->setGeometry(captureSetInfo.geometry);
-		m_captureEntity->setPose(captureSetInfo.entityPos);
+		if (!bProject)
+		{
+			m_captureEntity->setGeometry(captureSetInfo.geometry);
+			m_captureEntity->setPose(captureSetInfo.entityPos);
+		}
+		else
+		{
+			if (m_captureEntity)
+				m_captureEntity->setGeometry(nullptr);
+		}
 
-		QString filter = QString("modelcapture");
-		m_colorPicker->setFilterKey(filter, 0);
+		m_colorPicker->setFilterKey(QStringLiteral("modelcapture"), 0);
 		
 		m_colorPicker->requestCapture();
 	}
@@ -125,7 +136,6 @@ namespace cxkernel
 		{
 			m_captureEntity->onCaptureComplete();
 		}
-		
 	}
 
 	void CaptureHelper::capturePreview(captureCallbackFunc func, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix, QString name)

@@ -6,9 +6,9 @@ namespace cxkernel
 	AxisEntity::AxisEntity(Qt3DCore::QNode* parent)
 		: XEntity(parent)
 	{
-		m_entities[0] = new qtuser_3d::XEntity(this);
-		m_entities[1] = new qtuser_3d::XEntity(this);
-		m_entities[2] = new qtuser_3d::XEntity(this);
+		m_entities[0] = new qtuser_3d::XEntity(parent);
+		m_entities[1] = new qtuser_3d::XEntity(parent);
+		m_entities[2] = new qtuser_3d::XEntity(parent);
 
 		QMatrix4x4 xMatrix;
 		xMatrix.setToIdentity();

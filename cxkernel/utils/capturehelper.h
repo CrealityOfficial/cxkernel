@@ -16,6 +16,7 @@ namespace qtuser_3d
 {
 	class ColorPicker;
 	class TextureRenderTarget;
+	class XEntity;
 }
 
 namespace cxkernel
@@ -37,12 +38,13 @@ namespace cxkernel
 		void setFormat(Qt3DRender::QAbstractTexture::TextureFormat format);
 		void capture(Qt3DRender::QGeometry* geometry, QString index, captureCallbackFunc func);
 
-		void captureModel(const CaptureSetupData& captureSetInfo, captureCallbackFunc func);
+		void captureModel(const CaptureSetupData& captureSetInfo, captureCallbackFunc func, bool bProject = false);
 
 		void capturePreview(captureCallbackFunc func, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix, QString name = "-1");
 		void onPreviewCaptureFinish();
 
 		void captureModelComplete();
+
 	protected:
 		void captureComplete(QImage& image);
 
