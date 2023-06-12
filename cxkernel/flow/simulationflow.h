@@ -24,8 +24,8 @@ namespace cxkernel
 
 		CXModelPtr model(int index);
 
-		void pushModel(ModelNDataPtr data);
-		void pushModels(const QList<ModelNDataPtr>& datas);
+		void pushModel(ModelNDataPtr data, bool lowerZ = true);
+		void pushModels(const QList<ModelNDataPtr>& datas, bool lowerZ = true);
 		void clearModels();
 
 		QList<CXModelPtr> models();

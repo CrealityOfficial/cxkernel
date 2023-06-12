@@ -61,7 +61,7 @@ namespace cxkernel
 		return nullptr;
 	}
 
-	void SimulationFlow::pushModel(ModelNDataPtr data)
+	void SimulationFlow::pushModel(ModelNDataPtr data, bool lowerZ)
 	{
 		if (!data)
 			return;
@@ -69,17 +69,20 @@ namespace cxkernel
 		CXModelPtr model(new CXModel(new ModelEntity(this)));
 		model->setData(data);
 
-		trimesh::box3 box = data->calculateBox();
-		model->offset(trimesh::vec3(0.0f, 0.0f, -box.min.z));
+		if (lowerZ)
+		{
+			trimesh::box3 box = data->calculateBox();
+			model->offset(trimesh::vec3(0.0f, 0.0f, -box.min.z));
+		}
 
 		onCXModelCreated(model);
 		m_models.push_back(model);
 	}
 
-	void SimulationFlow::pushModels(const QList<ModelNDataPtr>& datas)
+	void SimulationFlow::pushModels(const QList<ModelNDataPtr>& datas, bool lowerZ)
 	{
 		for (ModelNDataPtr data : datas)
-			pushModel(data);
+			pushModel(data, lowerZ);
 	}
 
 	void SimulationFlow::clearModels()
