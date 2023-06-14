@@ -170,8 +170,15 @@ namespace cxkernel
 
 			input.mesh->normals.clear();
 
-			if(param.dumplicate)
-				mmesh::dumplicateMesh(input.mesh.get(), tracer);
+			bool processResult = true;
+			if (param.dumplicate)
+			{
+				processResult = mmesh::dumplicateMesh(input.mesh.get(), tracer);
+				if (!processResult)
+				{
+					return nullptr;
+				}
+			}
 
 			input.mesh->clear_bbox();
 			input.mesh->need_bbox();
