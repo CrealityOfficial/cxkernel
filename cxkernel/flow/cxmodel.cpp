@@ -79,6 +79,11 @@ namespace cxkernel
 		nestData()->setNestRotation(r);
 	}
 
+	float CXModel::getNestRotation()
+	{
+		return nestData()->getNestRotation();
+	}
+
 	trimesh::box3 CXModel::globalBox()
 	{
 		return m_data->calculateBox(m_xf);
