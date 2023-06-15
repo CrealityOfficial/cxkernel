@@ -36,6 +36,11 @@ namespace cxkernel
 		load(fileNames);
     }
 
+	void MeshLoader::setParam(const ModelNDataCreateParam& param)
+	{
+		m_param = param;
+	}
+
 	void MeshLoader::load(const QStringList& fileNames)
 	{
 		QList<qtuser_core::JobPtr> jobs;
@@ -53,6 +58,7 @@ namespace cxkernel
 		if (m_processor)
 		{
 			ModelFromMeshJob* job = new ModelFromMeshJob(m_processor);
+			job->setParam(m_param);
 			job->setInput(input);
 			executeJob(qtuser_core::JobPtr(job), true);
 		}

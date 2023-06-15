@@ -13,4 +13,9 @@ namespace cxkernel
 	{
 		cxKernel->meshLoader()->setModelNDataProcessor(processor);
 	}
+
+	void setLoadParam(const ModelNDataCreateParam& param)
+	{
+		cxKernel->meshLoader()->setParam(param);
+	}
 }

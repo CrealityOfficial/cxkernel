@@ -21,6 +21,11 @@ namespace cxkernel
 		m_input = input;
 	}
 
+	void ModelFromMeshJob::setParam(const ModelNDataCreateParam& param)
+	{
+		m_param = param;
+	}
+
 	QString ModelFromMeshJob::name()
 	{
 		return "ModelFromMeshJob";
@@ -45,6 +50,6 @@ namespace cxkernel
 	void ModelFromMeshJob::work(qtuser_core::Progressor* progressor)
 	{
 		qtuser_core::ProgressorTracer tracer(progressor);
-		m_data = createModelNData(m_input, &tracer);
+		m_data = createModelNData(m_input, &tracer, m_param);
 	}
 }

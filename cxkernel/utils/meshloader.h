@@ -14,6 +14,7 @@ namespace cxkernel
 		virtual ~MeshLoader();
 
 		void load(const QStringList& fileNames);
+		void setParam(const ModelNDataCreateParam& param);
 	public:
 		QString filter() override;
 		void handle(const QString& fileName) override;
@@ -23,6 +24,8 @@ namespace cxkernel
 		void setModelNDataProcessor(ModelNDataProcessor* processor);
 	protected:
 		ModelNDataProcessor* m_processor;
+
+		ModelNDataCreateParam m_param;
 	};
 }
 #endif // _NULLSPACE_MESHLOADERWRAPPER_1590982007351_H

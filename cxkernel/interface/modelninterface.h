@@ -17,6 +17,8 @@ namespace cxkernel
 {
 	CXKERNEL_API void addModelFromCreateInput(const ModelCreateInput& input);
 	CXKERNEL_API void setModelNDataProcessor(ModelNDataProcessor* processor);
+
+	CXKERNEL_API void setLoadParam(const ModelNDataCreateParam& param);
 }
 
 #endif // CXKERNEL_MODELNINTERFACE_1681280986880_H

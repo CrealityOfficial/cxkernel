@@ -12,6 +12,7 @@ namespace cxkernel
 		virtual ~ModelFromMeshJob();
 
 		void setInput(ModelCreateInput input);
+		void setParam(const ModelNDataCreateParam& param);
 	protected:
 		QString name();
 		QString description();
@@ -23,6 +24,8 @@ namespace cxkernel
 		ModelCreateInput m_input;
 		ModelNDataPtr m_data;
 		ModelNDataProcessor* m_processor;
+
+		ModelNDataCreateParam m_param;
 	};
 }
 #endif // _CXKERNEL_MODEL_FROM_MESH_JOB_1590984808257_H
