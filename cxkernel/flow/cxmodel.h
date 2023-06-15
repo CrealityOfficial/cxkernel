@@ -24,9 +24,9 @@ namespace cxkernel
 		trimesh::fxform matrix();
 		trimesh::box3 globalBox();
 
-		trimesh::quaternion placeRotate(float r);
-		void setNestRotation(float r);
-		float getNestRotation();
+		trimesh::quaternion nestRotation();
+		void resetNestRotation();
+
 		std::vector<trimesh::vec3> outline_path();
 		std::vector<trimesh::vec3> debug_path(bool origin = false);
 		std::vector<trimesh::vec3> concave_path();

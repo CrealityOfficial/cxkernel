@@ -69,14 +69,14 @@ namespace cxkernel
 		return m_xf;
 	}
 
-	trimesh::quaternion CXModel::placeRotate(float r)
+	void CXModel::resetNestRotation()
 	{
-		return nestData()->placeRotate(r);
+		nestData()->setNestRotation(rotate());
 	}
 
-	void CXModel::setNestRotation(float r)
+	trimesh::quaternion CXModel::nestRotation()
 	{
-		nestData()->setNestRotation(r);
+		return nestData()->nestRotation();
 	}
 
 	float CXModel::getNestRotation()
@@ -91,7 +91,7 @@ namespace cxkernel
 
 	std::vector<trimesh::vec3> CXModel::outline_path()
 	{
-		return nestData()->path(m_data->hull, trimesh::fromQuaterian(m_rotate));
+		return nestData()->path(m_data->hull);
 	}
 
 	std::vector<trimesh::vec3> CXModel::debug_path(bool origin)
@@ -101,7 +101,7 @@ namespace cxkernel
 		trimesh::vec3 pos = position();
 		trimesh::fxform xf = trimesh::fxform::trans(trimesh::vec3(pos.x, pos.y, 0.0f));
 		if (!origin)
-			xf = xf * trimesh::fromQuaterian(nestData()->nestRotate());
+			xf = xf * trimesh::fromQuaterian(nestData()->nestRotation());
 
 		mmesh::applyMatrix2Points(paths, xf);
 		return paths;
