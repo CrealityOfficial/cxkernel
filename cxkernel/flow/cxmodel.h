@@ -26,6 +26,7 @@ namespace cxkernel
 
 		trimesh::quaternion nestRotation();
 		void resetNestRotation();
+		void setNestRotation(const trimesh::quaternion& _rotation);
 
 		std::vector<trimesh::vec3> outline_path();
 		std::vector<trimesh::vec3> debug_path(bool origin = false);

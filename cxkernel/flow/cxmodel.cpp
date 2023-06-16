@@ -74,6 +74,11 @@ namespace cxkernel
 		nestData()->setNestRotation(rotate());
 	}
 
+	void CXModel::setNestRotation(const trimesh::quaternion& _rotation)
+	{
+		nestData()->setNestRotation(_rotation);
+	}
+
 	trimesh::quaternion CXModel::nestRotation()
 	{
 		return nestData()->nestRotation();
