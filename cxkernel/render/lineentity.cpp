@@ -17,11 +17,11 @@ namespace cxkernel
 		 
 		m_colorEffect = new ColorEffect();
 		m_colorEffect->addRenderState(0, depthTest);
-		m_colorEffect->addPassFilter(0, QStringLiteral("view"));
+		m_colorEffect->addPassFilter(0, QStringLiteral("overlayPass"));
 
 		m_pureEffect = new PureXEffect();
 		m_pureEffect->addRenderState(0, depthTest);
-		m_pureEffect->addPassFilter(0, QStringLiteral("view"));
+		m_pureEffect->addPassFilter(0, QStringLiteral("overlayPass"));
 		
 		m_lineWidth = new Qt3DRender::QLineWidth();
 		m_pureEffect->addRenderState(0, m_lineWidth);
