@@ -27,9 +27,9 @@ namespace cxkernel
 		trimesh::quaternion nestRotation();
 		void resetNestRotation();
 		void setNestRotation(const trimesh::quaternion& _rotation);
+		void dirtyNestData();
 
-		std::vector<trimesh::vec3> outline_path();
-		std::vector<trimesh::vec3> debug_path(bool origin = false);
+		std::vector<trimesh::vec3> outline_path(bool global = false, bool debug = false);
 		std::vector<trimesh::vec3> concave_path();
 
 		TriMeshPtr createGlobalMesh();

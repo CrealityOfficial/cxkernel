@@ -79,6 +79,11 @@ namespace cxkernel
 		nestData()->setNestRotation(_rotation);
 	}
 
+	void CXModel::dirtyNestData()
+	{
+		nestData()->setDirty(true);
+	}
+
 	trimesh::quaternion CXModel::nestRotation()
 	{
 		return nestData()->nestRotation();
@@ -89,21 +94,23 @@ namespace cxkernel
 		return m_data->calculateBox(m_xf);
 	}
 
-	std::vector<trimesh::vec3> CXModel::outline_path()
+	std::vector<trimesh::vec3> CXModel::outline_path(bool global, bool debug)
 	{
-		return nestData()->path(m_data->hull);
-	}
+		std::vector<trimesh::vec3> paths = nestData()->path(m_data->hull);
 
-	std::vector<trimesh::vec3> CXModel::debug_path(bool origin)
-	{
-		std::vector<trimesh::vec3> paths = outline_path();
+		if (global || debug)
+		{
+			trimesh::fxform xf = trimesh::fromQuaterian(rotate());
 
-		trimesh::vec3 pos = position();
-		trimesh::fxform xf = trimesh::fxform::trans(trimesh::vec3(pos.x, pos.y, 0.0f));
-		if (!origin)
-			xf = xf * trimesh::fromQuaterian(nestData()->nestRotation());
+			if (debug)
+			{
+				trimesh::vec3 pos = position();
+				xf = trimesh::fxform::trans(trimesh::vec3(pos.x, pos.y, 0.0f)) * xf;
+			}
 
-		mmesh::applyMatrix2Points(paths, xf);
+			mmesh::applyMatrix2Points(paths, xf);
+		}
+
 		return paths;
 	}
 
