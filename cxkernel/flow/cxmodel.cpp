@@ -123,7 +123,7 @@ namespace cxkernel
 	std::vector<trimesh::vec3> CXModel::concave_path()
 	{
 		TriMeshPtr mesh = createGlobalMesh();
-		return nestData()->concave_path(mesh);
+		return nestData()->concave_path(mesh, QVector3D(0.0f, 0.0f, 0.0f));
 	}
 
 	TriMeshPtr CXModel::createGlobalMesh()
