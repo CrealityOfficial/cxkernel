@@ -1,6 +1,7 @@
 #include "cxmodel.h"
 #include "qcxutil/trimesh2/conv.h"
 #include "mmesh/trimesh/algrithm3d.h"
+#include "mmesh/util/mnode.h"
 
 namespace cxkernel
 {
@@ -111,6 +112,11 @@ namespace cxkernel
 			mmesh::applyMatrix2Points(paths, xf);
 		}
 
+		trimesh::vec3 pos = position();
+		trimesh::fxform xf = trimesh::fxform::trans(trimesh::vec3(pos.x, pos.y, 0.0f));
+		if (!debug)
+			xf = xf * mmesh::fromQuaterian(nestData()->nestRotation());
+
 		return paths;
 	}
 
@@ -132,7 +138,7 @@ namespace cxkernel
 
 	void CXModel::updateMatrix()
 	{
-		m_xf = trimesh::fxform::trans(m_position) * trimesh::fromQuaterian(m_rotate);
+		m_xf = trimesh::fxform::trans(m_position) * mmesh::fromQuaterian(m_rotate);
 
 		m_entity->setPose(qcxutil::xform2QMatrix(m_xf));
 	}
