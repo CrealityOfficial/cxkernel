@@ -7,6 +7,11 @@
 #include "qtuser3d/math/box3d.h"
 #include "qcxutil/trimesh2/q3drender.h"
 
+namespace qtuser_3d
+{
+	class ColorPicker;
+}
+
 
 namespace cxkernel
 {
@@ -31,6 +36,8 @@ namespace cxkernel
 		void captureModel(cxkernel::CaptureTask* task, QString model_name, Qt3DRender::QGeometry* geometry, QMatrix4x4 entityPos, qtuser_3d::Box3D box);
 		void captureProjectModels(cxkernel::CaptureTask* task, QString model_name, qtuser_3d::Box3D box);
 		void captureScene(cxkernel::CaptureTask* task, QString scene_name, qtuser_3d::Box3D box);
+
+		qtuser_3d::ColorPicker* colorPicker();
 
 	public slots:
 		void captureModelComplete();

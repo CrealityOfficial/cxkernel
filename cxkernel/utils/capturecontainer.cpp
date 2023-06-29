@@ -85,6 +85,14 @@ namespace cxkernel
 		m_previewHelper->capturePreview(task->m_func, center, newUp, newPosition, pMatrix, scene_name);
 	}
 
+	qtuser_3d::ColorPicker* CaptureContainer::colorPicker()
+	{
+		if (m_previewHelper)
+			return m_previewHelper->colorPicker();
+
+		return nullptr;
+	}
+
 	void CaptureContainer::captureModel(cxkernel::CaptureTask* task, QString model_name, Qt3DRender::QGeometry* geometry, QMatrix4x4 entityPos, qtuser_3d::Box3D box)
 	{
 		CaptureSetupData captureSetInfo;

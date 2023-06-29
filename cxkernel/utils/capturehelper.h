@@ -45,6 +45,8 @@ namespace cxkernel
 
 		void captureModelComplete();
 
+		qtuser_3d::ColorPicker* colorPicker();
+
 	protected:
 		void captureComplete(QImage& image);
 

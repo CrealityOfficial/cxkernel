@@ -138,6 +138,11 @@ namespace cxkernel
 		}
 	}
 
+	qtuser_3d::ColorPicker* CaptureHelper::colorPicker()
+	{
+		return m_colorPicker;
+	}
+
 	void CaptureHelper::capturePreview(captureCallbackFunc func, QVector3D& viewCenter, QVector3D& upVector, QVector3D& eyePosition, QMatrix4x4& projectionMatrix, QString name)
 	{
 		qDebug() << "CaptureHelper::capturePreview ";
