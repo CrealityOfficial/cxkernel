@@ -111,6 +111,7 @@ namespace cxkernel
 		if (m_expression->hasError())
 		{
 			qDebug() << QString("Qml JavaSript Error [%1].").arg(m_expression->error().toString());
+			m_expression->clearError();
 		}
 		return ret;
 	}
