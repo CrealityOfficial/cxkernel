@@ -53,6 +53,16 @@ namespace cxkernel
 		m_printer->setEnabled(show);
 	}
 
+	void SimulationFlow::viewBox(const trimesh::box3& box)
+	{
+		m_cameraController->home(qcxutil::triBox2Box3D(box));
+	}
+
+	void SimulationFlow::viewPrinter()
+	{
+		m_cameraController->home(qcxutil::triBox2Box3D(m_printer->boundingBox()));
+	}
+
 	CXModelPtr SimulationFlow::model(int index)
 	{
 		if (index >= 0 && index < m_models.size())
@@ -104,5 +114,36 @@ namespace cxkernel
 	void SimulationFlow::onCXModelCreated(CXModelPtr model)
 	{
 
+	}
+
+	void SimulationFlow::_add(const QString& name, qtuser_3d::XEntity* entity)
+	{
+		qtuser_3d::XEntity* en = _find(name);
+		if (entity && !en)
+			m_namedEntities.insert(name, entity);
+	}
+
+	void SimulationFlow::_remove(const QString& name)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		m_namedEntities.remove(name);
+		if (entity)
+			delete entity;
+	}
+
+	qtuser_3d::XEntity* SimulationFlow::_find(const QString& name)
+	{
+		QMap<QString, qtuser_3d::XEntity*>::const_iterator it = m_namedEntities.find(name);
+		if (it != m_namedEntities.end())
+			return it.value();
+		
+		return nullptr;
+	}
+
+	cxkernel::PureEntity* SimulationFlow::createPure(const QString& name)
+	{
+		cxkernel::PureEntity* entity = new cxkernel::PureEntity(this);
+		_add(name, entity);
+		return entity;
 	}
 }

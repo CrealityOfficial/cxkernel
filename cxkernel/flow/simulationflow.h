@@ -5,6 +5,7 @@
 #include "cxkernel/render/modelentity.h"
 #include "cxkernel/flow/cxmodel.h"
 #include "cxkernel/render/printerentity.h"
+#include <QtCore/QMap>
 
 namespace cxkernel
 {
@@ -31,13 +32,23 @@ namespace cxkernel
 		QList<CXModelPtr> models();
 
 		void showPrinter(bool show);
+
+		void viewBox(const trimesh::box3& box);
+		void viewPrinter();
 	protected:
 		void process(ModelNDataPtr data) override;
 		virtual void onModelLoaded(ModelNDataPtr data);
 		virtual void onCXModelCreated(CXModelPtr model);
+
+		void _add(const QString& name, qtuser_3d::XEntity* entity);
+		void _remove(const QString& name);
+		qtuser_3d::XEntity* _find(const QString& name);
+		cxkernel::PureEntity* createPure(const QString& name);
 	protected:
 		QList<CXModelPtr> m_models;
 		PrinterEntity* m_printer;
+
+		QMap<QString, qtuser_3d::XEntity*> m_namedEntities;
 	};
 }
 #endif // CXKERNEL_SIMULATIONFLOW_1684896500824_H
