@@ -8,6 +8,7 @@ namespace cxkernel
 		:XEntity(parent)
 		, m_textureSize(nullptr)
 		, m_textureId(nullptr)
+		, m_antiFlag(nullptr)
 	{
 		setEffect(new AntiAliasingEffect());
 	}
@@ -49,13 +50,23 @@ namespace cxkernel
 			m_textureId = setParameter("screenTexture", 0);
 		}
 
-		//QString textureName = QStringLiteral("D:\\Visualization\\testIImage111.jpg");
-		//Qt3DRender::QTexture2D* t = qtuser_3d::createFromSource(QUrl::fromLocalFile(textureName));
-		//setParameter("screenTexture", QVariant::fromValue(t));
+		QString textureName = QStringLiteral("D:\\Visualization\\testIImage111.jpg");
+		Qt3DRender::QTexture2D* t = qtuser_3d::createFromSource(QUrl::fromLocalFile(textureName));
+		setParameter("screenTexture", QVariant::fromValue(t));
 
-		GLuint textureId = shareTexture->textureId();
-		m_textureId->setValue(QVariant::fromValue(shareTexture));
+		//GLuint textureId = shareTexture->textureId();
+		//m_textureId->setValue(QVariant::fromValue(shareTexture));
 		//m_textureId->setValue(shareTexture->textureId());
+	}
+
+	void AntiAliasingEntity::setAntiFlag(int iFlag)
+	{
+		if (!m_antiFlag)
+		{
+			m_antiFlag = setParameter("antiflag", 1);
+		}
+
+		m_antiFlag->setValue(iFlag);
 	}
 
 }

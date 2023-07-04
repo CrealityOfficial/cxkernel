@@ -17,9 +17,11 @@ namespace cxkernel
 		void setTextureSize(const QVector2D& theSize);
 		void setTextureId(quint16 texId);
 		void setShareTexture(Qt3DRender::QSharedGLTexture* shareTexture);
+		void setAntiFlag(int iFlag);
 	protected:
 		Qt3DRender::QParameter* m_textureSize;
 		Qt3DRender::QParameter* m_textureId;
+		Qt3DRender::QParameter* m_antiFlag;
 	};
 }
 
