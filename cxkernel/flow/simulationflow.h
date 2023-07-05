@@ -11,6 +11,7 @@
 
 namespace cxkernel
 {
+	typedef std::function<void(const QString& fileName)> circleLoadFunc;
 	class CXKERNEL_API SimulationFlow : public qtuser_3d::XRenderGraph
 		, public cxkernel::ModelNDataProcessor
 	{
@@ -61,6 +62,7 @@ namespace cxkernel
 		CXModelPtr pick(const QPoint& point, int* primitiveID = nullptr);
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
+		void circleDirectory(const QString& directory, circleLoadFunc func);
 	protected:
 		qtuser_3d::ColorPicker* m_picker;
 		qtuser_3d::Selector* m_selector;

@@ -2,6 +2,7 @@
 #include "qtuser3d/camera/cameracontroller.h"
 
 #include "qcxutil/trimesh2/conv.h"
+#include <QtCore/QDir>
 
 namespace cxkernel
 {
@@ -217,5 +218,22 @@ namespace cxkernel
 			ModelPhongEffect* effect = model->entity()->mEffect();
 			effect->setRenderEffectMode(mode);
 		}
+	}
+
+	void SimulationFlow::circleDirectory(const QString& directory, circleLoadFunc func)
+	{
+		QList<QString> fileNames;
+
+		QDir dir(directory);
+		QList<QFileInfo> fileInfos = dir.entryInfoList(QStringList(), QDir::Files);
+
+		for (const QFileInfo& fileInfo : fileInfos)
+		{
+			if (fileInfo.isFile())
+				fileNames << fileInfo.absoluteFilePath();
+		}
+
+		for(const QString& fileName : fileNames)
+			func(fileName);
 	}
 }
