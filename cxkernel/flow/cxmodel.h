@@ -2,11 +2,12 @@
 #define CXKERNEL_CXMODEL_1684898814122_H
 #include "cxkernel/render/modelentity.h"
 #include "cxkernel/data/modelndata.h"
+#include "qtuser3d/module/pickable.h"
 #include "qcxutil/util/nestdata.h"
 
 namespace cxkernel
 {
-	class CXKERNEL_API CXModel : public QObject
+	class CXKERNEL_API CXModel : public qtuser_3d::Pickable
 	{
 	public:
 		CXModel(ModelEntity* entity, QObject* parent = nullptr);
@@ -35,9 +36,12 @@ namespace cxkernel
 		TriMeshPtr createGlobalMesh();
 
 		void setVisible(bool visible);
+		ModelEntity* entity();
 	protected:
 		void updateMatrix();
 		qcxutil::NestDataPtr nestData();
+
+		int primitiveNum() override;   // 0
 	protected:
 		ModelEntity* m_entity;
 		ModelNDataPtr m_data;

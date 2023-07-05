@@ -1,6 +1,8 @@
 #ifndef CXKERNEL_SIMULATIONFLOW_1684896500824_H
 #define CXKERNEL_SIMULATIONFLOW_1684896500824_H
 #include "qtuser3d/framegraph/xrendergraph.h"
+#include "qtuser3d/framegraph/colorpicker.h"
+#include "qtuser3d/module/selector.h"
 #include "cxkernel/data/modelndata.h"
 #include "cxkernel/render/modelentity.h"
 #include "cxkernel/flow/cxmodel.h"
@@ -35,16 +37,33 @@ namespace cxkernel
 
 		void viewBox(const trimesh::box3& box);
 		void viewPrinter();
+
+	public slots:
+		void requestCapture(bool capture);
 	protected:
 		void process(ModelNDataPtr data) override;
+		void onResize(const QSize& size) override;
+
 		virtual void onModelLoaded(ModelNDataPtr data);
 		virtual void onCXModelCreated(CXModelPtr model);
 
 		void _add(const QString& name, qtuser_3d::XEntity* entity);
 		void _remove(const QString& name);
 		qtuser_3d::XEntity* _find(const QString& name);
+
+		void _lines(const QString& name, const std::vector<trimesh::vec3>& lines);
+		void _lines(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& lines);
+		void _triangle(const QString& name, const std::vector<trimesh::vec3>& tris);
+		void _triangle(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& tris);
+
 		cxkernel::PureEntity* createPure(const QString& name);
+
+		CXModelPtr pick(const QPoint& point, int* primitiveID = nullptr);
+
+		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
 	protected:
+		qtuser_3d::ColorPicker* m_picker;
+		qtuser_3d::Selector* m_selector;
 		QList<CXModelPtr> m_models;
 		PrinterEntity* m_printer;
 

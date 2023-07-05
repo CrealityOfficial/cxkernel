@@ -28,6 +28,11 @@ namespace cxkernel
 		setParameter("specular", specular);
 
 		m_remParameter = setParameter("renderModel", 1);
+
+		qtuser_3d::XRenderPass* pickPass = new qtuser_3d::XRenderPass("pickFace");
+		pickPass->setPassCullFace();
+		addRenderPass(pickPass);
+		setPassBlend(1, Qt3DRender::QBlendEquationArguments::One, Qt3DRender::QBlendEquationArguments::Zero);
 	}
 
 	ModelPhongEffect::~ModelPhongEffect()

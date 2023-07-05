@@ -6,10 +6,10 @@
 namespace cxkernel
 {
 	CXModel::CXModel(ModelEntity* entity, QObject* parent)
-		: QObject(parent)
+		: Pickable(parent)
 		, m_entity(entity)
 	{
-
+		m_entity->bindPickable(this);
 	}
 
 	CXModel::~CXModel()
@@ -35,6 +35,11 @@ namespace cxkernel
 			m_nest.reset(new qcxutil::NestData());
 
 		return m_nest;
+	}
+
+	int CXModel::primitiveNum()
+	{
+		return (int)m_data->mesh->faces.size();
 	}
 
 	void CXModel::offset(const trimesh::vec3& offset)
@@ -134,6 +139,11 @@ namespace cxkernel
 	void CXModel::setVisible(bool visible)
 	{
 		m_entity->setEnabled(visible);
+	}
+
+	ModelEntity* CXModel::entity()
+	{
+		return m_entity;
 	}
 
 	void CXModel::updateMatrix()

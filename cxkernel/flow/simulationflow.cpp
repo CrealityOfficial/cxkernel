@@ -9,6 +9,12 @@ namespace cxkernel
 		:XRenderGraph(parent)
 	{
 		m_printer = new PrinterEntity(this);
+		m_picker = new qtuser_3d::ColorPicker(m_cameraSelector);
+		m_picker->useSelfTarget();
+		connect(m_cameraController, SIGNAL(signalViewChanged(bool)), this, SLOT(requestCapture(bool)));
+
+		m_selector = new qtuser_3d::Selector(this);
+		m_selector->setPickerSource(m_picker);
 	}
 
 	SimulationFlow::~SimulationFlow()
@@ -63,6 +69,12 @@ namespace cxkernel
 		m_cameraController->home(qcxutil::triBox2Box3D(m_printer->boundingBox()));
 	}
 
+	void SimulationFlow::requestCapture(bool capture)
+	{
+		if (capture)
+			m_picker->requestCapture();
+	}
+
 	CXModelPtr SimulationFlow::model(int index)
 	{
 		if (index >= 0 && index < m_models.size())
@@ -77,6 +89,7 @@ namespace cxkernel
 			return;
 
 		CXModelPtr model(new CXModel(new ModelEntity(this)));
+		
 		model->setData(data);
 
 		if (lowerZ)
@@ -87,6 +100,9 @@ namespace cxkernel
 
 		onCXModelCreated(model);
 		m_models.push_back(model);
+
+		m_selector->addPickable(model.get());
+		requestCapture(true);
 	}
 
 	void SimulationFlow::pushModels(const QList<ModelNDataPtr>& datas, bool lowerZ)
@@ -97,6 +113,8 @@ namespace cxkernel
 
 	void SimulationFlow::clearModels()
 	{
+		for (CXModelPtr model : m_models)
+			m_selector->removePickable(model.get());
 		m_models.clear();
 	}
 
@@ -104,6 +122,11 @@ namespace cxkernel
 	{
 		onModelLoaded(data);
 		pushModel(data);
+	}
+
+	void SimulationFlow::onResize(const QSize& size)
+	{
+		m_picker->resize(size);
 	}
 
 	void SimulationFlow::onModelLoaded(ModelNDataPtr data)
@@ -120,7 +143,10 @@ namespace cxkernel
 	{
 		qtuser_3d::XEntity* en = _find(name);
 		if (entity && !en)
+		{
+			entity->addPassFilter(0, "view");
 			m_namedEntities.insert(name, entity);
+		}
 	}
 
 	void SimulationFlow::_remove(const QString& name)
@@ -140,10 +166,56 @@ namespace cxkernel
 		return nullptr;
 	}
 
+	void SimulationFlow::_lines(const QString& name, const std::vector<trimesh::vec3>& lines)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		_lines(entity, lines);
+	}
+
+	void SimulationFlow::_lines(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& lines)
+	{
+		if (entity)
+			entity->setGeometry(qcxutil::createLinesGeometry(lines), Qt3DRender::QGeometryRenderer::Lines);
+	}
+
+	void SimulationFlow::_triangle(const QString& name, const std::vector<trimesh::vec3>& tris)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		_triangle(entity, tris);
+	}
+
+	void SimulationFlow::_triangle(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& tris)
+	{
+		if (entity)
+			entity->setGeometry(qcxutil::createTriangles(tris), Qt3DRender::QGeometryRenderer::Triangles);
+	}
+
 	cxkernel::PureEntity* SimulationFlow::createPure(const QString& name)
 	{
 		cxkernel::PureEntity* entity = new cxkernel::PureEntity(this);
 		_add(name, entity);
 		return entity;
+	}
+
+	CXModelPtr SimulationFlow::pick(const QPoint& point, int* primitiveID)
+	{
+		qtuser_3d::Pickable* pickable = m_selector->check(point, primitiveID);
+
+		for (CXModelPtr model : m_models)
+		{
+			if (model.get() == pickable)
+				return model;
+		}
+
+		return nullptr;
+	}
+
+	void SimulationFlow::setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode)
+	{
+		if (model)
+		{
+			ModelPhongEffect* effect = model->entity()->mEffect();
+			effect->setRenderEffectMode(mode);
+		}
 	}
 }
