@@ -6,7 +6,7 @@
 #include "mmesh/trimesh/trimeshutil.h"
 
 #include "qtusercore/module/progressortracer.h"
-
+#include <QDebug>
 namespace cxkernel
 {
 	ModelNData::ModelNData()
@@ -173,7 +173,7 @@ namespace cxkernel
 			bool processResult = true;
 			if (param.dumplicate)
 			{
-				processResult = mmesh::dumplicateMesh(input.mesh.get(), tracer);
+				processResult = mmesh::dumplicateMeshExTest(input.mesh.get(), tracer);
 				if (!processResult)
 				{
 					return nullptr;
