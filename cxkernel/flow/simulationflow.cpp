@@ -99,8 +99,8 @@ namespace cxkernel
 			model->offset(trimesh::vec3(0.0f, 0.0f, -box.min.z));
 		}
 
-		onCXModelCreated(model);
 		m_models.push_back(model);
+		onCXModelCreated(model);
 
 		m_selector->addPickable(model.get());
 		requestCapture(true);
