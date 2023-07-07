@@ -84,6 +84,21 @@ namespace cxkernel
 		return nullptr;
 	}
 
+	void SimulationFlow::addMesh(TriMeshPtr mesh)
+	{
+		if (!mesh)
+			return;
+
+		cxkernel::ModelCreateInput input;
+		input.mesh = mesh;
+
+		cxkernel::ModelNDataCreateParam param;
+		param.toCenter = true;
+
+		cxkernel::ModelNDataPtr data = cxkernel::createModelNData(input, nullptr, param);
+		pushModel(data);
+	}
+
 	void SimulationFlow::pushModel(ModelNDataPtr data, bool lowerZ)
 	{
 		if (!data)
