@@ -84,7 +84,7 @@ namespace cxkernel
 		return nullptr;
 	}
 
-	void SimulationFlow::addMesh(TriMeshPtr mesh)
+	void SimulationFlow::addMesh(TriMeshPtr mesh, bool toCenter)
 	{
 		if (!mesh)
 			return;
@@ -93,10 +93,10 @@ namespace cxkernel
 		input.mesh = mesh;
 
 		cxkernel::ModelNDataCreateParam param;
-		param.toCenter = true;
+		param.toCenter = toCenter;
 
 		cxkernel::ModelNDataPtr data = cxkernel::createModelNData(input, nullptr, param);
-		pushModel(data);
+		pushModel(data, toCenter);
 	}
 
 	void SimulationFlow::pushModel(ModelNDataPtr data, bool lowerZ)
