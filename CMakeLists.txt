@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 14)
+
 __cc_find(cxbin)
 __cc_find(QhullWrapper)
 __assert_target(cxbin)
