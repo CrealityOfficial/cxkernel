@@ -64,6 +64,8 @@ namespace cxkernel
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
 		void circleDirectory(const QString& directory, circleLoadFunc func);
+
+		void insert(CXModelPtr model);
 	protected:
 		qtuser_3d::ColorPicker* m_picker;
 		qtuser_3d::Selector* m_selector;

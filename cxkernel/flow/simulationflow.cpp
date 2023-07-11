@@ -2,6 +2,9 @@
 #include "qtuser3d/camera/cameracontroller.h"
 
 #include "qcxutil/trimesh2/conv.h"
+#include "cxkernel/utils/layoutjob.h"
+
+#include "cxkernel/interface/jobsinterface.h"
 #include <QtCore/QDir>
 
 namespace cxkernel
@@ -116,6 +119,9 @@ namespace cxkernel
 
 		m_models.push_back(model);
 		onCXModelCreated(model);
+
+		if (lowerZ)
+			insert(model);
 
 		m_selector->addPickable(model.get());
 		requestCapture(true);
@@ -250,5 +256,24 @@ namespace cxkernel
 
 		for(const QString& fileName : fileNames)
 			func(fileName);
+	}
+
+	void SimulationFlow::insert(CXModelPtr model)
+	{
+		if (!model)
+			return;
+
+		QList<cxkernel::CXModelPtr> _models = models();
+		QList<cxkernel::CXModelPtr> __models;
+		for (cxkernel::CXModelPtr m : _models)
+			if (m != model)
+				__models.push_back(m);
+
+		LayoutJob* job = new LayoutJob(this);
+		job->setBounding(m_printer->boundingBox());
+		job->setModels(__models);
+		job->setInsert(model);
+
+		cxkernel::executeJob(job);
 	}
 }
