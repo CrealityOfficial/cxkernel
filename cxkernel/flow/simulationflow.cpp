@@ -93,6 +93,17 @@ namespace cxkernel
 		return nullptr;
 	}
 
+	void SimulationFlow::copyMesh(TriMeshPtr mesh)
+	{
+		if (!mesh)
+			return;
+
+		TriMeshPtr newMesh(new trimesh::TriMesh());
+		*newMesh = *mesh;
+
+		addMesh(newMesh, true);
+	}
+
 	void SimulationFlow::addMesh(TriMeshPtr mesh, bool toCenter)
 	{
 		if (!mesh)
