@@ -73,6 +73,12 @@ namespace cxkernel
 		m_cameraController->home(qcxutil::triBox2Box3D(m_printer->boundingBox()));
 	}
 
+	void SimulationFlow::viewModels(bool visible)
+	{
+		for (CXModelPtr model : m_models)
+			model->setVisible(visible);
+	}
+
 	void SimulationFlow::requestCapture(bool capture)
 	{
 		if (capture)

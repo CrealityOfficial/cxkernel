@@ -39,6 +39,7 @@ namespace cxkernel
 
 		void viewBox(const trimesh::box3& box);
 		void viewPrinter();
+		Q_INVOKABLE void viewModels(bool visible);
 
 	public slots:
 		void requestCapture(bool capture);
