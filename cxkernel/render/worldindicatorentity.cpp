@@ -207,6 +207,12 @@ namespace cxkernel {
         m_endDir = viewDir;
         m_endUp = up;
 
+        /* 把相机中心点设为箱体的底部中心，即返回初始位置 */
+        qtuser_3d::Box3D box = sc->box();
+        m_startCenter = m_cameraController->getviewCenter();
+        m_endCenter = box.center();
+        m_endCenter.setZ(0);
+
         if (m_animation == nullptr)
         {
             QPropertyAnimation* animation = new QPropertyAnimation(this);
@@ -261,15 +267,16 @@ namespace cxkernel {
         QQuaternion qup = QQuaternion::slerp(q1up, q2up, lambda);
         QVector3D newUp = qup * up;
 
-
         QVector3D dir(0.0f, 1.0f, 0.0f);
         QQuaternion q1dir = QQuaternion::rotationTo(dir, m_startDir);
         QQuaternion q2dir = QQuaternion::rotationTo(dir, m_endDir);
         QQuaternion qdir = QQuaternion::slerp(q1dir, q2dir, lambda);
         QVector3D newDir = qdir * dir;
 
+        QVector3D newCenter = (m_endCenter - m_startCenter) * lambda + m_startCenter;
+
         QVector3D right = QVector3D::crossProduct(newDir, newUp);
-        m_cameraController->view(newDir, right);
+        m_cameraController->view(newDir, right, &newCenter);
 
         onCameraChanged(m_cameraController->screenCamera());
     }

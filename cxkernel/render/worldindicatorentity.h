@@ -80,6 +80,8 @@ namespace cxkernel
 		QVector3D m_endUp;
 
 		QPoint m_showOnPoint;
+        QVector3D m_startCenter;
+        QVector3D m_endCenter;
 
 		float m_length = 100.0;//正方体的边长
 		int m_theme;
