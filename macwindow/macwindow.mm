@@ -1,5 +1,5 @@
 #include "macwindow.h"
-
+#include "mycppobject.h"
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
@@ -19,12 +19,44 @@
 
 //[[NSNotificationCenter defaultCenter]addObserver:self selector@selector (willEnterFull)name:NSWindowWillEnterFullScreenNotification object:nil];
 
-
-
 @interface WindowDelegate : NSObject <NSWindowDelegate>
+@property (nonatomic, assign) float topY;
+@property (nonatomic, assign) MyCppObject *wrapped;
+
+@property (nonatomic,assign) void (^windowShouldClosecCallback)();
 @end
 
 @implementation WindowDelegate
+
+- (void)exampleMethodWithString:(NSString *)str
+{
+    std::string cpp_str([str UTF8String],[str lengthOfBytesUsingEncoding:NSUTF8StringEncoding]);
+
+    self.wrapped->ExampleMethod(cpp_str);
+    NSLog(@"exampleMethodWithString");
+
+}
+- (void)useselfClose:(NSInteger) size
+{
+    self.wrapped->closeFunction();
+
+}
+
+- (id)init
+{
+    if(self =[super init])
+    {
+        //初始化对象
+        self.wrapped = new MyCppObject();
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    delete self.wrapped;
+    [super dealloc];
+}
 
 - (void)windowDidExitFullScreen:(NSNotification *)notification
 {
@@ -34,40 +66,60 @@
     // window.styleMask |= NSFullSizeContentViewWindowMask;
       NSLog(@"windowDidExitFullScreen --%@", notification);
    NSWindow *window = notification.object;
-   window.styleMask |= NSFullSizeContentViewWindowMask;
+
     // NSButton *button = [window standardWindowButton:NSWindowZoomButton];
     // button.hidden = NO;
-    // button.frame = NSMakeRect(button.frame.origin.x, 60, button.frame.size.width, button.frame.size.height);
+    // button.frame = NSMakeRect(button.frame.origin.x, 0, button.frame.size.width, button.frame.size.height);
     // [(NSView *)window.contentView addSubview:button];
     // NSLog(@"button.frame.size.height --%@", button.frame.size.height);
 
     // NSButton *button1 = [window standardWindowButton:NSWindowCloseButton];
     // button1.hidden = NO;
-    // button1.frame = NSMakeRect(button1.frame.origin.x, 60, button1.frame.size.width, button1.frame.size.height);
+    // button1.frame = NSMakeRect(button1.frame.origin.x, 0, button1.frame.size.width, button1.frame.size.height);
     // [(NSView *)window.contentView  addSubview:button1];
 
 
     // NSButton *button2 = [window standardWindowButton:NSWindowMiniaturizeButton];
     // button2.hidden = NO;
-    // button2.frame = NSMakeRect(button2.frame.origin.x, 60, button2.frame.size.width, button2.frame.size.height);
+    // button2.frame = NSMakeRect(button2.frame.origin.x, 0, button2.frame.size.width, button2.frame.size.height);
     // [(NSView *)window.contentView addSubview:button2];
+
+        // NSTitlebarAccessoryViewController *vc = [[NSTitlebarAccessoryViewController alloc] init];
+        // vc.view = [[NSView alloc] initWithFrame:((NSView *)window.contentView).frame];
+        // [window addTitlebarAccessoryViewController:vc];
+
+        // NSButton *button = [window standardWindowButton:NSWindowZoomButton];
+        // NSRect rect = button.frame;
+        // rect.origin.y -= 10;
+        // button.frame = rect;
+
+     window.styleMask |= NSFullSizeContentViewWindowMask;
 }
 
 - (BOOL)windowShouldClose:(NSWindow *)sender
 {
     //重构退出
     NSLog(@"windowShouldClose");
-    exit(0);
-    return YES;
+    [self exampleMethodWithString:@"window close example"];
+
+    [self useselfClose:0];
+    if(self.windowShouldClosecCallback)
+    {
+        self.windowShouldClosecCallback();
+
+    }
+    return NO;
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+    //重构退出
+    NSLog(@"windowWillClose");
+  //  exit(0);
 }
 @end
 
-MacWindow::MacWindow(QWindow *window, QWindow *accessoryWindow)
-:m_window(window)
-,m_accessoryWindow(accessoryWindow)
-{
 
-}
 MacWindow::MacWindow()
 {
 
@@ -76,73 +128,46 @@ MacWindow::MacWindow()
 void MacWindow::setContentWindow(QWindow *contentWindow)
 {
     m_window = contentWindow;
-//    scheduleRecreateNSWindow();
-}
-
-void MacWindow::setLeftAcccessoryWindow(QWindow *leftAccessoryWindow)
-{
-    m_accessoryWindow = leftAccessoryWindow;
-    scheduleRecreateNSWindow();
-}
-
-void MacWindow::setRightAcccessoryWindow(QWindow *rightAccessoryWindow)
-{
-    m_rightAccessoryWindow = rightAccessoryWindow;
-    scheduleRecreateNSWindow();
 }
 
 void MacWindow::createNSWindow()
 {
     qDebug() << "createNSWindow";
-
-#if 0
-    if (m_nsWindow)
-        return;
-    auto styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
-                     NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSFullSizeContentViewWindowMask;
-
-    if (true)
-        styleMask |= NSFullSizeContentViewWindowMask;
-
-    NSRect frame = NSMakeRect(m_window->x(), m_window->y(), m_window->width(), m_window->height());
-    m_nsWindow =
-        [[NSWindow alloc] initWithContentRect:frame
-                                    styleMask:styleMask
-                                      backing:NSBackingStoreBuffered
-                                        defer:NO];
-
-    m_nsWindow.titleVisibility = m_titleVisibility ? NSWindowTitleVisible : NSWindowTitleHidden;
-    m_nsWindow.title = m_titleText.toNSString();
-    m_nsWindow.titlebarAppearsTransparent = true;
-    m_nsWindow.movableByWindowBackground = true;
-    if (m_toolbarEnabled) {
-        NSToolbar *toolbar = [[NSToolbar alloc] initWithIdentifier:@"main"];
-        toolbar.showsBaselineSeparator = false;
-        m_nsWindow.toolbar = toolbar;
-    }
-    m_nsWindow.contentView = (__bridge NSView *)reinterpret_cast<void *>(m_window->winId());
-#else
     if (m_nsWindow)
         return;
 
     NSView *view = (__bridge NSView *)reinterpret_cast<void *>(m_window->winId());
     NSWindow *window = [view window];
-    window.delegate = [[WindowDelegate alloc] init];
+
+
+    WindowDelegate *delegate = [[WindowDelegate alloc] init];
+    delegate.topY = 10.0;
+    m_macAppObject =  delegate.wrapped;
+
+    [delegate exampleMethodWithString:@"hello"];
+
+    delegate.windowShouldClosecCallback = ^(){
+
+            //   destroyNSWindow();
+             printf("windowShouldClosecCallback\n");
+         };
+    window.delegate = delegate;
+
     m_nsWindow = window;
     m_nsWindow.titleVisibility = m_titleVisibility ? NSWindowTitleVisible : NSWindowTitleHidden;
     m_nsWindow.titlebarAppearsTransparent = m_titlebarAppearsTransparent;
-    m_nsWindow.styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
-                         NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSFullSizeContentViewWindowMask;
-#endif
+    m_nsWindow.styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable| NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
+                         | NSFullSizeContentViewWindowMask;
+
 
 }
 
 void MacWindow::destroyNSWindow()
 {
-    @autoreleasepool {
-        [m_nsWindow close];
-        m_nsWindow = nil;
-    }
+     @autoreleasepool {
+         [m_nsWindow close];
+         m_nsWindow = nil;
+     }
 }
 
 void MacWindow::recreateNSWindow()
@@ -159,16 +184,12 @@ void MacWindow::recreateNSWindow()
 
 void MacWindow::scheduleRecreateNSWindow()
 {
-//    QTimer::singleShot(0, [this](){
-//        recreateNSWindow();
-//    });
 }
 
 void MacWindow::setFullSizeContentView(bool enable)
 {
     if (m_fullSizeContentView == enable)
         return;
-
     m_fullSizeContentView = enable;
     scheduleRecreateNSWindow();
 }
@@ -184,7 +205,6 @@ void MacWindow::setTitlebarAppearsTransparent(bool enable)
         return;
 
     m_titlebarAppearsTransparent = enable ? YES : NO;
-//    scheduleRecreateNSWindow();
 }
 
 bool MacWindow::titlebarAppearsTransparent() const
@@ -192,52 +212,13 @@ bool MacWindow::titlebarAppearsTransparent() const
     return m_titlebarAppearsTransparent;
 }
 
-void MacWindow::setToolbarEnabled(bool enable)
-{
-    if (m_toolbarEnabled == enable)
-        return;
 
-    m_toolbarEnabled = enable;
-//    scheduleRecreateNSWindow();
-}
-
-bool MacWindow::toolbarEnabled() const
-{
-    return m_toolbarEnabled;
-}
-
-void MacWindow::setShowsBaselineSeparator(bool enable)
-{
-    if (m_showsBaselineSeparator == enable)
-        return;
-
-    m_showsBaselineSeparator = enable;
-    scheduleRecreateNSWindow();
-}
-
-bool MacWindow::showsBaselineSeparator() const
-{
-    return m_showsBaselineSeparator;
-}
 
 void MacWindow::setTitleVisibility(bool enable)
 {
     if (m_titleVisibility == enable)
         return;
-
     m_titleVisibility = enable;
-//    if (m_nsWindow)
-//        return;
-
-//    NSView *view = (__bridge NSView *)reinterpret_cast<void *>(m_window->winId());
-//    NSWindow *window = [view window];
-//    window.delegate = [[WindowDelegate alloc] init];
-//    m_nsWindow = window;
-//    m_nsWindow.titleVisibility = m_titleVisibility ? NSWindowTitleVisible : NSWindowTitleHidden;
-//    m_nsWindow.titlebarAppearsTransparent = YES;
-//    m_nsWindow.styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable |
-//                         NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable | NSFullSizeContentViewWindowMask;
-//    [m_nsWindow makeKeyAndOrderFront:nil];
 }
 
 bool MacWindow::titleVisibility() const
@@ -261,4 +242,12 @@ void MacWindow::show()
 {
     setVisible(true);
 }
+// void MacWindow::setMacObject(MyCppObject *cppObject)
+// {
+//     m_macAppObject = cppObject;
+// }
 
+MyCppObject *MacWindow::getMacAppObject()
+{
+    return m_macAppObject;
+}
