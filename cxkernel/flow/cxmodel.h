@@ -35,7 +35,7 @@ namespace cxkernel
 
 		TriMeshPtr createGlobalMesh();
 
-		void setVisible(bool visible);
+		void setVisible(bool visible) override;
 		ModelEntity* entity();
 	protected:
 		void updateMatrix();
