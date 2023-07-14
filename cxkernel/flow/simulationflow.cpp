@@ -229,6 +229,30 @@ namespace cxkernel
 			entity->setGeometry(qcxutil::createTriangles(tris), Qt3DRender::QGeometryRenderer::Triangles);
 	}
 
+	void SimulationFlow::_transform(const QString& name, const QMatrix4x4& m)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		_transform(entity, m);
+	}
+
+	void SimulationFlow::_transform(qtuser_3d::XEntity* entity, const QMatrix4x4& m)
+	{
+		if (entity)
+			entity->setModelMatrix(m);
+	}
+
+	void SimulationFlow::_bind(const QString& name, CXModelPtr model)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		_bind(entity, model);
+	}
+
+	void SimulationFlow::_bind(qtuser_3d::XEntity* entity, CXModelPtr model)
+	{
+		if (entity && model)
+			entity->setParent(model->entity());
+	}
+
 	cxkernel::PureEntity* SimulationFlow::createPure(const QString& name)
 	{
 		cxkernel::PureEntity* entity = new cxkernel::PureEntity(this);
