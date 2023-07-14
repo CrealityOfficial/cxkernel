@@ -29,7 +29,8 @@ namespace cxkernel
 		CXModelPtr model(int index);
 
 		void copyMesh(TriMeshPtr mesh);
-		void addMesh(TriMeshPtr mesh, bool toCenter = false);
+		void addRawMesh(TriMeshPtr mesh);
+		void addMesh(TriMeshPtr mesh, const ModelNDataCreateParam& param = ModelNDataCreateParam());
 		void pushModel(ModelNDataPtr data, bool lowerZ = true);
 		void pushModels(const QList<ModelNDataPtr>& datas, bool lowerZ = true);
 		void clearModels();
@@ -72,6 +73,8 @@ namespace cxkernel
 		void circleDirectory(const QString& directory, circleLoadFunc func);
 
 		void insert(CXModelPtr model);
+
+		void runAnonymous(anonymous_func workFunc, anonymous_func successFunc);
 	protected:
 		qtuser_3d::ColorPicker* m_picker;
 		qtuser_3d::Selector* m_selector;

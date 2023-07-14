@@ -3,6 +3,7 @@
 
 #include "qcxutil/trimesh2/conv.h"
 #include "cxkernel/utils/layoutjob.h"
+#include "cxkernel/utils/anonymousjob.h"
 
 #include "cxkernel/interface/jobsinterface.h"
 #include <QtCore/QDir>
@@ -101,10 +102,18 @@ namespace cxkernel
 		TriMeshPtr newMesh(new trimesh::TriMesh());
 		*newMesh = *mesh;
 
-		addMesh(newMesh, true);
+		addMesh(newMesh);
 	}
 
-	void SimulationFlow::addMesh(TriMeshPtr mesh, bool toCenter)
+	void SimulationFlow::addRawMesh(TriMeshPtr mesh)
+	{
+		cxkernel::ModelNDataCreateParam param;
+		param.dumplicate = true;
+		param.toCenter = false;
+		addMesh(mesh, param);
+	}
+
+	void SimulationFlow::addMesh(TriMeshPtr mesh, const ModelNDataCreateParam& param)
 	{
 		if (!mesh)
 			return;
@@ -112,11 +121,8 @@ namespace cxkernel
 		cxkernel::ModelCreateInput input;
 		input.mesh = mesh;
 
-		cxkernel::ModelNDataCreateParam param;
-		param.toCenter = toCenter;
-
 		cxkernel::ModelNDataPtr data = cxkernel::createModelNData(input, nullptr, param);
-		pushModel(data, toCenter);
+		pushModel(data, param.toCenter);
 	}
 
 	void SimulationFlow::pushModel(ModelNDataPtr data, bool lowerZ)
@@ -315,6 +321,12 @@ namespace cxkernel
 		job->setModels(__models);
 		job->setInsert(model);
 
+		cxkernel::executeJob(job);
+	}
+
+	void SimulationFlow::runAnonymous(anonymous_func workFunc, anonymous_func successFunc)
+	{
+		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, this);
 		cxkernel::executeJob(job);
 	}
 }

@@ -9,6 +9,8 @@ __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
 set(LIBS)
+set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud)
+
 if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib)
 	elseif(CC_BC_MAC)
@@ -17,11 +19,11 @@ if(CC_BC_WIN)
 	${CMAKE_CURRENT_SOURCE_DIR}/macwindow/mycppobject.h ${CMAKE_CURRENT_SOURCE_DIR}/macwindow/mycppobject.cpp)
 	find_library(APP_KIT Appkit Foundation)
 endif()
+
 if(CC_BC_MAC)
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud ${APP_KIT} )
-else()
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud)
+list(APPEND ILIBS ${APP_KIT})
 endif()
+
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
 
