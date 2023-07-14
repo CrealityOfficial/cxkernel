@@ -173,7 +173,7 @@ namespace cxkernel
 			bool processResult = true;
 			if (param.dumplicate)
 			{
-				processResult = mmesh::dumplicateMeshExTest(input.mesh.get(), tracer);
+				processResult = mmesh::dumplicateMesh(input.mesh.get(), tracer);
 				if (!processResult)
 				{
 					return nullptr;
@@ -191,7 +191,11 @@ namespace cxkernel
 			data->mesh = input.mesh;
 			data->input = input;
 			data->offset = offset;
-			data->hull.reset(qhullWrapper::convex_hull_3d(input.mesh.get()));
+
+			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
+			mmesh::dumplicateMesh(hull);
+
+			data->hull.reset(hull);
 			data->updateRenderData();
 
 			return data;
