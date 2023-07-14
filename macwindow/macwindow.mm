@@ -3,21 +3,58 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-// An NSTitlebarAccessoryViewController that controls a programatically created view
-@interface ProgramaticViewController : NSTitlebarAccessoryViewController
+//重构appdelegate
+@interface  AppDelegate : NSObject <NSApplicationDelegate>
+@property (nonatomic, assign) MyCppObject *wrapped;
 @end
-
-@implementation ProgramaticViewController
-- (id)initWithView: (NSView *)aView
+@implementation  AppDelegate
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    self = [self init];
-    self.view = aView;
-    return self;
+    //这个控制cmd+q 是否被直接响应退出。NSTerminateNow
+    //NSTerminateNow 表示马上退出，这里我们要给弹窗自己控制退出。所以这里要是NSTerminateCancel
+    NSLog(@"applicationShouldTerminate");
+    self.wrapped->closeFunction();
+    return NSTerminateCancel;
+}
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender
+{
+    NSLog(@"applicationShouldTerminateAfterLastWindowClosed");
+    return NO;
+}
+- (BOOL)applicationShouldHandleReopen:(NSApplication *)sender hasVisibleWindows:(BOOL)flag
+{
+    NSLog(@"applicationShouldHandleReopen =%d",flag);
+    return YES;
+}
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification
+{
+   NSLog(@"applicationWillFinishLaunching");
+}
+- (void)applicationDidFinishLaunching:(NSNotification *)notification
+{
+   NSLog(@"applicationDidFinishLaunching");
+
+}
+- (void)applicationWillHide:(NSNotification *)notification
+{
+    NSLog(@"applicationWillHide");
+}
+- (void)applicationDidHide:(NSNotification *)notification
+{
+    NSLog(@"applicationDidHide");
+}
+
+- (void)applicationWillBecomeActive:(NSNotification *)notification
+{
+   NSLog(@"applicationWillBecomeActive");
+}
+
+- (void)applicationDidBecomeActive:(NSNotification *)notification
+{
+   NSLog(@"applicationDidBecomeActive");
 }
 @end
-
-
-//[[NSNotificationCenter defaultCenter]addObserver:self selector@selector (willEnterFull)name:NSWindowWillEnterFullScreenNotification object:nil];
 
 @interface WindowDelegate : NSObject <NSWindowDelegate>
 @property (nonatomic, assign) float topY;
@@ -62,52 +99,16 @@
 {
     //重构退出全屏操作
     NSLog(@"windowDidExitFullScreen");
-    // NSWindow *window = notification.object;
-    // window.styleMask |= NSFullSizeContentViewWindowMask;
-      NSLog(@"windowDidExitFullScreen --%@", notification);
-   NSWindow *window = notification.object;
-
-    // NSButton *button = [window standardWindowButton:NSWindowZoomButton];
-    // button.hidden = NO;
-    // button.frame = NSMakeRect(button.frame.origin.x, 0, button.frame.size.width, button.frame.size.height);
-    // [(NSView *)window.contentView addSubview:button];
-    // NSLog(@"button.frame.size.height --%@", button.frame.size.height);
-
-    // NSButton *button1 = [window standardWindowButton:NSWindowCloseButton];
-    // button1.hidden = NO;
-    // button1.frame = NSMakeRect(button1.frame.origin.x, 0, button1.frame.size.width, button1.frame.size.height);
-    // [(NSView *)window.contentView  addSubview:button1];
-
-
-    // NSButton *button2 = [window standardWindowButton:NSWindowMiniaturizeButton];
-    // button2.hidden = NO;
-    // button2.frame = NSMakeRect(button2.frame.origin.x, 0, button2.frame.size.width, button2.frame.size.height);
-    // [(NSView *)window.contentView addSubview:button2];
-
-        // NSTitlebarAccessoryViewController *vc = [[NSTitlebarAccessoryViewController alloc] init];
-        // vc.view = [[NSView alloc] initWithFrame:((NSView *)window.contentView).frame];
-        // [window addTitlebarAccessoryViewController:vc];
-
-        // NSButton *button = [window standardWindowButton:NSWindowZoomButton];
-        // NSRect rect = button.frame;
-        // rect.origin.y -= 10;
-        // button.frame = rect;
-
-     window.styleMask |= NSFullSizeContentViewWindowMask;
+    NSWindow *window = notification.object;
+    window.styleMask |= NSWindowStyleMaskFullSizeContentView;
 }
 
 - (BOOL)windowShouldClose:(NSWindow *)sender
 {
     //重构退出
     NSLog(@"windowShouldClose");
-    [self exampleMethodWithString:@"window close example"];
-
+    // [self exampleMethodWithString:@"window close example"];
     [self useselfClose:0];
-    if(self.windowShouldClosecCallback)
-    {
-        self.windowShouldClosecCallback();
-
-    }
     return NO;
 }
 
@@ -115,7 +116,6 @@
 {
     //重构退出
     NSLog(@"windowWillClose");
-  //  exit(0);
 }
 @end
 
@@ -143,23 +143,23 @@ void MacWindow::createNSWindow()
     WindowDelegate *delegate = [[WindowDelegate alloc] init];
     delegate.topY = 10.0;
     m_macAppObject =  delegate.wrapped;
-
-    [delegate exampleMethodWithString:@"hello"];
-
-    delegate.windowShouldClosecCallback = ^(){
-
-            //   destroyNSWindow();
-             printf("windowShouldClosecCallback\n");
-         };
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(){
+    // 启动一秒之后，重新设置NSAPP的代理。
+    // 代理主要是解决 nsapp 自带的关闭程序，需要弹窗
+    // 这么处理的原因是，直接设置的话，程序打开的时候不是展开的，会被隐藏在任务栏
+                       NSLog(@" 1s");
+                       AppDelegate *myAppDelegate = [[AppDelegate alloc]init];
+                       myAppDelegate.wrapped = delegate.wrapped;
+                       NSApp.delegate = myAppDelegate;
+                   });
     window.delegate = delegate;
-
     m_nsWindow = window;
     m_nsWindow.titleVisibility = m_titleVisibility ? NSWindowTitleVisible : NSWindowTitleHidden;
     m_nsWindow.titlebarAppearsTransparent = m_titlebarAppearsTransparent;
     m_nsWindow.styleMask = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable| NSWindowStyleMaskMiniaturizable | NSWindowStyleMaskResizable
-                         | NSFullSizeContentViewWindowMask;
+                         | NSWindowStyleMaskFullSizeContentView;
 
-
+  
 }
 
 void MacWindow::destroyNSWindow()
