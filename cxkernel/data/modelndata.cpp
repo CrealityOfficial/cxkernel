@@ -85,6 +85,14 @@ namespace cxkernel
 		return b.min.z - offset.z;
 	}
 
+	void ModelNData::calculateFaces()
+	{
+		if (faces.size() == 0)
+		{
+			qhullWrapper::hullFacesFromConvexMesh(hull.get(), faces);
+		}
+	}
+
 	void ModelNData::convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas)
 	{
 		std::vector<trimesh::vec2> hullPoints2D;

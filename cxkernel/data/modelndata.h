@@ -4,6 +4,7 @@
 #include "cxkernel/data/header.h"
 
 #include "qtuser3d/geometry/attribute.h"
+#include "qhullWrapper/hull/hullface.h"
 #include <Qt3DRender/QGeometry>
 
 namespace cxkernel
@@ -41,6 +42,7 @@ namespace cxkernel
 		trimesh::box3 localBox();
 		float localZ();
 
+		void calculateFaces();
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 		TriMeshPtr createGlobalMesh(const trimesh::fxform& matrix);
@@ -48,6 +50,7 @@ namespace cxkernel
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
 		qtuser_3d::GeometryData renderData;
+		std::vector<qhullWrapper::HullFace> faces;
 
 		trimesh::vec3 offset;
 		ModelCreateInput input;
