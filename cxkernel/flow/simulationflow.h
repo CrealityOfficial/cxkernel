@@ -22,7 +22,7 @@ namespace cxkernel
 
 		void init();
 		void uninit();
-	protected:
+
 		virtual void initialize();
 		virtual void unInitialize();
 
