@@ -26,6 +26,7 @@ namespace cxkernel
 		setParameter("ambient", ambient);
 		setParameter("diffuse", diffuse);
 		setParameter("specular", specular);
+		setParameter("checkscope", 0);
 
 		m_remParameter = setParameter("renderModel", 1);
 		m_colorParameter = setParameter("useColor", 0);
