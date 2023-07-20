@@ -43,6 +43,7 @@ namespace cxkernel
 		void viewPrinter();
 		Q_INVOKABLE void viewModels(bool visible);
 
+		Q_INVOKABLE void loadMeshFile(const QString& fileName, bool raw);
 	public slots:
 		void requestCapture(bool capture);
 	protected:

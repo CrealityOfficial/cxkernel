@@ -80,6 +80,19 @@ namespace cxkernel
 			model->setVisible(visible);
 	}
 
+	void SimulationFlow::loadMeshFile(const QString& fileName, bool raw)
+	{
+		TriMeshPtr mesh = cxkernel::loadFromFile(fileName);
+
+		if (!mesh)
+			return;
+
+		if (raw)
+			addRawMesh(mesh);
+		else
+			addMesh(mesh);
+	}
+
 	void SimulationFlow::requestCapture(bool capture)
 	{
 		if (capture)
