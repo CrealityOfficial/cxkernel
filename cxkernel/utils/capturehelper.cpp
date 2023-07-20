@@ -125,7 +125,7 @@ namespace cxkernel
 				m_captureEntity->setGeometry(nullptr);
 		}
 
-		m_colorPicker->setFilterKey(QStringLiteral("modelcapture"), 0);
+		m_colorPicker->setAllFilterKey(QStringLiteral("modelcapture"), 0);
 		
 		m_colorPicker->requestCapture();
 	}
@@ -157,7 +157,7 @@ namespace cxkernel
 		m_func = func;
 		m_colorPicker->requestCapture();
 
-		m_colorPicker->setFilterKey("rt", 0);
+		m_colorPicker->setAllFilterKey("rt", 0);
 
 	}
 
@@ -167,7 +167,7 @@ namespace cxkernel
 
 		if (m_colorPicker)
 		{
-			m_colorPicker->setFilterKey("_pre_capture_finish_", 0);
+			m_colorPicker->setAllFilterKey("_pre_capture_finish_", 0);
 		}
 	}
 
