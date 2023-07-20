@@ -19,7 +19,7 @@ namespace cxkernel
 		: QObject(parent)
 	{
 		m_version = QString("V%1.%2.%3.%4").arg(PROJECT_VERSION_MAJOR).arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH).arg(PROJECT_BUILD_ID);
-		m_bundleName = QString("%1").arg(BUNDLE_NAME);
+		m_bundleName = QString("%1").arg(BUNDLE_NAME).replace("_"," ");
 		m_os = QString("%1").arg(BUILD_OS);
 
 		qApp->setOrganizationName(ORGANIZATION);
