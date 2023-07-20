@@ -10,7 +10,7 @@ namespace cxkernel
 		addRenderPass(pass);
 
 		QVariantList values;
-		values << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
+		values << QVector4D(0.8f, 1.0f, 0.8f, 1.0f)
 			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
 			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
 			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
