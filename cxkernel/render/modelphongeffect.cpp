@@ -28,6 +28,7 @@ namespace cxkernel
 		setParameter("specular", specular);
 
 		m_remParameter = setParameter("renderModel", 1);
+		m_colorParameter = setParameter("useColor", 0);
 
 		qtuser_3d::XRenderPass* pickPass = new qtuser_3d::XRenderPass("pickFace");
 		pickPass->setPassCullFace();
@@ -43,5 +44,10 @@ namespace cxkernel
 	void ModelPhongEffect::setRenderEffectMode(RenderEffectMode mode)
 	{
 		m_remParameter->setValue((int)mode);
+	}
+
+	void ModelPhongEffect::useColor(bool use)
+	{
+		m_colorParameter->setValue(use ? 1 : 0);
 	}
 }

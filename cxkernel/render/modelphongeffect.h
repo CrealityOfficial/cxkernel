@@ -20,8 +20,10 @@ namespace cxkernel
 		virtual ~ModelPhongEffect();
 
 		void setRenderEffectMode(RenderEffectMode mode);
+		void useColor(bool use);
 	protected:
 		Qt3DRender::QParameter* m_remParameter;
+		Qt3DRender::QParameter* m_colorParameter;
 	};
 }
 

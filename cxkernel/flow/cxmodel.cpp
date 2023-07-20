@@ -20,8 +20,17 @@ namespace cxkernel
 	void CXModel::setData(ModelNDataPtr data)
 	{
 		m_data = data;
-		
-		m_entity->setGeometry(m_data ? m_data->createGeometry() : nullptr);
+	
+		if (!m_data)
+			return;
+
+		Qt3DRender::QGeometry* geometry = m_data ? m_data->createGeometry() : nullptr;
+		m_entity->setGeometry(geometry);
+
+		if (m_data && m_data->mesh->colors.size() > 0)
+			renderColor();
+		else
+			renderRaw();
 	}
 
 	ModelNDataPtr CXModel::data()
@@ -40,6 +49,16 @@ namespace cxkernel
 	int CXModel::primitiveNum()
 	{
 		return (int)m_data->mesh->faces.size();
+	}
+
+	void CXModel::renderRaw()
+	{
+		m_entity->mEffect()->useColor(false);
+	}
+
+	void CXModel::renderColor()
+	{
+		m_entity->mEffect()->useColor(true);
 	}
 
 	void CXModel::offset(const trimesh::vec3& offset)

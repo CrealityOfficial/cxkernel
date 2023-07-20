@@ -42,6 +42,9 @@ namespace cxkernel
 		qcxutil::NestDataPtr nestData();
 
 		int primitiveNum() override;   // 0
+
+		void renderRaw();
+		void renderColor();
 	protected:
 		ModelEntity* m_entity;
 		ModelNDataPtr m_data;
