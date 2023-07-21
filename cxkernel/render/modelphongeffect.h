@@ -21,6 +21,7 @@ namespace cxkernel
 
 		void setRenderEffectMode(RenderEffectMode mode);
 		void useColor(bool use);
+		void setColor(const QVector4D& color);
 	protected:
 		Qt3DRender::QParameter* m_remParameter;
 		Qt3DRender::QParameter* m_colorParameter;

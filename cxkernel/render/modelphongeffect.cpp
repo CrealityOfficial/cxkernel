@@ -9,15 +9,7 @@ namespace cxkernel
 		pass->setPassCullFace();
 		addRenderPass(pass);
 
-		QVariantList values;
-		values << QVector4D(0.8f, 1.0f, 0.8f, 1.0f)
-			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
-			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
-			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
-			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f)
-			   << QVector4D(1.0f, 0.54f, 0.0f, 1.0f);
-
-		setParameter("stateColors[0]", values);
+		setColor(QVector4D(1.0f, 1.0f, 0.0f, 1.0f));
 
 		QVector4D ambient(0.3f, 0.3f, 0.3f, 1.0f);
 		QVector4D diffuse(0.65f, 0.65f, 0.65f, 1.0f);
@@ -50,5 +42,18 @@ namespace cxkernel
 	void ModelPhongEffect::useColor(bool use)
 	{
 		m_colorParameter->setValue(use ? 1 : 0);
+	}
+
+	void ModelPhongEffect::setColor(const QVector4D& color)
+	{
+		QVariantList values;
+		values << color
+			<< color
+			<< color
+			<< color
+			<< color
+			<< color;
+
+		setParameter("stateColors[0]", values);
 	}
 }
