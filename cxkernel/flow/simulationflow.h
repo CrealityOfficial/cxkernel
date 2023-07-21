@@ -69,6 +69,7 @@ namespace cxkernel
 		cxkernel::PureEntity* createPure(const QString& name);
 
 		CXModelPtr pick(const QPoint& point, int* primitiveID = nullptr);
+		qtuser_3d::Pickable* pickPickable(const QPoint& point, int* primitiveID = nullptr);
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
 		void circleDirectory(const QString& directory, circleLoadFunc func);

@@ -292,6 +292,11 @@ namespace cxkernel
 		return nullptr;
 	}
 
+	qtuser_3d::Pickable* SimulationFlow::pickPickable(const QPoint& point, int* primitiveID)
+	{
+		return m_selector->check(point, primitiveID);
+	}
+
 	void SimulationFlow::setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode)
 	{
 		if (model)
