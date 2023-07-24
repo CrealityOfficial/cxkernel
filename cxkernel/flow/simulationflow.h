@@ -77,6 +77,7 @@ namespace cxkernel
 		void insert(CXModelPtr model);
 
 		void runAnonymous(anonymous_func workFunc, anonymous_func successFunc);
+		void _requestUpdate();
 	protected:
 		qtuser_3d::ColorPicker* m_picker;
 		qtuser_3d::Selector* m_selector;

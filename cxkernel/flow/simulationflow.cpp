@@ -347,4 +347,10 @@ namespace cxkernel
 		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, this);
 		cxkernel::executeJob(job);
 	}
+
+	void SimulationFlow::_requestUpdate()
+	{
+		m_selector->updateFaceBases();
+		requestCapture(true);
+	}
 }
