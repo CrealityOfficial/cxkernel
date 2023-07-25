@@ -1,8 +1,9 @@
 #include "anonymousjob.h"
+#include "qtusercore/module/progressortracer.h"
 
 namespace cxkernel
 {
-	AnonymousJob::AnonymousJob(anonymous_func wf, anonymous_func sf, QObject* parent)
+	AnonymousJob::AnonymousJob(anonymous_work_func wf, anonymous_func sf, QObject* parent)
 		:Job(parent)
 		, work_func(wf)
 		, success_func(sf)
@@ -38,7 +39,8 @@ namespace cxkernel
 
 	void AnonymousJob::work(qtuser_core::Progressor* progressor)
 	{
+		qtuser_core::ProgressorTracer tracer(progressor);
 		if (work_func)
-			work_func();
+			work_func(&tracer);
 	}
 }

@@ -73,10 +73,11 @@ namespace cxkernel
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
 		void circleDirectory(const QString& directory, circleLoadFunc func);
+		void ansycBatch(const QString& directory, circleLoadFunc func);
 
 		void insert(CXModelPtr model);
 
-		void runAnonymous(anonymous_func workFunc, anonymous_func successFunc);
+		void runAnonymous(anonymous_work_func workFunc, anonymous_func successFunc);
 		void _requestUpdate();
 	protected:
 		qtuser_3d::ColorPicker* m_picker;

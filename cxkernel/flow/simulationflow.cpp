@@ -323,6 +323,42 @@ namespace cxkernel
 			func(fileName);
 	}
 
+	void SimulationFlow::ansycBatch(const QString& directory, circleLoadFunc func)
+	{
+		QList<QString> fileNames;
+
+		QDir dir(directory);
+		QList<QFileInfo> fileInfos = dir.entryInfoList(QStringList(), QDir::Files);
+
+		for (const QFileInfo& fileInfo : fileInfos)
+		{
+			if (fileInfo.isFile())
+				fileNames << fileInfo.absoluteFilePath();
+		}
+
+		auto workFunc = [fileNames, func](ccglobal::Tracer* tracer) {
+			int count = fileNames.count();
+			for (int i = 0; i < count; ++i)
+			{
+				const QString& fileName = fileNames.at(i);
+
+				qDebug() << QString("SimulationFlow::ansycBatch start process [%1]").arg(fileName);
+				func(fileName);
+
+				if (tracer)
+					tracer->progress((float)(i + 1) / (float)count);
+			}
+		};
+
+		auto successFunc = []() {
+			qDebug() << QString("Anonymous job success.");
+		};
+
+		qDebug() << QString("Anonymous job start.");
+		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, this);
+		cxkernel::executeJob(job);
+	}
+
 	void SimulationFlow::insert(CXModelPtr model)
 	{
 		if (!model)
@@ -342,7 +378,7 @@ namespace cxkernel
 		cxkernel::executeJob(job);
 	}
 
-	void SimulationFlow::runAnonymous(anonymous_func workFunc, anonymous_func successFunc)
+	void SimulationFlow::runAnonymous(anonymous_work_func workFunc, anonymous_func successFunc)
 	{
 		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, this);
 		cxkernel::executeJob(job);

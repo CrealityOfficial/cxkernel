@@ -8,7 +8,7 @@ namespace cxkernel
 	class AnonymousJob : public qtuser_core::Job
 	{
 	public:
-		AnonymousJob(anonymous_func wf, anonymous_func sf, QObject* parent = nullptr);
+		AnonymousJob(anonymous_work_func wf, anonymous_func sf, QObject* parent = nullptr);
 		virtual ~AnonymousJob();
 
 	protected:
@@ -19,7 +19,7 @@ namespace cxkernel
 		void work(qtuser_core::Progressor* progressor);    // invoke from worker thread
 
 	protected:
-		anonymous_func work_func;
+		anonymous_work_func work_func;
 		anonymous_func success_func;
 	};
 }
