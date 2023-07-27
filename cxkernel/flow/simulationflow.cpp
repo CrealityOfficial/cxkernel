@@ -236,6 +236,14 @@ namespace cxkernel
 			entity->setGeometry(qcxutil::createLinesGeometry(lines), Qt3DRender::QGeometryRenderer::Lines);
 	}
 
+	void SimulationFlow::_lines(qtuser_3d::XEntity* entity, const std::vector<std::vector<trimesh::vec3>>& lines)
+	{
+		std::vector<trimesh::vec3> ls;
+		for (const std::vector<trimesh::vec3>& l : lines)
+			ls.insert(ls.end(), l.begin(), l.end());
+		_lines(entity, ls);
+	}
+
 	void SimulationFlow::_triangle(const QString& name, const std::vector<trimesh::vec3>& tris)
 	{
 		qtuser_3d::XEntity* entity = _find(name);
