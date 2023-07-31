@@ -334,7 +334,8 @@ namespace cxkernel {
                 Qt3DRender::QTexture2D* t = qtuser_3d::createFromSource(m_darkTextureUrl);
                 setParameter("colorMap", QVariant::fromValue(t));
             }
-
+			setParameter("diffuseLowerLimit", 0.6);
+			setParameter("diffuseUpperLimit", 1.1);
         }
         break;
 
@@ -345,6 +346,8 @@ namespace cxkernel {
                 Qt3DRender::QTexture2D* t = qtuser_3d::createFromSource(m_lightTextureUrl);
                 setParameter("colorMap", QVariant::fromValue(t));
             }
+			setParameter("diffuseLowerLimit", 0.95);
+			setParameter("diffuseUpperLimit", 1.1);
         }
         break;
 
