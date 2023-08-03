@@ -70,6 +70,18 @@ namespace cxkernel
 		cxkernel::invokeQmlJs(script);
 	}
 
+	void CXKernel::createPPlugin(const QString& name)
+	{
+		QString tool = "pplugin;" + name;
+		m_tools->autoGenerate(tool);
+	}
+
+	void CXKernel::createVPlugin(const QString& name)
+	{
+		QString tool = "vplugin;" + name;
+		m_tools->autoGenerate(tool);
+	}
+
 	void CXKernel::initializeContext()
 	{
 
