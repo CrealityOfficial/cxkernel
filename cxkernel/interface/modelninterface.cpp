@@ -1,6 +1,7 @@
 #include "modelninterface.h"
 #include "cxkernel/kernel/cxkernel.h"
 #include "cxkernel/utils/meshloader.h"
+#include "qtusercore/module/cxopenandsavefilemanager.h"
 
 namespace cxkernel
 {
@@ -17,5 +18,10 @@ namespace cxkernel
 	void setLoadParam(const ModelNDataCreateParam& param)
 	{
 		cxKernel->meshLoader()->setParam(param);
+	}
+
+	void cxLoadMeshFile(const QString& fileName)
+	{
+		cxKernel->ioManager()->openWithName(fileName);
 	}
 }

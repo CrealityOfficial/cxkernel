@@ -19,6 +19,7 @@ namespace cxkernel
 	CXKERNEL_API void setModelNDataProcessor(ModelNDataProcessor* processor);
 
 	CXKERNEL_API void setLoadParam(const ModelNDataCreateParam& param);
+	CXKERNEL_API void cxLoadMeshFile(const QString& fileName);
 }
 
 #endif // CXKERNEL_MODELNINTERFACE_1681280986880_H
