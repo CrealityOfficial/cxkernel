@@ -24,4 +24,9 @@ namespace cxkernel
 	{
 		cxKernel->ioManager()->openWithName(fileName);
 	}
+	
+	void reloadModels(const QStringList& modelFileNames)
+	{
+		cxKernel->meshLoader()->load(modelFileNames);
+	}
 }
