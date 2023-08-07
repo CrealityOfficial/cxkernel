@@ -4,9 +4,11 @@
 #include "qtuser3d/geometry/geometrycreatehelper.h"
 #include "qhullWrapper/hull/meshconvex.h"
 #include "mmesh/trimesh/trimeshutil.h"
+#include "mmesh/util/checker.h"
 
 #include "qtusercore/module/progressortracer.h"
-#include <QDebug>
+#include <QtCore/QDebug>
+
 namespace cxkernel
 {
 	ModelNData::ModelNData()
@@ -186,6 +188,12 @@ namespace cxkernel
 				{
 					return nullptr;
 				}
+			}
+
+			bool have = mmesh::checkDegenerateFace(input.mesh.get(), true);
+			if (have)
+			{
+				qDebug() << QString("mmesh::checkDegenerateFace true : [have degenerate face]");
 			}
 
 			input.mesh->clear_bbox();
