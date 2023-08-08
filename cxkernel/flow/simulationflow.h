@@ -63,6 +63,10 @@ namespace cxkernel
 
 		void _triangle(const QString& name, const std::vector<trimesh::vec3>& tris);
 		void _triangle(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& tris);
+
+		void _points(const QString& name, const std::vector<trimesh::vec3>& points);
+		void _points(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& points);
+
 		void _transform(const QString& name, const QMatrix4x4& m);
 		void _transform(qtuser_3d::XEntity* entity, const QMatrix4x4& m);
 		void _bind(const QString& name, CXModelPtr model);

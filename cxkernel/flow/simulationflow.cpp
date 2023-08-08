@@ -256,6 +256,18 @@ namespace cxkernel
 			entity->setGeometry(qcxutil::createTriangles(tris), Qt3DRender::QGeometryRenderer::Triangles);
 	}
 
+	void SimulationFlow::_points(const QString& name, const std::vector<trimesh::vec3>& points)
+	{
+		qtuser_3d::XEntity* entity = _find(name);
+		_points(entity, points);
+	}
+
+	void SimulationFlow::_points(qtuser_3d::XEntity* entity, const std::vector<trimesh::vec3>& points)
+	{
+		if (entity)
+			entity->setGeometry(qcxutil::createPoints(points), Qt3DRender::QGeometryRenderer::Points);
+	}
+
 	void SimulationFlow::_transform(const QString& name, const QMatrix4x4& m)
 	{
 		qtuser_3d::XEntity* entity = _find(name);
