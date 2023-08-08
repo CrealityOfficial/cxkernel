@@ -11,7 +11,7 @@
 
 namespace cxkernel
 {
-	typedef std::function<void(const QString& fileName)> circleLoadFunc;
+	typedef std::function<void(const QString&, ccglobal::Tracer*)> circleLoadFunc;
 	class CXKERNEL_API SimulationFlow : public qtuser_3d::XRenderGraph
 		, public cxkernel::ModelNDataProcessor
 	{

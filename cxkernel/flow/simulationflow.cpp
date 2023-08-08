@@ -4,6 +4,7 @@
 #include "qcxutil/trimesh2/conv.h"
 #include "cxkernel/utils/layoutjob.h"
 #include "cxkernel/utils/anonymousjob.h"
+#include "qtusercore/module/progressortracer.h"
 
 #include "cxkernel/interface/jobsinterface.h"
 #include <QtCore/QDir>
@@ -340,7 +341,7 @@ namespace cxkernel
 		}
 
 		for(const QString& fileName : fileNames)
-			func(fileName);
+			func(fileName, nullptr);
 	}
 
 	void SimulationFlow::ansycBatch(const QString& directory, circleLoadFunc func)
@@ -357,16 +358,20 @@ namespace cxkernel
 		}
 
 		auto workFunc = [fileNames, func](ccglobal::Tracer* tracer) {
+
 			int count = fileNames.count();
 			for (int i = 0; i < count; ++i)
 			{
+				if (tracer)
+				{
+					float delta = 1.0f / (float)count;
+					tracer->resetProgressScope((float)i * delta, (float)(i + 1) * delta);
+				}
+
 				const QString& fileName = fileNames.at(i);
 
 				qDebug() << QString("SimulationFlow::ansycBatch start process [%1]").arg(fileName);
-				func(fileName);
-
-				if (tracer)
-					tracer->progress((float)(i + 1) / (float)count);
+				func(fileName, tracer);
 			}
 		};
 
