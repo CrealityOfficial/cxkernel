@@ -7,7 +7,10 @@
 #include "mmesh/util/checker.h"
 
 #include "qtusercore/module/progressortracer.h"
+
 #include <QtCore/QDebug>
+#include <QtCore/QFile>
+#include <QtCore/QDataStream>
 
 namespace cxkernel
 {

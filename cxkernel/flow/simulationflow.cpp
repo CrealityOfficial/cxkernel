@@ -7,6 +7,8 @@
 #include "qtusercore/module/progressortracer.h"
 
 #include "cxkernel/interface/jobsinterface.h"
+#include "cxkernel/data/modelndataserial.h"
+
 #include <QtCore/QDir>
 
 namespace cxkernel
@@ -92,6 +94,26 @@ namespace cxkernel
 			addRawMesh(mesh);
 		else
 			addMesh(mesh);
+	}
+
+	void SimulationFlow::saveQuickFile(const QString& fileName, int index)
+	{
+		CXModelPtr m = model(index);
+		if (!m)
+			return;
+
+		ModelNDataSerial serial;
+		serial.setData(m->data());
+		serial.save(fileName, nullptr);
+	}
+
+	void SimulationFlow::loadQuickFile(const QString& fileName)
+	{
+		ModelNDataSerial serial;
+		serial.load(fileName, nullptr);
+
+		ModelNDataPtr data = serial.getData();
+		pushModel(data, false);
 	}
 
 	void SimulationFlow::requestCapture(bool capture)

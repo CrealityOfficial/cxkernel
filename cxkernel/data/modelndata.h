@@ -5,6 +5,7 @@
 
 #include "qtuser3d/geometry/attribute.h"
 #include "qhullWrapper/hull/hullface.h"
+
 #include <Qt3DRender/QGeometry>
 
 namespace cxkernel

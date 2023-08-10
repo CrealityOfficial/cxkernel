@@ -44,6 +44,8 @@ namespace cxkernel
 		Q_INVOKABLE void viewModels(bool visible);
 
 		Q_INVOKABLE void loadMeshFile(const QString& fileName, bool raw = false);
+		Q_INVOKABLE void saveQuickFile(const QString& fileName, int index);
+		Q_INVOKABLE void loadQuickFile(const QString& fileName);
 	public slots:
 		void requestCapture(bool capture);
 	protected:
