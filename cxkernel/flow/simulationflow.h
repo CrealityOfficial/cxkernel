@@ -42,6 +42,7 @@ namespace cxkernel
 		void viewBox(const trimesh::box3& box);
 		void viewPrinter();
 		Q_INVOKABLE void viewModels(bool visible);
+		Q_INVOKABLE void renderMode(int index, int mode);
 
 		Q_INVOKABLE void loadMeshFile(const QString& fileName, bool raw = false);
 		Q_INVOKABLE void saveQuickFile(const QString& fileName, int index);

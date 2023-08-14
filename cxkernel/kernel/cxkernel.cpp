@@ -65,9 +65,9 @@ namespace cxkernel
 		m_ioManager->open(m_meshLoader);
 	}
 
-	void CXKernel::invokeScript(const QString& script)
+	QVariant CXKernel::invokeScript(const QString& script)
 	{
-		cxkernel::invokeQmlJs(script);
+		return cxkernel::invokeQmlJs(script);
 	}
 
 	void CXKernel::createPPlugin(const QString& name)

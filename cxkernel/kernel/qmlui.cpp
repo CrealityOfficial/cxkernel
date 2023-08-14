@@ -112,6 +112,7 @@ namespace cxkernel
 		{
 			qDebug() << QString("Qml JavaSript Error [%1].").arg(m_expression->error().toString());
 			m_expression->clearError();
+			ret = QVariant::fromValue(false);
 		}
 		return ret;
 	}

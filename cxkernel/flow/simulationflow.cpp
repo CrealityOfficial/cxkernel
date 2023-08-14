@@ -83,6 +83,14 @@ namespace cxkernel
 			model->setVisible(visible);
 	}
 
+	void SimulationFlow::renderMode(int index, int mode)
+	{
+		CXModelPtr m = model(index);
+
+		if (m)
+			setModelRenderEffectMode(m, (cxkernel::RenderEffectMode)mode);
+	}
+
 	void SimulationFlow::loadMeshFile(const QString& fileName, bool raw)
 	{
 		TriMeshPtr mesh = cxkernel::loadFromFile(fileName);
