@@ -2,6 +2,7 @@
 #include "qcxutil/trimesh2/conv.h"
 #include "mmesh/trimesh/algrithm3d.h"
 #include "mmesh/util/mnode.h"
+#include "cxnd/algrithm/raymesh.h"
 
 namespace cxkernel
 {
@@ -163,6 +164,22 @@ namespace cxkernel
 	ModelEntity* CXModel::entity()
 	{
 		return m_entity;
+	}
+
+	bool CXModel::rayCheck(int primitiveID, const cxnd::Ray& ray, trimesh::vec3& collide, trimesh::vec3* normal)
+	{
+		if (!m_data || !m_data->mesh)
+			return false;
+
+		trimesh::vec3 tposition, tnormal;
+		bool result = cxnd::rayMeshCheck(m_data->mesh.get(), matrix(), primitiveID, ray, tposition, tnormal);
+		if (result)
+		{
+			collide = tposition;
+			if (normal)
+				*normal = tnormal;
+		}
+		return result;
 	}
 
 	void CXModel::updateMatrix()

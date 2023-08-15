@@ -37,6 +37,8 @@ namespace cxkernel
 
 		void setVisible(bool visible) override;
 		ModelEntity* entity();
+
+		bool rayCheck(int primitiveID, const cxnd::Ray& ray, trimesh::vec3& collide, trimesh::vec3* normal);
 	protected:
 		void updateMatrix();
 		qcxutil::NestDataPtr nestData();

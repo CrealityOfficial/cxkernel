@@ -81,6 +81,8 @@ namespace cxkernel
 
 		CXModelPtr pick(const QPoint& point, int* primitiveID = nullptr);
 		qtuser_3d::Pickable* pickPickable(const QPoint& point, int* primitiveID = nullptr);
+		CXModelPtr checkPickModel(const QPoint& point, trimesh::vec3& position, trimesh::vec3& normal, int* primitiveID = nullptr);
+		cxnd::Ray visRay(const QPoint& point);
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
 		void updateModelColor(CXModelPtr model, const QByteArray& bytes);

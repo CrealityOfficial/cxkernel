@@ -5,6 +5,7 @@
 #include "cxkernel/utils/layoutjob.h"
 #include "cxkernel/utils/anonymousjob.h"
 #include "qtusercore/module/progressortracer.h"
+#include "qtuser3d/camera/screencamera.h"
 
 #include "cxkernel/interface/jobsinterface.h"
 #include "cxkernel/data/modelndataserial.h"
@@ -351,6 +352,31 @@ namespace cxkernel
 	qtuser_3d::Pickable* SimulationFlow::pickPickable(const QPoint& point, int* primitiveID)
 	{
 		return m_selector->check(point, primitiveID);
+	}
+
+	CXModelPtr SimulationFlow::checkPickModel(const QPoint& point, trimesh::vec3& position, trimesh::vec3& normal, int* primitiveID)
+	{
+		int _primitiveID = -1;
+		CXModelPtr model = pick(point, &_primitiveID);
+		if (model)
+		{
+			model->rayCheck(_primitiveID, visRay(point), position, &normal);
+		}
+		if (primitiveID)
+		{
+			*primitiveID = _primitiveID;
+		}
+		return model;
+	}
+
+	cxnd::Ray SimulationFlow::visRay(const QPoint& point)
+	{
+		qtuser_3d::Ray _ray = m_screenCamera->screenRay(point);
+
+		cxnd::Ray ray;
+		ray.start = qcxutil::qVector3D2Vec3(_ray.start);
+		ray.dir = qcxutil::qVector3D2Vec3(_ray.dir);
+		return ray;
 	}
 
 	void SimulationFlow::setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode)
