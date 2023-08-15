@@ -72,6 +72,11 @@ namespace cxkernel
 		m_cameraController->home(qcxutil::triBox2Box3D(box));
 	}
 
+	void SimulationFlow::home()
+	{
+		viewPrinter();
+	}
+
 	void SimulationFlow::viewPrinter()
 	{
 		m_cameraController->home(qcxutil::triBox2Box3D(m_printer->boundingBox()));
@@ -355,6 +360,15 @@ namespace cxkernel
 			ModelPhongEffect* effect = model->entity()->mEffect();
 			effect->setRenderEffectMode(mode);
 		}
+	}
+
+	void SimulationFlow::updateModelColor(CXModelPtr model, const QByteArray& bytes)
+	{
+		if (!model)
+			return;
+
+		model->entity()->mEffect()->useColor(true);
+		model->entity()->updateAttribute(2, bytes);
 	}
 
 	void SimulationFlow::circleDirectory(const QString& directory, circleLoadFunc func)

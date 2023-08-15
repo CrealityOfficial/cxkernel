@@ -40,7 +40,9 @@ namespace cxkernel
 		void showPrinter(bool show);
 
 		void viewBox(const trimesh::box3& box);
-		void viewPrinter();
+
+		Q_INVOKABLE void home();
+		Q_INVOKABLE void viewPrinter();
 		Q_INVOKABLE void viewModels(bool visible);
 		Q_INVOKABLE void renderMode(int index, int mode);
 
@@ -81,6 +83,8 @@ namespace cxkernel
 		qtuser_3d::Pickable* pickPickable(const QPoint& point, int* primitiveID = nullptr);
 
 		void setModelRenderEffectMode(CXModelPtr model, RenderEffectMode mode);
+		void updateModelColor(CXModelPtr model, const QByteArray& bytes);
+
 		void circleDirectory(const QString& directory, circleLoadFunc func);
 		void ansycBatch(const QString& directory, circleLoadFunc func);
 

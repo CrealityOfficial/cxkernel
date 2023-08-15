@@ -112,9 +112,24 @@ namespace cxkernel
 		{
 			qDebug() << QString("Qml JavaSript Error [%1].").arg(m_expression->error().toString());
 			m_expression->clearError();
-			ret = QVariant::fromValue(false);
 		}
 		return ret;
+	}
+
+	bool QmlUI::invokeQmlJsRt(const QString& script)
+	{
+		qDebug() << QString("QmlUI::invokeQmlJs : [%1]").arg(script);
+
+		m_expression->setExpression(script);
+		QVariant ret = m_expression->evaluate();
+
+		if (m_expression->hasError())
+		{
+			qDebug() << QString("Qml JavaSript Error [%1].").arg(m_expression->error().toString());
+			m_expression->clearError();
+			return false;
+		}
+		return true;
 	}
 
 	QJSValue QmlUI::invokeJS(const QString& script, const QString& name, QObject* context)

@@ -70,6 +70,11 @@ namespace cxkernel
 		return cxkernel::invokeQmlJs(script);
 	}
 
+	bool CXKernel::invokeScriptRet(const QString& script)
+	{
+		return m_qmlUI->invokeQmlJsRt(script);
+	}
+
 	void CXKernel::createPPlugin(const QString& name)
 	{
 		QString tool = "pplugin;" + name;

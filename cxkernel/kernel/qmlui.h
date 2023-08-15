@@ -28,6 +28,7 @@ namespace cxkernel
 		Q_INVOKABLE QObject* itemByName(const QString& name);
 
 		Q_INVOKABLE QVariant invokeQmlJs(const QString& script);
+		Q_INVOKABLE bool invokeQmlJsRt(const QString& script);
 		Q_INVOKABLE QJSValue invokeJS(const QString& script, const QString& name, QObject* context);
 	protected:
 		QQmlApplicationEngine* m_engine;
