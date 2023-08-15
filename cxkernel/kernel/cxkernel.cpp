@@ -38,7 +38,7 @@ namespace cxkernel
 		m_meshLoader = new MeshLoader(this);
 		m_dumpProxy = new DumpProxy(this);
 		m_undoProxy = new qtuser_core::UndoProxy(this);
-		cxcloud_ = new cxcloud::ServiceCenter(this);
+		cxcloud_ = new cxcloud::ServiceCenter(m_const->version(), this);
 		m_qmlUI = new QmlUI(this);
 		m_tools = new Tools(this);
 		m_deviceUtil = new DeviceUtil(this);
@@ -112,7 +112,7 @@ namespace cxkernel
 
 		if (!m_context || !qmlFile.exists())
 			return false;
-		
+
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 		m_context->setContextProperty("cxkernel_kernel", this);
@@ -158,7 +158,7 @@ namespace cxkernel
 
 	qtuser_core::CreativePluginCenter* CXKernel::cxPluginCenter()
 	{
-		return m_creativePluginCenter; 
+		return m_creativePluginCenter;
 	}
 
 	qtuser_core::CXFileOpenAndSaveManager* CXKernel::ioManager()
