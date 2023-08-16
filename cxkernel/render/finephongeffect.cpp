@@ -6,7 +6,7 @@ namespace cxkernel
 	FinePhongEffect::FinePhongEffect(Qt3DCore::QNode* parent)
 		: XEffect(parent)
 	{
-		addRenderPass(new qtuser_3d::XRenderPass("finephong"));
+		addRenderPass(new qtuser_3d::XRenderPass("phong"));
 		addPassFilter(0, "view");
 	}
 
