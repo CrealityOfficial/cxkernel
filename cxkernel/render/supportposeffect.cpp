@@ -6,7 +6,7 @@ namespace cxkernel
 	SupportPosEffect::SupportPosEffect(Qt3DCore::QNode* parent)
 		: XEffect(parent)
 	{
-		addRenderPass(new qtuser_3d::XRenderPass("supportpos"));
+		addRenderPass(new qtuser_3d::XRenderPass("phong"));
 	}
 
 	SupportPosEffect::~SupportPosEffect()
