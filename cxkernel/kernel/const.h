@@ -2,27 +2,32 @@
 #define CXKERNEL_GLOBALCONST_1672882923747_H
 
 #include <QtCore/QObject>
+#include <QtCore/QString>
+
 #include "cxkernel/cxkernelinterface.h"
 
-namespace cxkernel
-{
-	class CXKERNEL_API CXKernelConst : public QObject
-	{
-		Q_OBJECT
-	public:
-		CXKernelConst(QObject* parent = nullptr);
-		virtual ~CXKernelConst();
+namespace cxkernel {
 
-		Q_INVOKABLE const QString& version() const;
-		Q_INVOKABLE const QString& os() const;
-		Q_INVOKABLE const QString& bundleName() const;
+  class CXKERNEL_API CXKernelConst : public QObject {
+    Q_OBJECT;
+    Q_PROPERTY(QString version READ version CONSTANT);
+    Q_PROPERTY(QString versionExtra READ versionExtra CONSTANT);
+    Q_PROPERTY(QString os READ os CONSTANT);
+    Q_PROPERTY(QString bundleName READ bundleName CONSTANT);
 
-		QString writableLocation(const QString& subDir, const QString& subSubDir = QString());
-	protected:
-		QString m_version;
-		QString m_os;
-		QString m_bundleName;
-	};
-}
+   public:
+    explicit CXKernelConst(QObject* parent = nullptr);
+    virtual ~CXKernelConst() = default;
 
-#endif // CXKERNEL_GLOBALCONST_1672882923747_H
+   public:
+    QString version() const;
+    QString versionExtra() const;
+    QString os() const;
+    QString bundleName() const;
+
+    QString writableLocation(const QString& subDir, const QString& subSubDir = QString());
+  };
+
+}  // namespace cxkernel
+
+#endif  // CXKERNEL_GLOBALCONST_1672882923747_H

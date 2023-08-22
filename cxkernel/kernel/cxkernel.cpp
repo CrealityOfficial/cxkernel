@@ -22,16 +22,26 @@
 namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
+
 	CXKernel::CXKernel(QObject* parent)
-		: ContextBase(parent)
-		, m_engine(nullptr)
-		, m_context(nullptr)
-	{
-		if (cxKernel)
+			: CXKernel{
+					[this]() { return new CXKernelConst{ this }; },
+					parent,
+				} {}
+
+	CXKernel::CXKernel(CXKernelConstCreater const_creater, QObject* parent)
+			: ContextBase(parent)
+			, m_engine(nullptr)
+			, m_context(nullptr) {
+		if (cxKernel) {
 			qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
+		}
 
 		cxKernel = this;
-		m_const = new CXKernelConst(this);
+
+		assert(const_creater != nullptr && "const_creater is nullptr");
+		m_const = const_creater();
+
 		m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
 		m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
 		m_jobExecutor = new qtuser_core::JobExecutor(this);
@@ -43,6 +53,28 @@ namespace cxkernel
 		m_tools = new Tools(this);
 		m_deviceUtil = new DeviceUtil(this);
 	}
+
+	// CXKernel::CXKernel(QObject* parent)
+	// 	: ContextBase(parent)
+	// 	, m_engine(nullptr)
+	// 	, m_context(nullptr)
+	// {
+	// 	if (cxKernel)
+	// 		qDebug() << QString("CXKernel::CXKernel error. cxKernel intialized.");
+
+	// 	cxKernel = this;
+	// 	m_const = new CXKernelConst(this);
+	// 	m_ioManager = new qtuser_core::CXFileOpenAndSaveManager(this);
+	// 	m_creativePluginCenter = new qtuser_core::CreativePluginCenter(this);
+	// 	m_jobExecutor = new qtuser_core::JobExecutor(this);
+	// 	m_meshLoader = new MeshLoader(this);
+	// 	m_dumpProxy = new DumpProxy(this);
+	// 	m_undoProxy = new qtuser_core::UndoProxy(this);
+	// 	cxcloud_ = new cxcloud::ServiceCenter(m_const->version(), this);
+	// 	m_qmlUI = new QmlUI(this);
+	// 	m_tools = new Tools(this);
+	// 	m_deviceUtil = new DeviceUtil(this);
+	// }
 
 	CXKernel::~CXKernel()
 	{
@@ -121,6 +153,7 @@ namespace cxkernel
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 		m_context->setContextProperty("cxkernel_kernel", this);
+		m_context->setContextProperty("cxkernel_const", m_const);
 		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
 		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
 		m_context->setContextProperty("cxkernel_undo", m_undoProxy);

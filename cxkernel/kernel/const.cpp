@@ -1,65 +1,55 @@
-﻿#include "const.h"
-#include "buildinfo.h"
+#include "cxkernel/kernel/const.h"
 
 #include <fstream>
 
 #include <QtCore/QCoreApplication>
-#include <QtCore/QSettings>
-#include <QtCore/QStandardPaths>
 #include <QtCore/QDir>
-#include <QtCore/QDebug>
 
-#include "qtusercore/string/resourcesfinder.h"
-#include "qtusercore/module/systemutil.h"
+#include <buildinfo.h>
 
-#pragma execution_character_set("utf-8")
-namespace cxkernel
-{
-	CXKernelConst::CXKernelConst(QObject* parent)
-		: QObject(parent)
-	{
-		m_version = QString("V%1.%2.%3.%4").arg(PROJECT_VERSION_MAJOR).arg(PROJECT_VERSION_MINOR).arg(PROJECT_VERSION_PATCH).arg(PROJECT_BUILD_ID);
-		m_bundleName = QString("%1").arg(BUNDLE_NAME);
-		m_os = QString("%1").arg(BUILD_OS);
+#include <qtusercore/module/systemutil.h>
+#include <qtusercore/string/resourcesfinder.h>
 
-		qApp->setOrganizationName(ORGANIZATION);
-		qApp->setOrganizationDomain("CX");
-		qApp->setApplicationName(PROJECT_NAME);
-	}
+namespace cxkernel {
 
-	CXKernelConst::~CXKernelConst()
-	{
+  CXKernelConst::CXKernelConst(QObject* parent)
+      : QObject{ parent } {
+    QCoreApplication::setOrganizationName(QStringLiteral(ORGANIZATION));
+    QCoreApplication::setOrganizationDomain(QStringLiteral("CX"));
+    QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
+  }
 
-	}
+  QString CXKernelConst::version() const {
+    return QStringLiteral("V%1.%2.%3.%4").arg(QString::number(PROJECT_VERSION_MAJOR))
+                                         .arg(QString::number(PROJECT_VERSION_MINOR))
+                                         .arg(QString::number(PROJECT_VERSION_PATCH))
+                                         .arg(QString::number(PROJECT_BUILD_ID));
+  }
 
-	const QString& CXKernelConst::version() const
-	{
-		return m_version;
-	}
+  QString CXKernelConst::versionExtra() const {
+    return QStringLiteral(PROJECT_VERSION_EXTRA);
+  }
 
-	const QString& CXKernelConst::os() const
-	{
-		return m_os;
-	}
+  QString CXKernelConst::os() const {
+    return QStringLiteral(BUILD_OS);
+  }
 
-	const QString& CXKernelConst::bundleName() const
-	{
-		return m_bundleName;
-	}
+  QString CXKernelConst::bundleName() const {
+    return QStringLiteral(BUNDLE_NAME);
+  }
 
-	QString CXKernelConst::writableLocation(const QString& subDir, const QString& subSubDir)
-	{
-		QString prefix = getCanWriteFolder();
-		QString path = QString("%1/%2/").arg(prefix).arg(subDir);
-		if (!subSubDir.isEmpty())
-			path += subSubDir;
+  QString CXKernelConst::writableLocation(const QString& subDir, const QString& subSubDir) {
+    QString path = QStringLiteral("%1/%2/").arg(getCanWriteFolder()).arg(subDir);
+    if (!subSubDir.isEmpty()) {
+      path += subSubDir;
+    }
 
-		QDir tempDir;
-		if (!tempDir.exists(path))
-		{
-			tempDir.mkpath(path);
-		}
+    QDir tempDir;
+    if (!tempDir.exists(path)) {
+      tempDir.mkpath(path);
+    }
 
-		return path;
-	}
-}
+    return path;
+  }
+
+}  // namespace cxkernel

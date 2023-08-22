@@ -1,5 +1,8 @@
 #ifndef CXKERNEL_CXKERNEL_1679400879176_H
 #define CXKERNEL_CXKERNEL_1679400879176_H
+
+#include <functional>
+
 #include "cxkernel/cxkernelinterface.h"
 #include "qtuserquick/main/entry.h"
 #include "qtusercore/module/contextbase.h"
@@ -24,7 +27,10 @@ namespace cxkernel
 	class MeshLoader;
 	class DumpProxy;
 	class QmlUI;
+
 	class CXKernelConst;
+	using CXKernelConstCreater = std::function<CXKernelConst*(void)>;
+
 	class Tools;
 	class DeviceUtil;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
@@ -33,6 +39,7 @@ namespace cxkernel
 		Q_OBJECT
 	public:
 		CXKernel(QObject* parent = nullptr);
+		CXKernel(CXKernelConstCreater const_creater, QObject* parent = nullptr);
 		virtual ~CXKernel();
 
 		Q_INVOKABLE void registerContextObject(const QString& name, QObject* object);
