@@ -35,6 +35,12 @@ namespace cxkernel
 		return qtuser_3d::GeometryCreateHelper::create(renderData, nullptr);
 	}
 
+	Qt3DRender::QGeometry* ModelNData::createIndexGeometry()
+	{
+		updateIndexRenderData();
+		return qtuser_3d::GeometryCreateHelper::indexCreate(renderData, nullptr);
+	}
+
 	void ModelNData::updateRenderData()
 	{
 		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
@@ -44,6 +50,12 @@ namespace cxkernel
 	void ModelNData::updateRenderDataForced()
 	{
 		qcxutil::generateGeometryDataFromMesh(mesh.get(), renderData);
+	}
+
+	void ModelNData::updateIndexRenderData()
+	{
+		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
+			qcxutil::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
@@ -215,7 +227,11 @@ namespace cxkernel
 			mmesh::dumplicateMesh(hull);
 
 			data->hull.reset(hull);
-			data->updateRenderData();
+			
+			if (param.indexRender)
+				data->updateIndexRenderData();
+			else
+				data->updateRenderData();
 
 			return data;
 		}

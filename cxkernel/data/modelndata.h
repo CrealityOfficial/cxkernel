@@ -37,8 +37,10 @@ namespace cxkernel
 
 		int primitiveNum();
 		Qt3DRender::QGeometry* createGeometry();
+		Qt3DRender::QGeometry* createIndexGeometry();
 		void updateRenderData();
 		void updateRenderDataForced();
+		void updateIndexRenderData();
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix = trimesh::fxform::identity());
 		trimesh::box3 localBox();
 		float localZ();
@@ -70,6 +72,7 @@ namespace cxkernel
 	{
 		bool dumplicate = true;
 		bool toCenter = true;
+		bool indexRender = false;
 	};
 	
 	CXKERNEL_API ModelNDataPtr createModelNData(ModelCreateInput input,
