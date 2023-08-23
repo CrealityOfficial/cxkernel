@@ -5,7 +5,7 @@ namespace cxkernel
 	ModelPhongEffect::ModelPhongEffect(Qt3DCore::QNode* parent)
 		: XEffect(parent)
 	{
-		qtuser_3d::XRenderPass* pass = new qtuser_3d::XRenderPass("modelphong");
+		qtuser_3d::XRenderPass* pass = new qtuser_3d::XRenderPass("modelface");
 		pass->setPassCullFace();
 		addRenderPass(pass);
 
@@ -23,7 +23,7 @@ namespace cxkernel
 		m_remParameter = setParameter("renderModel", 1);
 		m_colorParameter = setParameter("useColor", 0);
 
-		qtuser_3d::XRenderPass* pickPass = new qtuser_3d::XRenderPass("pickFace");
+		qtuser_3d::XRenderPass* pickPass = new qtuser_3d::XRenderPass("pickFace_pwd");
 		pickPass->setPassCullFace();
 		addRenderPass(pickPass);
 		setPassBlend(1, Qt3DRender::QBlendEquationArguments::One, Qt3DRender::QBlendEquationArguments::Zero);
