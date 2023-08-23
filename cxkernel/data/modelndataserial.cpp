@@ -58,7 +58,7 @@ namespace cxkernel
 		return 0;
 	}
 
-	bool ModelNDataSerial::save(std::fstream& out, ccglobal::Tracer* tracer)
+	bool ModelNDataSerial::save(boost::nowide::fstream& out, ccglobal::Tracer* tracer)
 	{
 		TriMeshPtr mesh = m_data->mesh;
 		cxnd::saveTrimesh(out, mesh.get());
@@ -68,7 +68,7 @@ namespace cxkernel
 		return true;
 	}
 
-	bool ModelNDataSerial::load(std::fstream& in, int ver, ccglobal::Tracer* tracer)
+	bool ModelNDataSerial::load(boost::nowide::fstream& in, int ver, ccglobal::Tracer* tracer)
 	{
 		if (ver == 0)
 		{

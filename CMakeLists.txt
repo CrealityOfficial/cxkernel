@@ -4,12 +4,14 @@ __cc_find(cxbin)
 __cc_find(QhullWrapper)
 __assert_target(cxbin)
 __assert_target(qhullWrapper)
+__cc_find(Boost)
+__assert_target(boost_nowide)
 
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
 set(LIBS)
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud)
+set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil cxcloud boost_nowide)
 
 if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib)

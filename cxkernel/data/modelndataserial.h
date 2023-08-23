@@ -19,8 +19,8 @@ namespace cxkernel
 
 	protected:
 		int version() override;
-		bool save(std::fstream& out, ccglobal::Tracer* tracer) override;
-		bool load(std::fstream& in, int ver, ccglobal::Tracer* tracer) override;
+		bool save(boost::nowide::fstream& out, ccglobal::Tracer* tracer) override;
+		bool load(boost::nowide::fstream& in, int ver, ccglobal::Tracer* tracer) override;
 	protected:
 		ModelNDataPtr m_data;
 	};
