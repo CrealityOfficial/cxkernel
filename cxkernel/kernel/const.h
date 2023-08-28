@@ -26,6 +26,7 @@ namespace cxkernel {
     QString bundleName() const;
 
     QString writableLocation(const QString& subDir, const QString& subSubDir = QString());
+    Q_INVOKABLE bool useCXCloud();
   };
 
 }  // namespace cxkernel

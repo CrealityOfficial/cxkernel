@@ -8,7 +8,9 @@
 #include "qtusercore/module/jobexecutor.h"
 #include "qtusercore/util/undoproxy.h"
 
+#if USE_CXCLOUD
 #include <cxcloud/service_center.h>
+#endif
 
 #include "cxkernel/utils/meshloader.h"
 #include "cxkernel/utils/dumpproxy.h"
@@ -48,7 +50,9 @@ namespace cxkernel
 		m_meshLoader = new MeshLoader(this);
 		m_dumpProxy = new DumpProxy(this);
 		m_undoProxy = new qtuser_core::UndoProxy(this);
+#if USE_CXCLOUD
 		cxcloud_ = new cxcloud::ServiceCenter(m_const->version(), this);
+#endif
 		m_qmlUI = new QmlUI(this);
 		m_tools = new Tools(this);
 		m_deviceUtil = new DeviceUtil(this);
@@ -157,7 +161,9 @@ namespace cxkernel
 		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
 		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
 		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
+#if USE_CXCLOUD
 		m_context->setContextProperty("cxkernel_cxcloud", cxcloud_);
+#endif
 		m_context->setContextProperty("cxkernel_ui", m_qmlUI);
 		m_context->setContextProperty("cxkernel_tools", m_tools);
 		m_context->setContextProperty("cxkernel_device_util", m_deviceUtil);
@@ -224,9 +230,11 @@ namespace cxkernel
 		return m_undoProxy;
 	}
 
+#if USE_CXCLOUD
 	cxcloud::ServiceCenter* CXKernel::cxcloud() {
 		return cxcloud_;
 	}
+#endif
 
 	QmlUI* CXKernel::qmlUI()
 	{

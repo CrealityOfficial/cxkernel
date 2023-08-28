@@ -52,4 +52,13 @@ namespace cxkernel {
     return path;
   }
 
+  bool CXKernelConst::useCXCloud()
+  {
+#if USE_CXCLOUD
+      return true;
+#else
+      return false;
+#endif
+  }
+
 }  // namespace cxkernel
