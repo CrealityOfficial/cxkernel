@@ -28,7 +28,7 @@ namespace cxkernel
 		CXModelPtr model(int index);
 
 		void copyMesh(TriMeshPtr mesh);
-		void addRawMesh(TriMeshPtr mesh);
+        void addRawMesh(TriMeshPtr mesh, bool toCenter = false);
 		void addMesh(TriMeshPtr mesh, const ModelNDataCreateParam& param = ModelNDataCreateParam());
 		void pushModel(ModelNDataPtr data, bool lowerZ = true);
 		void pushModels(const QList<ModelNDataPtr>& datas, bool lowerZ = true);

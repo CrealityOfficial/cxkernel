@@ -156,11 +156,11 @@ namespace cxkernel
 		addMesh(newMesh);
 	}
 
-	void SimulationFlow::addRawMesh(TriMeshPtr mesh)
+	void SimulationFlow::addRawMesh(TriMeshPtr mesh, bool toCenter)
 	{
 		cxkernel::ModelNDataCreateParam param;
 		param.dumplicate = true;
-		param.toCenter = false;
+		param.toCenter = toCenter;
 		addMesh(mesh, param);
 	}
 
