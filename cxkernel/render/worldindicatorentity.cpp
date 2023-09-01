@@ -11,6 +11,7 @@
 #include <Qt3DRender/QAttribute>
 
 #include <QtCore/qmath.h>
+#include <qtusercore/qtusercoreexport.h> //define Q515
 
 namespace cxkernel {
 
@@ -106,7 +107,12 @@ namespace cxkernel {
         m2.scale(w, h, 1.0f);
         m3.translate(2.0f * x - 1.0f, 2.0f * y - 1.0f);
         viewportMatrix = m3 * m2 * m1;
+#if Q515
+        setParameter("viewport_matrix", viewportMatrix);
+#else
         setParameter("viewportMatrix", viewportMatrix);
+#endif // Q515
+
     }
 
     void WorldIndicatorEntity::setCameraController(qtuser_3d::CameraController* cc)
@@ -233,22 +239,37 @@ namespace cxkernel {
     {
         Qt3DRender::QCamera* camera = sc->camera();
 
+        QVector3D entityPos = QVector3D(0.0, 0.0, 0.0);
+
         QVector3D viewDir = camera->viewVector();
-        QVector3D newPosition = camera->viewCenter() + viewDir.normalized() * -2.0;
+        QVector3D newPosition = entityPos + viewDir.normalized() * -2.0;
 
         QMatrix4x4 model;
-        model.translate(camera->viewCenter());
+        model.translate(entityPos);
         model.rotate(90.0f, QVector3D(1.0, 0.0, 0.0));
+#if Q515
+        setParameter("model_matrix", model);
+#else
         setParameter("modelMatrix", model);
+#endif
+        
 
         QMatrix4x4 view;
-        view.lookAt(newPosition, camera->viewCenter(), camera->upVector());
+        view.lookAt(newPosition, entityPos, camera->upVector());
+#if Q515
+        setParameter("view_matrix", QVariant(view));
+#else
         setParameter("viewMatrix", QVariant(view));
+#endif
 
         QMatrix4x4 projection;
         //projection.perspective(60.0f, 1.0, 1.0, 1000.0);
         projection.ortho(-1, 1, -1, 1, 1.0, 1000.0);
+#if Q515
+        setParameter("projection_matrix", QVariant(projection));
+#else
         setParameter("projectionMatrix", QVariant(projection));
+#endif
 
         setScreenPos(m_showOnPoint);
     }
@@ -317,6 +338,7 @@ namespace cxkernel {
 
     void WorldIndicatorEntity::setupSelectTexture(const QUrl& url)
     {
+        m_selectTextureUrl = url;
         Qt3DRender::QTexture2D* t = qtuser_3d::createFromSource(url);
         setParameter("selectMap", QVariant::fromValue(t));
     }
@@ -355,6 +377,16 @@ namespace cxkernel {
             break;
         }
 
+    }
+
+    void WorldIndicatorEntity::freshTextures()
+    {
+
+#ifdef Q515
+        setTheme(m_theme);
+        const QUrl url = m_selectTextureUrl;
+        setupSelectTexture(url);
+#endif // Q515
     }
 
 }

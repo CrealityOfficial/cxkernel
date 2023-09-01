@@ -46,6 +46,8 @@ namespace cxkernel
 		void setupDarkTexture(const QUrl& url);
 		void setupSelectTexture(const QUrl& url);
 
+		void freshTextures();
+
 	signals:
 		void lambdaChanged();
 
@@ -87,6 +89,7 @@ namespace cxkernel
 		int m_theme;
 		QUrl m_lightTextureUrl;
 		QUrl m_darkTextureUrl;
+		QUrl m_selectTextureUrl;
 	};
 }
 #endif // CXKERNEL_WORLDINDICATORGEOMETRY_H
