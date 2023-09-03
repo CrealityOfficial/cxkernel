@@ -11,7 +11,7 @@ __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
 set(LIBS)
-set(ILIBS ${qtuser} trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil boost_nowide)
+set(ILIBS qtuser_core trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil boost_nowide)
 
 if(TARGET cxcloud)
 	list(APPEND ILIBS cxcloud)

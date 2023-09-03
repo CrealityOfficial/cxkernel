@@ -4,7 +4,7 @@
 #include <functional>
 
 #include "cxkernel/cxkernelinterface.h"
-#include "qtuserquick/main/entry.h"
+#include "qtusercore/main/entry.h"
 #include "qtusercore/module/contextbase.h"
 
 namespace qtuser_core

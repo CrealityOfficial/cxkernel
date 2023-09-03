@@ -1,7 +1,7 @@
 #include "tools.h"
 
 #define INVOKE_BINARY
-#include "qtuser3d/../tools/ShaderBinarization.cpp"
+#include "../../qtuser_3d/tools/ShaderBinarization.cpp"
 #undef INVOKE_BINARY
 
 #include "qtusercore/auto/templatelibrary.h"

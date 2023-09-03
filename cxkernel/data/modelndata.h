@@ -1,9 +1,8 @@
 #ifndef CXKERNEL_MODELNDATA_1681019989200_H
 #define CXKERNEL_MODELNDATA_1681019989200_H
 #include "cxkernel/cxkernelinterface.h"
+#include "cxkernel/data/attribute.h"
 #include "cxkernel/data/header.h"
-
-#include "qtuser3d/geometry/attribute.h"
 #include "qhullWrapper/hull/hullface.h"
 
 #include <Qt3DRender/QGeometry>
@@ -36,8 +35,6 @@ namespace cxkernel
 		~ModelNData();
 
 		int primitiveNum();
-		Qt3DRender::QGeometry* createGeometry();
-		Qt3DRender::QGeometry* createIndexGeometry();
 		void updateRenderData();
 		void updateRenderDataForced();
 		void updateIndexRenderData();
@@ -52,7 +49,7 @@ namespace cxkernel
 
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
-		qtuser_3d::GeometryData renderData;
+		cxkernel::GeometryData renderData;
 		std::vector<qhullWrapper::HullFace> faces;
 
 		trimesh::vec3 offset;

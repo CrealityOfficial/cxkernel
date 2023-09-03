@@ -1,5 +1,5 @@
 #include "deviceutil.h"
-#include "qtuser3d/module/glcompatibility.h"
+#include "qtusercore/module/glcompatibility.h"
 
 namespace cxkernel
 {
@@ -21,11 +21,11 @@ namespace cxkernel
 
 	bool DeviceUtil::isGles()
 	{
-		return qtuser_3d::isGles();
+		return qtuser_core::isGles();
 	}
 
 	bool DeviceUtil::isSoftwareGL()
 	{
-		return qtuser_3d::isSoftwareGL();
+		return qtuser_core::isSoftwareGL();
 	}
 }

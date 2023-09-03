@@ -1,7 +1,6 @@
 #include "modelndata.h"
-#include "qcxutil/trimesh2/q3drender.h"
-#include "qcxutil/trimesh2/trimesh2qgeometryrenderer.h"
-#include "qtuser3d/geometry/geometrycreatehelper.h"
+#include "cxkernel/data/trimesh2qgeometryrenderer.h"
+//#include "qtuser3d/geometry/geometrycreatehelper.h"
 #include "qhullWrapper/hull/meshconvex.h"
 #include "mmesh/trimesh/trimeshutil.h"
 #include "mmesh/util/checker.h"
@@ -29,33 +28,21 @@ namespace cxkernel
 		return mesh ? (int)mesh->faces.size() : 0;
 	}
 
-	Qt3DRender::QGeometry* ModelNData::createGeometry()
-	{
-		updateRenderData();
-		return qtuser_3d::GeometryCreateHelper::create(renderData, nullptr);
-	}
-
-	Qt3DRender::QGeometry* ModelNData::createIndexGeometry()
-	{
-		updateIndexRenderData();
-		return qtuser_3d::GeometryCreateHelper::indexCreate(renderData, nullptr);
-	}
-
 	void ModelNData::updateRenderData()
 	{
 		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-			qcxutil::generateGeometryDataFromMesh(mesh.get(), renderData);
+			cxkernel::generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	void ModelNData::updateRenderDataForced()
 	{
-		qcxutil::generateGeometryDataFromMesh(mesh.get(), renderData);
+		cxkernel::generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	void ModelNData::updateIndexRenderData()
 	{
-		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-			qcxutil::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
+		//if (mesh && ((int)mesh->faces.size() != renderData.fcount))
+		//	qcxutil::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
