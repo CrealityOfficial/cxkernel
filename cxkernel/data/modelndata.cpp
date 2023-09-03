@@ -41,8 +41,8 @@ namespace cxkernel
 
 	void ModelNData::updateIndexRenderData()
 	{
-		//if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-		//	qcxutil::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
+		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
+			cxkernel::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
