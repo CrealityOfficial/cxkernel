@@ -5,8 +5,6 @@
 #include "cxkernel/data/header.h"
 #include "qhullWrapper/hull/hullface.h"
 
-#include <Qt3DRender/QGeometry>
-
 namespace cxkernel
 {
 	enum class ModelNDataType
