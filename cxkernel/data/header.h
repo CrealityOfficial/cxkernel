@@ -16,9 +16,5 @@ typedef std::function<void()> anonymous_func;
 typedef std::function<void(ccglobal::Tracer*)> anonymous_work_func;
 
 typedef std::function<void(const QString&, ccglobal::Tracer*)> circleLoadFunc;
-namespace cxkernel
-{
-	CXKERNEL_API TriMeshPtr loadFromFile(const QString& fileName);
-}
 
 #endif // CXKERNEL_HEADER_1681019989189_H

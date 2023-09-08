@@ -1,6 +1,6 @@
 #include "modelndata.h"
-#include "cxkernel/data/trimesh2qgeometryrenderer.h"
-//#include "qtuser3d/geometry/geometrycreatehelper.h"
+#include "cxkernel/data/trimeshutils.h"
+
 #include "qhullWrapper/hull/meshconvex.h"
 #include "mmesh/trimesh/trimeshutil.h"
 #include "mmesh/util/checker.h"
@@ -31,12 +31,12 @@ namespace cxkernel
 	void ModelNData::updateRenderData()
 	{
 		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-			cxkernel::generateGeometryDataFromMesh(mesh.get(), renderData);
+			generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	void ModelNData::updateRenderDataForced()
 	{
-		cxkernel::generateGeometryDataFromMesh(mesh.get(), renderData);
+		generateGeometryDataFromMesh(mesh.get(), renderData);
 	}
 
 	void ModelNData::updateIndexRenderData()

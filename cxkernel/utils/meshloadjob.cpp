@@ -3,10 +3,8 @@
 #include "qtusercore/module/progressortracer.h"
 #include "qtusercore/string/resourcesfinder.h"
 
-#include "stringutil/util.h"
-#include "cxbin/load.h"
-
 #include "cxkernel/interface/modelninterface.h"
+#include "cxkernel/data/trimeshutils.h"
 
 namespace cxkernel
 {
@@ -58,8 +56,6 @@ namespace cxkernel
 	{
 		qtuser_core::ProgressorTracer tracer(progressor);
 
-		std::wstring strWname = m_fileName.toStdWString();
-		std::string strname = stringutil::wstring2string(strWname);
-		m_mesh = TriMeshPtr(cxbin::loadAll(strname, &tracer));
+		m_mesh = loadMeshFromName(m_fileName, &tracer);
 	}
 }

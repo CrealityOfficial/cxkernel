@@ -1,5 +1,7 @@
 set(CMAKE_CXX_STANDARD 14)
 
+__assert_target(trimesh2)
+
 __cc_find(cxbin)
 __cc_find(QhullWrapper)
 __assert_target(cxbin)
@@ -10,11 +12,15 @@ __assert_target(boost_nowide)
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
-set(LIBS)
-set(ILIBS qtuser_core trimesh2 cxbin stringutil qhullWrapper mmesh qcxutil boost_nowide)
+set(LIBS cxbin)
+set(ILIBS qtuser_core trimesh2 mmesh qcxutil clipper boost_nowide qhullWrapper)
 
 if(TARGET cxcloud)
 	list(APPEND ILIBS cxcloud)
+endif()
+
+if(TARGET topomesh)
+	list(APPEND LIBS topomesh)
 endif()
 
 if(CC_BC_WIN)

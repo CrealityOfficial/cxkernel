@@ -1,6 +1,7 @@
-#include "trimesh2qgeometryrenderer.h"
+#include "trimeshutils.h"
 
-#include <Qt3DRender/QBuffer>
+#include "cxkernel/pure/strs.h"
+#include "cxbin/load.h"
 
 namespace cxkernel
 {
@@ -170,7 +171,14 @@ namespace cxkernel
 			}
 
 		}
+	}
 
+	TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer)
+	{
+		std::wstring strWname = fileName.toStdWString();
+		std::string strname = wstring2String(strWname);
+		TriMeshPtr mesh(cxbin::loadAll(strname, tracer));
+		return mesh;
 	}
 }
 
