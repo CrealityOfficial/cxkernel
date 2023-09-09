@@ -1,6 +1,6 @@
 #include "trimeshutils.h"
 
-#include "cxkernel/pure/strs.h"
+#include "cxnd/utils/str.h"
 #include "cxbin/load.h"
 
 namespace cxkernel
@@ -80,7 +80,7 @@ namespace cxkernel
 					if (i >= mesh->faceUVs.size()
 						|| i >= mesh->textureIDs.size())
 					{
-						//È·±£´«ÈëshaderÖÐµÄÊý¾ÝÕý³£
+						//È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½shaderï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 						texcoordData[3 * i] = trimesh::vec2(-1.0, -1.0);
 						texcoordData[3 * i + 1] = trimesh::vec2(-1.0, -1.0);
 						texcoordData[3 * i + 2] = trimesh::vec2(-1.0, -1.0);
@@ -176,7 +176,7 @@ namespace cxkernel
 	TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer)
 	{
 		std::wstring strWname = fileName.toStdWString();
-		std::string strname = wstring2String(strWname);
+		std::string strname = cxnd::wstring2String(strWname);
 		TriMeshPtr mesh(cxbin::loadAll(strname, tracer));
 		return mesh;
 	}

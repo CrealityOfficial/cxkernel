@@ -1,7 +1,7 @@
 #include "modelndataserial.h"
 
 #include <QtCore/QDebug>
-#include "cxnd/serial/trimeshserial.h"
+#include "trimeshserial.h"
 
 namespace cxkernel
 {
@@ -64,9 +64,9 @@ namespace cxkernel
 	bool ModelNDataSerial::save(std::fstream& out, ccglobal::Tracer* tracer)
 	{
 		TriMeshPtr mesh = m_data->mesh;
-		cxnd::saveTrimesh(out, mesh.get());
+		saveTrimesh(out, mesh.get());
 
-		cxnd::saveTrimesh(out, m_data->hull.get());
+		saveTrimesh(out, m_data->hull.get());
 		cxnd::cxndSaveT<trimesh::vec3>(out, m_data->offset);
 		return true;
 	}
@@ -75,7 +75,7 @@ namespace cxkernel
 	{
 		if (ver == 0)
 		{
-			TriMeshPtr mesh(cxnd::loadTrimesh(in));
+			TriMeshPtr mesh(loadTrimesh(in));
 			if (!mesh)
 				return false;
 
@@ -83,7 +83,7 @@ namespace cxkernel
 			m_data->input.description = QString("quick");
 			m_data->input.mesh = mesh;
 
-			TriMeshPtr hull(cxnd::loadTrimesh(in));
+			TriMeshPtr hull(loadTrimesh(in));
 			m_data->hull = hull;
 			cxnd::cxndLoadT<trimesh::vec3>(in, m_data->offset);
 			return true;
