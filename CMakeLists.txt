@@ -1,5 +1,6 @@
 set(CMAKE_CXX_STANDARD 14)
 
+__cc_find(topomesh)
 __assert_target(trimesh2)
 
 __cc_find(cxbin)
