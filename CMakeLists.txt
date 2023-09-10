@@ -17,10 +17,16 @@ __cc_find(openssl)
 __assert_target(ssl)
 __assert_target(crypto)
 
+__cc_find(libtess2)
+__assert_target(libtess2)
+
+__cc_find(enchase)
+__assert_target(enchase)
+
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
-set(LIBS cxbin cxutil ssl crypto qhullWrapper)
+set(LIBS cxbin cxutil ssl crypto qhullWrapper libtess2 enchase)
 set(ILIBS qtuser_core trimesh2 mmesh cxnd)
 
 if(TARGET cxcloud)
