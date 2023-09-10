@@ -1,8 +1,5 @@
 set(CMAKE_CXX_STANDARD 14)
 
-__cc_find(topomesh)
-__cc_find(nestplacer)
-
 __cc_find(trimesh2)
 __assert_target(trimesh2)
 
@@ -33,12 +30,19 @@ if(TARGET cxcloud)
 	list(APPEND ILIBS cxcloud)
 endif()
 
+__cc_find(topomesh)
 if(TARGET topomesh)
 	list(APPEND LIBS topomesh)
 endif()
 
+__cc_find(nestplacer)
 if(TARGET nestplacer)
 	list(APPEND LIBS nestplacer)
+endif()
+
+__cc_find(sensors_analytics_sdk)
+if(TARGET sensors_analytics_sdk)
+	list(APPEND LIBS sensors_analytics_sdk)
 endif()
 
 if(CC_BC_WIN)
