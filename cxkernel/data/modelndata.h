@@ -3,10 +3,15 @@
 #include "cxkernel/cxkernelinterface.h"
 #include "cxkernel/data/attribute.h"
 #include "cxkernel/data/header.h"
-#include "qhullWrapper/hull/hullface.h"
 
 namespace cxkernel
 {
+	struct KernelHullFace {
+		TriMeshPtr mesh = std::make_shared<trimesh::TriMesh>();
+		trimesh::vec3 normal;
+		float hullarea = 0.0f;
+	};
+
 	enum class ModelNDataType
 	{
 		mdt_none,
@@ -41,6 +46,8 @@ namespace cxkernel
 		float localZ();
 
 		void calculateFaces();
+		void resetHull();
+
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 		TriMeshPtr createGlobalMesh(const trimesh::fxform& matrix);
@@ -48,7 +55,7 @@ namespace cxkernel
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
 		cxkernel::GeometryData renderData;
-		std::vector<qhullWrapper::HullFace> faces;
+		std::vector<KernelHullFace> faces;
 
 		trimesh::vec3 offset;
 		ModelCreateInput input;

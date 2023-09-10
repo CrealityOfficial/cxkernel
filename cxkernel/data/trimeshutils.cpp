@@ -2,6 +2,7 @@
 
 #include "cxnd/utils/str.h"
 #include "cxbin/load.h"
+#include "cxbin/save.h"
 
 namespace cxkernel
 {
@@ -179,6 +180,13 @@ namespace cxkernel
 		std::string strname = cxnd::wstring2String(strWname);
 		TriMeshPtr mesh(cxbin::loadAll(strname, tracer));
 		return mesh;
+	}
+
+	void saveMesh(trimesh::TriMesh* mesh, const QString& fileName)
+	{
+		std::wstring strWname = fileName.toStdWString();
+		std::string strname = cxnd::wstring2String(strWname);
+		cxbin::save(strname, mesh, nullptr);
 	}
 }
 

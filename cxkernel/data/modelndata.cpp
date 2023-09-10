@@ -2,6 +2,8 @@
 #include "cxkernel/data/trimeshutils.h"
 
 #include "qhullWrapper/hull/meshconvex.h"
+#include "qhullWrapper/hull/hullface.h"
+
 #include "mmesh/trimesh/trimeshutil.h"
 #include "mmesh/util/checker.h"
 
@@ -93,7 +95,30 @@ namespace cxkernel
 	{
 		if (faces.size() == 0)
 		{
-			qhullWrapper::hullFacesFromConvexMesh(hull.get(), faces);
+			std::vector<qhullWrapper::HullFace> _faces;
+			qhullWrapper::hullFacesFromConvexMesh(hull.get(), _faces);
+
+			int size = _faces.size();
+			if (size > 0)
+			{
+				faces.resize(size);
+				for (int i = 0; i < size; ++i)
+				{
+					KernelHullFace& face = faces.at(i);
+					const qhullWrapper::HullFace& _face = _faces.at(i);
+					face.mesh = _face.mesh;
+					face.normal = _face.normal;
+					face.hullarea = _face.hullarea;
+				}
+			}
+		}
+	}
+
+	void ModelNData::resetHull()
+	{
+		if (!hull)
+		{
+			hull.reset(qhullWrapper::convex_hull_3d(mesh.get()));
 		}
 	}
 

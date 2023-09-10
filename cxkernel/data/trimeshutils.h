@@ -10,6 +10,7 @@ namespace cxkernel
 	CXKERNEL_API void generateIndexGeometryDataFromMesh(trimesh::TriMesh* mesh, cxkernel::GeometryData& data);
 
 	CXKERNEL_API TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer);
+	CXKERNEL_API void saveMesh(trimesh::TriMesh* mesh, const QString& fileName);
 }
 
 #endif // Q_UTIL_TRIMESH_2_GEOMETRY_RENDERER_H
