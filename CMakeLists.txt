@@ -1,6 +1,8 @@
 set(CMAKE_CXX_STANDARD 14)
 
 __cc_find(topomesh)
+__cc_find(nestplacer)
+
 __assert_target(trimesh2)
 
 __cc_find(cxbin)
@@ -13,7 +15,7 @@ __assert_target(boost_nowide)
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
-set(LIBS cxbin)
+set(LIBS cxbin cxutil)
 set(ILIBS qtuser_core trimesh2 mmesh qcxutil clipper boost_nowide qhullWrapper)
 
 if(TARGET cxcloud)
@@ -24,17 +26,18 @@ if(TARGET topomesh)
 	list(APPEND LIBS topomesh)
 endif()
 
+if(TARGET nestplacer)
+	list(APPEND LIBS nestplacer)
+endif()
+
 if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib)
-	elseif(CC_BC_MAC)
+elseif(CC_BC_MAC)
 	# add_compile_options(-x objective-c++)
 	list(APPEND SRCS ${CMAKE_CURRENT_SOURCE_DIR}/macwindow/macwindow.h ${CMAKE_CURRENT_SOURCE_DIR}/macwindow/macwindow.mm 
 	${CMAKE_CURRENT_SOURCE_DIR}/macwindow/mycppobject.h ${CMAKE_CURRENT_SOURCE_DIR}/macwindow/mycppobject.cpp)
 	find_library(APP_KIT Appkit Foundation)
-endif()
-
-if(CC_BC_MAC)
-list(APPEND ILIBS ${APP_KIT})
+	list(APPEND ILIBS ${APP_KIT})
 endif()
 
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
