@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 14)
 __cc_find(trimesh2)
 __assert_target(trimesh2)
 
-__cc_find(cxbin)
+__cc_find(cxbin_whole)
 __cc_find(QhullWrapper)
 __assert_target(cxbin)
 __assert_target(qhullWrapper)
