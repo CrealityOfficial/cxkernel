@@ -2,6 +2,7 @@
 #include <QtCore/QDebug>
 #include <QtWidgets/QApplication>
 #include <QtCore/QFile>
+#include <QQuickView>
 
 #include "qtusercore/module/cxopenandsavefilemanager.h"
 #include "qtusercore/module/creativeplugincenter.h"
@@ -142,7 +143,7 @@ namespace cxkernel
 		return QLatin1String("qrc:/cxkernel/main.qml");
 	}
 
-	bool CXKernel::loadQmlEngine(QApplication& app, QQmlApplicationEngine& engine)
+	bool CXKernel::loadQmlEngine(QApplication& app, QQmlEngine& engine)
 	{
 		m_engine = &engine;
 		m_context = m_engine->rootContext();
@@ -172,8 +173,45 @@ namespace cxkernel
 
 		initializeContext();
 		m_creativePluginCenter->load();
+;
+		//engine.load(QUrl(qml));
+		return true;
+	}
 
-		engine.load(QUrl(qml));
+	bool CXKernel::loadQmlEngine(QQuickView& view, QQmlEngine& engine)
+	{
+		m_engine = &engine;
+		m_context = m_engine->rootContext();
+
+		QString qml = entryQmlFile();
+		QString checkQml = qml;
+		QFile qmlFile(checkQml.replace("qrc:/", ":/"));
+
+		if (!m_context || !qmlFile.exists())
+			return false;
+
+		//register context
+		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
+		view.rootContext()->setContextProperty("view", &view);
+		view.rootContext()->setContextProperty("cxkernel_kernel", this);
+		view.rootContext()->setContextProperty("cxkernel_const", m_const);
+		view.rootContext()->setContextProperty("cxkernel_io_manager", m_ioManager);
+		view.rootContext()->setContextProperty("cxkernel_job_executor", m_jobExecutor);
+		view.rootContext()->setContextProperty("cxkernel_undo", m_undoProxy);
+		view.rootContext()->setContextProperty("screenScaleFactor", 1);
+#if USE_CXCLOUD
+		view.rootContext()->setContextProperty("cxkernel_cxcloud", cxcloud_);
+#endif
+		view.rootContext()->setContextProperty("cxkernel_ui", m_qmlUI);
+		view.rootContext()->setContextProperty("cxkernel_tools", m_tools);
+		view.rootContext()->setContextProperty("cxkernel_device_util", m_deviceUtil);
+
+		m_qmlUI->setEngine(m_engine, m_context);
+
+		initializeContext();
+		m_creativePluginCenter->load();
+		view.setSource(QUrl(qml));
+		view.show();
 		return true;
 	}
 

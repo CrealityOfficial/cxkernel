@@ -80,7 +80,7 @@ namespace cxkernel
 		m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
 	}
 
-	void QmlUI::setEngine(QQmlApplicationEngine* engine, QQmlContext* context)
+	void QmlUI::setEngine(QQmlEngine* engine, QQmlContext* context)
 	{
 		m_engine = engine;
 		m_context = context;

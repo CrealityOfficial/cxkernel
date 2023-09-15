@@ -22,7 +22,7 @@ namespace cxkernel
 		void removeImageProvider(const QString& name);
 
 		void setObjectOwnership(QObject* object);
-		void setEngine(QQmlApplicationEngine* engine, QQmlContext* context);
+		void setEngine(QQmlEngine* engine, QQmlContext* context);
 		Q_INVOKABLE void registerRootWindow(QObject* object);
 		
 		Q_INVOKABLE QObject* itemByName(const QString& name);
@@ -31,7 +31,7 @@ namespace cxkernel
 		Q_INVOKABLE bool invokeQmlJsRt(const QString& script);
 		Q_INVOKABLE QJSValue invokeJS(const QString& script, const QString& name, QObject* context);
 	protected:
-		QQmlApplicationEngine* m_engine;
+		QQmlEngine* m_engine;
 		QJSEngine* m_jsEngine;
 		QQmlExpression* m_expression;
 

@@ -57,7 +57,8 @@ namespace cxkernel
 		virtual void uninitialize();
 
 		virtual QString entryQmlFile();
-		bool loadQmlEngine(QApplication& app, QQmlApplicationEngine& engine) override;
+		bool loadQmlEngine(QApplication& app, QQmlEngine& engine) override;
+		bool loadQmlEngine(QQuickView& app, QQmlEngine& engine) override;
 		void unloadQmlEngine() override;
 		void shutDown() override;
 
@@ -79,7 +80,7 @@ namespace cxkernel
 		QmlUI* qmlUI();
 		CXKernelConst* cxConst();
 	protected:
-		QQmlApplicationEngine* m_engine;
+		QQmlEngine* m_engine;
 		QQmlContext* m_context;
 
 		qtuser_core::CreativePluginCenter* m_creativePluginCenter;
