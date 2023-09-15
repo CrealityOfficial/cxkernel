@@ -143,41 +143,6 @@ namespace cxkernel
 		return QLatin1String("qrc:/cxkernel/main.qml");
 	}
 
-	bool CXKernel::loadQmlEngine(QApplication& app, QQmlEngine& engine)
-	{
-		m_engine = &engine;
-		m_context = m_engine->rootContext();
-
-		QString qml = entryQmlFile();
-		QString checkQml = qml;
-		QFile qmlFile(checkQml.replace("qrc:/", ":/"));
-
-		if (!m_context || !qmlFile.exists())
-			return false;
-
-		//register context
-		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
-		m_context->setContextProperty("cxkernel_kernel", this);
-		m_context->setContextProperty("cxkernel_const", m_const);
-		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
-		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
-		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
-#if USE_CXCLOUD
-		m_context->setContextProperty("cxkernel_cxcloud", cxcloud_);
-#endif
-		m_context->setContextProperty("cxkernel_ui", m_qmlUI);
-		m_context->setContextProperty("cxkernel_tools", m_tools);
-		m_context->setContextProperty("cxkernel_device_util", m_deviceUtil);
-
-		m_qmlUI->setEngine(m_engine, m_context);
-
-		initializeContext();
-		m_creativePluginCenter->load();
-;
-		//engine.load(QUrl(qml));
-		return true;
-	}
-
 	bool CXKernel::loadQmlEngine(QQuickView& view, QQmlEngine& engine)
 	{
 		m_engine = &engine;
@@ -192,6 +157,7 @@ namespace cxkernel
 
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
+		m_engine->setObjectOwnership(&view, QQmlEngine::CppOwnership);
 		view.rootContext()->setContextProperty("view", &view);
 		view.rootContext()->setContextProperty("cxkernel_kernel", this);
 		view.rootContext()->setContextProperty("cxkernel_const", m_const);
@@ -211,7 +177,6 @@ namespace cxkernel
 		initializeContext();
 		m_creativePluginCenter->load();
 		view.setSource(QUrl(qml));
-		view.show();
 		return true;
 	}
 
