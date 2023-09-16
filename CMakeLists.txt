@@ -7,7 +7,8 @@ __cc_find(cxbin_whole)
 __cc_find(QhullWrapper)
 __assert_target(cxbin)
 __assert_target(qhullWrapper)
-__cc_find(Boost)
+
+__conan_import(boost dll COMPONENT boost_nowide)
 __assert_target(boost_nowide)
 
 __cc_find(openssl)
