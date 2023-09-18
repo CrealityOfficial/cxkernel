@@ -18,7 +18,6 @@
 #include "cxkernel/kernel/deviceutil.h"
 #include "cxkernel/kernel/qmlui.h"
 #include "cxkernel/kernel/const.h"
-#include "cxkernel/utils/tools.h"
 
 #include "cxkernel/interface/uiinterface.h"
 
@@ -55,7 +54,6 @@ namespace cxkernel
 		cxcloud_ = new cxcloud::ServiceCenter(m_const->version(), this);
 #endif
 		m_qmlUI = new QmlUI(this);
-		m_tools = new Tools(this);
 		m_deviceUtil = new DeviceUtil(this);
 	}
 
@@ -112,18 +110,6 @@ namespace cxkernel
 		return m_qmlUI->invokeQmlJsRt(script);
 	}
 
-	void CXKernel::createPPlugin(const QString& name)
-	{
-		QString tool = "pplugin;" + name;
-		m_tools->autoGenerate(tool);
-	}
-
-	void CXKernel::createVPlugin(const QString& name)
-	{
-		QString tool = "vplugin;" + name;
-		m_tools->autoGenerate(tool);
-	}
-
 	void CXKernel::initializeContext()
 	{
 
@@ -169,7 +155,6 @@ namespace cxkernel
 		view.rootContext()->setContextProperty("cxkernel_cxcloud", cxcloud_);
 #endif
 		view.rootContext()->setContextProperty("cxkernel_ui", m_qmlUI);
-		view.rootContext()->setContextProperty("cxkernel_tools", m_tools);
 		view.rootContext()->setContextProperty("cxkernel_device_util", m_deviceUtil);
 
 		m_qmlUI->setEngine(m_engine, m_context);

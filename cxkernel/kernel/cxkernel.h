@@ -4,7 +4,7 @@
 #include <functional>
 
 #include "cxkernel/cxkernelinterface.h"
-#include "qtusercore/main/entry.h"
+#include "cxkernel/kernel/entry.h"
 #include "qtusercore/module/contextbase.h"
 
 namespace qtuser_core
@@ -33,10 +33,9 @@ namespace cxkernel
 	class CXKernelConst;
 	using CXKernelConstCreater = std::function<CXKernelConst*(void)>;
 
-	class Tools;
 	class DeviceUtil;
 	class CXKERNEL_API CXKernel : public qtuser_core::ContextBase
-								, public qtuser_quick::AppModule
+								, public cxkernel::AppModule
 	{
 		Q_OBJECT
 	public:
@@ -49,8 +48,6 @@ namespace cxkernel
 		Q_INVOKABLE QVariant invokeScript(const QString& script);
 		Q_INVOKABLE bool invokeScriptRet(const QString& script);
 
-		Q_INVOKABLE void createPPlugin(const QString& name);
-		Q_INVOKABLE void createVPlugin(const QString& name);
 	protected:
 		virtual void initializeContext();
 		virtual void initialize();
@@ -93,7 +90,6 @@ namespace cxkernel
 		QmlUI* m_qmlUI;
 		CXKernelConst* m_const;
 		DeviceUtil* m_deviceUtil;
-		Tools* m_tools;
 
 		MeshLoader* m_meshLoader;
 	};

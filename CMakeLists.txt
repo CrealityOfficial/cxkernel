@@ -46,6 +46,13 @@ if(TARGET sensors_analytics_sdk)
 	list(APPEND LIBS sensors_analytics_sdk)
 endif()
 
+#frameless 
+if(CC_BC_WIN)
+	list(APPEND SRCS ${CMAKE_CURRENT_SOURCE_DIR}/frameless/FrameLessView.h ${CMAKE_CURRENT_SOURCE_DIR}/frameless/FrameLessView_win.cpp)
+else()
+	list(APPEND SRCS ${CMAKE_CURRENT_SOURCE_DIR}/frameless/FrameLessView.h ${CMAKE_CURRENT_SOURCE_DIR}/frameless/FrameLessView_unix.cpp)
+endif()
+
 if(CC_BC_WIN)
 	list(APPEND LIBS Dbghelp.lib crypt32 ws2_32)
 elseif(CC_BC_MAC)
