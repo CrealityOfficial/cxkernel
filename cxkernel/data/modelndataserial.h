@@ -1,11 +1,11 @@
 #ifndef CXKERNEL_MODELNDATASERIAL_1691655235363_H
 #define CXKERNEL_MODELNDATASERIAL_1691655235363_H
 #include "cxkernel/data/modelndata.h"
-#include "cxnd/serial/serial.h"
+#include "ccglobal/serial.h"
 
 namespace cxkernel
 {
-	class CXKERNEL_API ModelNDataSerial : public cxnd::Serializeable
+	class CXKERNEL_API ModelNDataSerial : public ccglobal::Serializeable
 	{
 	public:
 		ModelNDataSerial();
@@ -17,7 +17,6 @@ namespace cxkernel
 		void load(const QString& fileName, ccglobal::Tracer* tracer);
 		void save(const QString& fileName, ccglobal::Tracer* tracer);
 
-	protected:
 		int version() override;
 		bool save(std::fstream& out, ccglobal::Tracer* tracer) override;
 		bool load(std::fstream& in, int ver, ccglobal::Tracer* tracer) override;

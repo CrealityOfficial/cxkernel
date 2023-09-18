@@ -9,6 +9,7 @@ namespace cxkernel
 	CXKERNEL_API void ansycBatch(const QString& directory, circleLoadFunc func);
 
 	CXKERNEL_API void runAnonymous(anonymous_work_func workFunc, anonymous_func successFunc);
+	CXKERNEL_API std::string qString2String(const QString& str);
 }
 
 #endif // CXKERNEL_UTILS_1692424902291_H

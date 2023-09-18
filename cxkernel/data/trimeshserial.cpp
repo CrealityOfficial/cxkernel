@@ -1,9 +1,8 @@
 #include "trimeshserial.h"
-#include "cxnd/serial/serial.h"
 
 namespace cxkernel
 {
-	using namespace cxnd;
+	using namespace ccglobal;
 	trimesh::TriMesh* loadTrimesh(std::fstream& in)
 	{
 		trimesh::TriMesh* mesh = nullptr;

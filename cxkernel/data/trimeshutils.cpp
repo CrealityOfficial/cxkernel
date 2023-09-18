@@ -1,6 +1,6 @@
 #include "trimeshutils.h"
 
-#include "cxnd/utils/str.h"
+#include "cxkernel/utils/utils.h"
 #include "cxbin/load.h"
 #include "cxbin/save.h"
 
@@ -176,17 +176,13 @@ namespace cxkernel
 
 	TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer)
 	{
-		std::wstring strWname = fileName.toStdWString();
-		std::string strname = cxnd::wstring2String(strWname);
-		TriMeshPtr mesh(cxbin::loadAll(strname, tracer));
+		TriMeshPtr mesh(cxbin::loadAll(qString2String(fileName), tracer));
 		return mesh;
 	}
 
 	void saveMesh(trimesh::TriMesh* mesh, const QString& fileName)
 	{
-		std::wstring strWname = fileName.toStdWString();
-		std::string strname = cxnd::wstring2String(strWname);
-		cxbin::save(strname, mesh, nullptr);
+		cxbin::save(qString2String(fileName), mesh, nullptr);
 	}
 }
 

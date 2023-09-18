@@ -5,6 +5,9 @@
 #include "cxkernel/interface/jobsinterface.h"
 #include "qtusercore/string/resourcesfinder.h"
 
+#include <locale>
+#include <codecvt>
+
 namespace cxkernel
 {
 	void circleDirectory(const QString& directory, circleLoadFunc func)
@@ -58,5 +61,15 @@ namespace cxkernel
 	{
 		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, nullptr);
 		cxkernel::executeJob(job);
+	}
+
+	std::string qString2String(const QString& str)
+	{
+		std::wstring wstr = str.toStdWString();
+
+		using convert_typeX = std::codecvt_utf8<wchar_t>;
+		std::wstring_convert<convert_typeX, wchar_t> converterX;
+
+		return converterX.to_bytes(wstr);
 	}
 }

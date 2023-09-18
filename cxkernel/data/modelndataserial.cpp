@@ -36,7 +36,7 @@ namespace cxkernel
 		m_data.reset(new ModelNData());
 
 		QByteArray cdata = fileName.toLocal8Bit();
-		bool result = cxnd::cxndLoad(*this, std::string(cdata), tracer);
+		bool result = ccglobal::cxndLoad(*this, std::string(cdata), tracer);
 
 		if (!result)
 			m_data.reset();
@@ -51,7 +51,7 @@ namespace cxkernel
 		}
 
 		QByteArray cdata = fileName.toLocal8Bit();
-		bool result = cxnd::cxndSave(*this, std::string(cdata), tracer);
+		bool result = ccglobal::cxndSave(*this, std::string(cdata), tracer);
 		if(!result)
 			qDebug() << QString("ModelNDataSerial::save error!");
 	}
@@ -67,7 +67,7 @@ namespace cxkernel
 		saveTrimesh(out, mesh.get());
 
 		saveTrimesh(out, m_data->hull.get());
-		cxnd::cxndSaveT<trimesh::vec3>(out, m_data->offset);
+		ccglobal::cxndSaveT<trimesh::vec3>(out, m_data->offset);
 		return true;
 	}
 
@@ -85,7 +85,7 @@ namespace cxkernel
 
 			TriMeshPtr hull(loadTrimesh(in));
 			m_data->hull = hull;
-			cxnd::cxndLoadT<trimesh::vec3>(in, m_data->offset);
+			ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
 			return true;
 		}
 
