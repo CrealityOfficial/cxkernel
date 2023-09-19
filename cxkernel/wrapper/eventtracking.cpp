@@ -3,8 +3,9 @@
 #include <QtNetwork/QNetworkInterface>
 #include <QtCore/QStandardPaths>
 
+#if USE_SENSORS_ANALYTICS_SDK
 #include "sensors_analytics_sdk.h"
-
+#endif
 namespace cxkernel
 {
     EventTracking::EventTracking(QObject* parent)
@@ -28,7 +29,7 @@ namespace cxkernel
         bool rst = initSDK();
         if (!rst)
             return;
-
+#if USE_SENSORS_ANALYTICS_SDK
         // 设置公共属性，这些属性将自动设置在每个行为事件的属性里
         sensors_analytics::PropertiesNode super_properties;
         super_properties.SetString("app_name", "Creality Print");
@@ -52,6 +53,7 @@ namespace cxkernel
         // 进程结束前没有 Flush 的数据将保存到 staging_file
         sensors_analytics::Sdk::Track("BuyTicket");
         sensors_analytics::Sdk::Shutdown();
+#endif
 	}
 
     QString EventTracking::getPCMacAddress()
@@ -88,7 +90,7 @@ namespace cxkernel
 
         // 本地最多暂存（未调用 Flush 发送）的数据条数，超过该数值时，将从队首淘汰旧的数据
         const int max_staging_record_size = 200;
-
+#if USE_SENSORS_ANALYTICS_SDK
         // 初始化 SDK
         bool rst = sensors_analytics::Sdk::Init(staging_file_path, server_url, distinct_id, is_login_id, max_staging_record_size);
         if (rst)
@@ -97,5 +99,8 @@ namespace cxkernel
         }
 
         return rst;
+#else
+        return 0;
+#endif
     }
 }

@@ -23,7 +23,6 @@ namespace cxkernel
 
 		CXNDPolygons polys;
 
-	protected:
 		int version() override;
 		bool save(std::fstream& out, ccglobal::Tracer* tracer) override;
 		bool load(std::fstream& in, int ver, ccglobal::Tracer* tracer) override;
