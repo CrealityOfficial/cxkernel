@@ -4,6 +4,7 @@
 #include <QtCore/QDebug>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
+#include <QtCore/QDateTime>
 #include <QGuiApplication>
 #include <QOpenGLContext>
 #include <QtQuick/QQuickView>
@@ -15,6 +16,7 @@
 
 #include "ccglobal/log.h"
 #include "buildinfo.h"
+#include "qtusercore/string/resourcesfinder.h"
 
 namespace cxkernel
 {
