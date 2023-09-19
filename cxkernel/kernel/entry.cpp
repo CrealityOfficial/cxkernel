@@ -14,6 +14,7 @@
 #include <QIcon>
 
 #include "ccglobal/log.h"
+#include "buildinfo.h"
 
 namespace cxkernel
 {
