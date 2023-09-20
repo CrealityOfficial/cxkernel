@@ -1,7 +1,9 @@
 #include "nestdata.h"
 
 #include "qhullWrapper/hull/meshconvex.h"
-#include "mmesh/util/mnode.h"
+
+#include "msbase/get.h"
+
 #include "cxutil/slicer/slicehelper.h"
 
 namespace cxkernel
@@ -27,7 +29,7 @@ namespace cxkernel
 
     std::vector<trimesh::vec3> NestData::path(TriMeshPtr hull, const trimesh::vec3& scale, bool simple)
     {
-        calculateXYConvex(hull, mmesh::fromQuaterian(rotation), scale);
+        calculateXYConvex(hull, msbase::fromQuaterian(rotation), scale);
 
         const std::vector<trimesh::vec3>& p = cPath(simple);
 
@@ -41,7 +43,7 @@ namespace cxkernel
 
     std::vector<trimesh::vec3> NestData::qPath(TriMeshPtr hull, const trimesh::quaternion& _rotation, const trimesh::vec3& scale, bool simple)
     {
-        std::vector<trimesh::vec3> p = calculateGlobalXYConvex(hull, mmesh::fromQuaterian(_rotation), scale);
+        std::vector<trimesh::vec3> p = calculateGlobalXYConvex(hull, msbase::fromQuaterian(_rotation), scale);
 
         std::vector<trimesh::vec3> result;
         for (const trimesh::vec3& v : p)

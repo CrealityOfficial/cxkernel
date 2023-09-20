@@ -7,8 +7,7 @@
 #include <QtCore/QDebug>
 #include <QtGui/QMatrix>
 
-#include "mmesh/trimesh/algrithm3d.h"
-#include "clipperxyz/clipper.hpp"
+#include "msbase/tinymodify.h"
 
 #if USE_TOPOMESH
 #include "topomesh/interface/letter.h"
@@ -195,7 +194,7 @@ namespace cxkernel
 
 		for (PolygonsModel& polygons : outPolygons)
 			for (PolygonModel& polygon : polygons)
-				mmesh::applyMatrix2Points(polygon, transform);
+				msbase::applyMatrix2Points(polygon, transform);
 	}
 
 	trimesh::fxform LetterModel::calculateTransform(int w, int h)

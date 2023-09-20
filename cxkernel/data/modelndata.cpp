@@ -4,8 +4,9 @@
 #include "qhullWrapper/hull/meshconvex.h"
 #include "qhullWrapper/hull/hullface.h"
 
-#include "mmesh/trimesh/trimeshutil.h"
-#include "mmesh/util/checker.h"
+#include "msbase/checker.h"
+#include "msbase/dumplicate.h"
+#include "msbase/tinymodify.h"
 
 #include "qtusercore/module/progressortracer.h"
 
@@ -210,17 +211,17 @@ namespace cxkernel
 			bool processResult = true;
 			if (param.dumplicate)
 			{
-				processResult = mmesh::dumplicateMesh(input.mesh.get(), tracer);
+				processResult = msbase::dumplicateMesh(input.mesh.get(), tracer);
 				if (!processResult)
 				{
 					return nullptr;
 				}
 			}
 
-			bool have = mmesh::checkDegenerateFace(input.mesh.get(), true);
+			bool have = msbase::checkDegenerateFace(input.mesh.get(), true);
 			if (have)
 			{
-				qDebug() << QString("mmesh::checkDegenerateFace true : [have degenerate face]");
+				qDebug() << QString("msbase::checkDegenerateFace true : [have degenerate face]");
 			}
 
 			input.mesh->clear_bbox();
@@ -228,7 +229,7 @@ namespace cxkernel
 
 			trimesh::vec3 offset;
 			if(param.toCenter)
-				offset = mmesh::moveTrimesh2Center(input.mesh.get(), false);
+				offset = msbase::moveTrimesh2Center(input.mesh.get(), false);
 
 			ModelNDataPtr data(new ModelNData());
 			data->mesh = input.mesh;
@@ -236,7 +237,7 @@ namespace cxkernel
 			data->offset = offset;
 
 			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
-			mmesh::dumplicateMesh(hull);
+			msbase::dumplicateMesh(hull);
 
 			data->hull.reset(hull);
 			

@@ -25,7 +25,9 @@ __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
 set(LIBS cxbin cxutil ssl crypto qhullWrapper libtess2 enchase)
-set(ILIBS qtuser_core trimesh2 mmesh)
+
+__assert_target(msbase)
+set(ILIBS qtuser_core trimesh2 msbase)
 
 if(TARGET cxcloud)
 	list(APPEND ILIBS cxcloud)
