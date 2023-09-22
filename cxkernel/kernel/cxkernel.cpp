@@ -144,7 +144,7 @@ namespace cxkernel
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 		m_engine->setObjectOwnership(&view, QQmlEngine::CppOwnership);
-		view.rootContext()->setContextProperty("view", &view);
+		view.rootContext()->setContextProperty("frameLessView", &view);
 		view.rootContext()->setContextProperty("cxkernel_kernel", this);
 		view.rootContext()->setContextProperty("cxkernel_const", m_const);
 		view.rootContext()->setContextProperty("cxkernel_io_manager", m_ioManager);
