@@ -290,20 +290,20 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
         {
             *result = WVR_REDRAW;
             // 规避 拖动border进行resize时界面闪烁
-            if (!isMaxWin(this) && !isFullWin(this))
-            {
-                if (clientRect->top != 0)
-                {
-                    clientRect->top -= 0.1;
-                }
-            }
-            else
-            {
-                if (clientRect->top != 0)
-                {
-                    clientRect->top += 0.1;
-                }
-            }
+            //if (!isMaxWin(this) && !isFullWin(this))
+            //{
+            //    if (clientRect->top != 0)
+            //    {
+            //        clientRect->top -= 0.1;
+            //    }
+            //}
+            //else
+            //{
+            //    if (clientRect->top != 0)
+            //    {
+            //        clientRect->top += 0.1;
+            //    }
+            //}
             return true;
         }
 #else
