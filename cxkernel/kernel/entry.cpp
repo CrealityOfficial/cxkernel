@@ -177,7 +177,6 @@ namespace cxkernel
 
 				FrameLessView view;
 				view.setMinimumSize({ 1280, 720 });
-				view.showMaximized();
 				view.moveToScreenCenter();
 
 				QQmlEngine* engine = view.engine();
@@ -189,7 +188,7 @@ namespace cxkernel
 
 				if (appModule->loadQmlEngine(view, *engine))
 				{
-					view.show();
+					view.showMaximized();
 					ret = app.exec();
 				}
 
