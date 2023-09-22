@@ -189,7 +189,7 @@ namespace cxkernel
 
 				if (appModule->loadQmlEngine(view, *engine))
 				{
-					//view.show();
+					view.showMaximized();
 					ret = app.exec();
 				}
 
