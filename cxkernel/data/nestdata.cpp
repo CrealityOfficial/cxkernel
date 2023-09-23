@@ -4,7 +4,9 @@
 
 #include "msbase/get.h"
 
-#include "cxutil/slicer/slicehelper.h"
+#if USE_TOPOMESH
+#include "topomesh/interface/concave.h"
+#endif
 
 namespace cxkernel
 {
@@ -86,12 +88,12 @@ namespace cxkernel
     std::vector<trimesh::vec3> NestData::concave_path(TriMeshPtr mesh, const trimesh::vec3 scale)
     {
         std::vector<trimesh::vec3> concave;
-        if (mesh)
-        {
-            cxutil::SliceHelper helper;
-            helper.prepare(mesh.get());
-            helper.generateConcave(concave, &rotation, scale);
-        }
+
+#if USE_TOPOMESH
+        topomesh::meshConcave(mesh.get(), concave, rotation, scale);
+#else
+        qWarning() << QString("NestData::concave_path need link topomesh.");
+#endif
         return concave;
     }
 

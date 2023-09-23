@@ -24,7 +24,7 @@ __assert_target(enchase)
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc res/images.qrc)
 
-set(LIBS cxbin cxutil ssl crypto qhullWrapper libtess2 enchase)
+set(LIBS cxbin ssl crypto qhullWrapper libtess2 enchase)
 
 __assert_target(msbase)
 set(ILIBS qtuser_core trimesh2 msbase)
