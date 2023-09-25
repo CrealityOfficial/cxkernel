@@ -171,29 +171,43 @@ namespace cxkernel
 		if (appModule)
 		{
 			{
+				bool useFrameless = appModule->useFrameless();
+
 				QFont default_font = QFont();
 				default_font.setPointSize(9);
 				app.setFont(default_font);
 
-				FrameLessView view;
-				view.setMinimumSize({ 1280, 720 });
-				/*view.resize(1280, 720);
-				view.moveToScreenCenter();*/
-
-				QQmlEngine* engine = view.engine();
+				QQmlEngine* engine = nullptr;
+				QObject* object = nullptr;
+				if (useFrameless)
+				{
+					FrameLessView* view = new FrameLessView();
+					view->setMinimumSize({ 1280, 720 });
+					engine = view->engine();
+					object = view;
+				}
+				else
+				{
+					QQmlApplicationEngine* qEngine = new QQmlApplicationEngine();
+					engine = qEngine;
+					object = qEngine;
+				}
 
 				setDefaultAfterApp();
 				setDefaultQmlAfterApp(*engine);
 
 				showDetailSystemInfo();
 
-				if (appModule->loadQmlEngine(view, *engine))
+				if (appModule->loadQmlEngine(object, *engine))
 				{
-					view.showMaximized();
+					if(useFrameless)
+						qobject_cast<FrameLessView*>(object)->showMaximized();
 					ret = app.exec();
 				}
 
 				appModule->unloadQmlEngine();
+
+				delete object;
 			}
 			appModule->shutDown();
 			delete appModule;

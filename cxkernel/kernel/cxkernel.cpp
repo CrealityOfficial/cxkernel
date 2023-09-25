@@ -129,7 +129,7 @@ namespace cxkernel
 		return QLatin1String("qrc:/cxkernel/main.qml");
 	}
 
-	bool CXKernel::loadQmlEngine(QQuickView& view, QQmlEngine& engine)
+	bool CXKernel::loadQmlEngine(QObject* object, QQmlEngine& engine)
 	{
 		m_engine = &engine;
 		m_context = m_engine->rootContext();
@@ -143,25 +143,37 @@ namespace cxkernel
 
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
-		m_engine->setObjectOwnership(&view, QQmlEngine::CppOwnership);
-		view.rootContext()->setContextProperty("frameLessView", &view);
-		view.rootContext()->setContextProperty("cxkernel_kernel", this);
-		view.rootContext()->setContextProperty("cxkernel_const", m_const);
-		view.rootContext()->setContextProperty("cxkernel_io_manager", m_ioManager);
-		view.rootContext()->setContextProperty("cxkernel_job_executor", m_jobExecutor);
-		view.rootContext()->setContextProperty("cxkernel_undo", m_undoProxy);
-		view.rootContext()->setContextProperty("screenScaleFactor", 1);
+
+		if (useFrameless())
+		{
+			m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
+			m_context->setContextProperty("frameLessView", object);
+		}
+		m_context->setContextProperty("cxkernel_kernel", this);
+		m_context->setContextProperty("cxkernel_const", m_const);
+		m_context->setContextProperty("cxkernel_io_manager", m_ioManager);
+		m_context->setContextProperty("cxkernel_job_executor", m_jobExecutor);
+		m_context->setContextProperty("cxkernel_undo", m_undoProxy);
+		m_context->setContextProperty("screenScaleFactor", 1);
 #if USE_CXCLOUD
-		view.rootContext()->setContextProperty("cxkernel_cxcloud", cxcloud_);
+		m_context->setContextProperty("cxkernel_cxcloud", cxcloud_);
 #endif
-		view.rootContext()->setContextProperty("cxkernel_ui", m_qmlUI);
-		view.rootContext()->setContextProperty("cxkernel_device_util", m_deviceUtil);
+		m_context->setContextProperty("cxkernel_ui", m_qmlUI);
+		m_context->setContextProperty("cxkernel_device_util", m_deviceUtil);
 
 		m_qmlUI->setEngine(m_engine, m_context);
 
 		initializeContext();
 		m_creativePluginCenter->load();
-		view.setSource(QUrl(qml));
+
+		if (useFrameless())
+		{
+			qobject_cast<QQuickView*>(object)->setSource(QUrl(qml));
+		}
+		else
+		{
+			qobject_cast<QQmlApplicationEngine*>(object)->load(QUrl(qml));
+		}
 		return true;
 	}
 

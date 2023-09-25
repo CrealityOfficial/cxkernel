@@ -15,7 +15,8 @@ namespace cxkernel
 	public:
 		virtual ~AppModule() {}
 
-		virtual bool loadQmlEngine(QQuickView& app, QQmlEngine& engine) = 0;
+		virtual bool useFrameless() { return false; }
+		virtual bool loadQmlEngine(QObject* object, QQmlEngine& engine) = 0;
 		virtual void unloadQmlEngine() = 0;
 		virtual void shutDown() = 0;
 	};

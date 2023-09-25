@@ -54,7 +54,7 @@ namespace cxkernel
 		virtual void uninitialize();
 
 		virtual QString entryQmlFile();
-		bool loadQmlEngine(QQuickView& app, QQmlEngine& engine) override;
+		bool loadQmlEngine(QObject* object, QQmlEngine& engine) override;
 		void unloadQmlEngine() override;
 		void shutDown() override;
 
