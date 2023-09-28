@@ -23,20 +23,28 @@ namespace cxkernel
 		QByteArray& colorArray = data.color;
 
 		positionByteArray.resize(count * 3 * sizeof(float));
-		normalByteArray.resize(count * 3 * sizeof(float));
 
-		bool hasTex = true;
-		if(hasTex)
+		//去掉输入法线属性，在几何着色器中生成
+		bool needNormal = false;
+		if (needNormal)
+			normalByteArray.resize(count * 3 * sizeof(float));
+		
+		//去掉输入纹理UV
+		bool hasTex = false;
+		if (hasTex)
 			texcoordArray.resize(count * 2 * sizeof(float));
 
 		bool hasColor = mesh->colors.size() > 0;
-		if (hasColor)
+		//if (hasColor)  //为了兼容特定AMD显卡，每次都生成顶点颜色属性
+		{
 			colorArray.resize(count * 3 * sizeof(float));
-
+			memset(colorArray.data(), 0x0, count * 3 * sizeof(float));
+		}
+		
 		if (count == (int)mesh->vertices.size())
 		{
 			memcpy(positionByteArray.data(), &mesh->vertices[0], positionByteArray.size());
-			if (mesh->normals.size() != count)
+			if (needNormal && mesh->normals.size() != count)
 			{
 				mesh->need_normals();
 				memcpy(normalByteArray.data(), &mesh->normals[0], normalByteArray.size());
@@ -66,14 +74,17 @@ namespace cxkernel
 					vertexData[i * 3 + j] = mesh->vertices.at(f[j]);
 				}
 
-				trimesh::vec3 v01 = mesh->vertices.at(f[1]) - mesh->vertices.at(f[0]);
-				trimesh::vec3 v02 = mesh->vertices.at(f[2]) - mesh->vertices.at(f[0]);
-				trimesh::vec3 n = v01 TRICROSS v02;
-				trimesh::normalize(n);;
-
-				for (int j = 0; j < 3; ++j)
+				if (needNormal)
 				{
-					normalData[i * 3 + j] = n;
+					trimesh::vec3 v01 = mesh->vertices.at(f[1]) - mesh->vertices.at(f[0]);
+					trimesh::vec3 v02 = mesh->vertices.at(f[2]) - mesh->vertices.at(f[0]);
+					trimesh::vec3 n = v01 TRICROSS v02;
+					trimesh::normalize(n);;
+
+					for (int j = 0; j < 3; ++j)
+					{
+						normalData[i * 3 + j] = n;
+					}
 				}
 
 				if (texcoordArray.size() && hasTex)
