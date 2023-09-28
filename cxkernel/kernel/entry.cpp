@@ -13,6 +13,7 @@
 #include "cxkernel/utils/glcompatibility.h"
 #include "frameless/FrameLessView.h"
 #include <QIcon>
+#include <locale.h>
 
 #include "ccglobal/log.h"
 #include "buildinfo.h"
@@ -159,6 +160,7 @@ namespace cxkernel
 		QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
 		QApplication app(argc, argv);
+		setlocale(LC_NUMERIC, "C");
 		app.setWindowIcon(QIcon(":/scence3d/res/logo.png"));
 
 
