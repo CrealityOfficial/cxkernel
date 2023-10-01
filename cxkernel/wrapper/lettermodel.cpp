@@ -61,7 +61,7 @@ namespace cxkernel
 		topoParam.concave = pConcave;
 		TriMeshPtr result(topomesh::letter(mesh.get(), topoCamera, topoParam, polygons, nullptr, tracer));
 #else
-		qWaring() << QString("topomesh letter missing.");
+		qDebug() << QString("topomesh letter missing.");
 		TriMeshPtr result;
 #endif
 		return result;
