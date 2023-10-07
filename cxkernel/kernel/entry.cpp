@@ -185,6 +185,7 @@ namespace cxkernel
 				{
 					FrameLessView* view = new FrameLessView();
 					view->setMinimumSize({ 1280, 720 });
+					view->setColor(QColor("transparent"));
 					engine = view->engine();
 					object = view;
 				}
