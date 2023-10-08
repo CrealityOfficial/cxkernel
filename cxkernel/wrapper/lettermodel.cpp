@@ -7,7 +7,8 @@
 #include <QtCore/QDebug>
 #include <QtGui/QMatrix>
 
-#include "msbase/tinymodify.h"
+#include "msbase/mesh/tinymodify.h"
+#include "msbase/space/cloud.h"
 
 #if USE_TOPOMESH
 #include "topomesh/interface/letter.h"

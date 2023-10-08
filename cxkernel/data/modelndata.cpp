@@ -4,9 +4,9 @@
 #include "qhullWrapper/hull/meshconvex.h"
 #include "qhullWrapper/hull/hullface.h"
 
-#include "msbase/checker.h"
-#include "msbase/dumplicate.h"
-#include "msbase/tinymodify.h"
+#include "msbase/mesh/checker.h"
+#include "msbase/mesh/dumplicate.h"
+#include "msbase/mesh/tinymodify.h"
 
 #include "qtusercore/module/progressortracer.h"
 

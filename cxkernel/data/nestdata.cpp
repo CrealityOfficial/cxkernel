@@ -2,7 +2,8 @@
 
 #include "qhullWrapper/hull/meshconvex.h"
 
-#include "msbase/get.h"
+#include "msbase/mesh/get.h"
+#include "msbase/data/conv.h"
 
 #if USE_TOPOMESH
 #include "topomesh/interface/concave.h"
