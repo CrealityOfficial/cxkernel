@@ -6,6 +6,38 @@
 
 namespace cxkernel
 {
+	void generateGeometryColorDataFromMesh(trimesh::TriMesh* mesh, cxkernel::GeometryData& data)
+	{
+		if (!mesh || (mesh->faces.size() == 0) || (mesh->vertices.size() == 0))
+			return;
+
+		int fcount = (int)mesh->faces.size();
+		int count = fcount * 3;
+
+		data.fcount = fcount;
+		data.vcount = count;
+
+		bool hasColor = mesh->colors.size() > 0;
+		if (!hasColor)
+			return;
+
+		QByteArray& colorArray = data.color;
+		colorArray.resize(count * 3 * sizeof(float));
+
+		trimesh::vec3* colorData = (trimesh::vec3*)colorArray.data();
+		for (int i = 0; i < fcount; ++i)
+		{
+			if (hasColor)
+			{
+				trimesh::Color c = mesh->colors.at(i);
+				for (int j = 0; j < 3; ++j)
+				{
+					colorData[i * 3 + j] = c;
+				}
+			}
+		}
+	}
+
 	void generateGeometryDataFromMesh(trimesh::TriMesh* mesh, cxkernel::GeometryData& data)
 	{
 		if (!mesh || (mesh->faces.size() == 0) || (mesh->vertices.size() == 0))
