@@ -24,8 +24,7 @@ namespace cxkernel
 
 		positionByteArray.resize(count * 3 * sizeof(float));
 
-		//去掉输入法线属性，在几何着色器中生成
-		bool needNormal = false;
+		bool needNormal = true;
 		if (needNormal)
 			normalByteArray.resize(count * 3 * sizeof(float));
 		
@@ -61,7 +60,7 @@ namespace cxkernel
 			{
 				if (hasColor)
 				{
-					trimesh::Color c = mesh->colors.at(i);
+					const trimesh::Color& c = mesh->colors.at(i);
 					for (int j = 0; j < 3; ++j)
 					{
 						colorData[i * 3 + j] = c;
@@ -158,8 +157,12 @@ namespace cxkernel
 
 		QByteArray& positionByteArray = data.position;
 		QByteArray& indiceArray = data.indices;
+		QByteArray& colorArray = data.color;
 
-		positionByteArray.resize(data.vcount * 3 * sizeof(float));
+		colorArray.resize(vcount * 3 * sizeof(float));
+		memset(colorArray.data(), 0x0, vcount * 3 * sizeof(float));
+
+		positionByteArray.resize(vcount * 3 * sizeof(float));
 
 		indiceArray.resize(fcount * 3 * sizeof(uint));
 
