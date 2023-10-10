@@ -75,7 +75,7 @@ namespace cxkernel
 	{
 		bool dumplicate = true;
 		bool toCenter = true;
-		bool indexRender = false;
+		bool indexRender = true;
 	};
 	
 	CXKERNEL_API ModelNDataPtr createModelNData(ModelCreateInput input,

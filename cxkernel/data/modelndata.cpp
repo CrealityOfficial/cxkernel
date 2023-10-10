@@ -242,7 +242,7 @@ namespace cxkernel
 
 			data->hull.reset(hull);
 			
-			if (param.indexRender)
+			if (param.indexRender && input.mesh->colors.size() == 0)
 				data->updateIndexRenderData();
 			else
 				data->updateRenderData();
