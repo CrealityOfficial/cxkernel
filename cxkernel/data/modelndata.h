@@ -26,6 +26,7 @@ namespace cxkernel
 		QString fileName;    // only for load
 		QString name;
 		QString description;
+		std::vector<std::string> colors; //for multi color
 		ModelNDataType type = ModelNDataType::mdt_none;
 	};
 

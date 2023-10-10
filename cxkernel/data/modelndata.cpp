@@ -222,6 +222,7 @@ namespace cxkernel
 			data->mesh = input.mesh;
 			data->input = input;
 			data->offset = offset;
+			data->colors = input.colors;
 
 			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
 			mmesh::dumplicateMesh(hull);
