@@ -16,6 +16,7 @@ namespace cxkernel
 
 		data.fcount = fcount;
 		data.vcount = count;
+		data.indiceCount = 0;
 
 		bool hasColor = mesh->colors.size() > 0;
 		if (!hasColor)
@@ -48,6 +49,7 @@ namespace cxkernel
 
 		data.fcount = fcount;
 		data.vcount = count;
+		data.indiceCount = 0;
 
 		QByteArray& positionByteArray = data.position;
 		QByteArray& normalByteArray = data.normal;
