@@ -198,6 +198,29 @@ namespace cxkernel
 		return TriMeshPtr(newMesh);
 	}
 
+	bool ModelNData::traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, bool offset)
+	{
+		if (!mesh || faceID < 0 || faceID >= (int)mesh->faces.size())
+			return false;
+
+		const trimesh::TriMesh::Face& face = mesh->faces.at(faceID);
+		position.clear();
+		position.push_back(matrix * mesh->vertices.at(face.x));
+		position.push_back(matrix * mesh->vertices.at(face.y));
+		position.push_back(matrix * mesh->vertices.at(face.z));
+
+		if (offset)
+		{
+			normal = trimesh::trinorm(position.at(0), position.at(1), position.at(2));
+			trimesh::normalize(normal);
+
+			position.at(0) += 0.1f * normal;
+			position.at(1) += 0.1f * normal;
+			position.at(2) += 0.1f * normal;
+		}
+		return true;
+	}
+
 	ModelNDataPtr createModelNData(ModelCreateInput input, ccglobal::Tracer* tracer,
 		const ModelNDataCreateParam& param)
 	{
