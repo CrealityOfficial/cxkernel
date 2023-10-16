@@ -214,9 +214,9 @@ namespace cxkernel
 			normal = trimesh::trinorm(position.at(0), position.at(1), position.at(2));
 			trimesh::normalize(normal);
 
-			position.at(0) += 0.1f * normal;
-			position.at(1) += 0.1f * normal;
-			position.at(2) += 0.1f * normal;
+			position.at(0) += 0.001f * normal;
+			position.at(1) += 0.001f * normal;
+			position.at(2) += 0.001f * normal;
 		}
 		return true;
 	}
