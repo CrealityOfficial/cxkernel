@@ -200,7 +200,7 @@ namespace cxkernel
 
 		indiceArray.resize(fcount * 3 * sizeof(uint));
 
-		uint* indiceData = (uint*)indiceArray.data();
+		/*uint* indiceData = (uint*)indiceArray.data();
 		for (int i = 0; i < fcount; ++i)
 		{
 			trimesh::TriMesh::Face& f = mesh->faces.at(i);
@@ -219,7 +219,11 @@ namespace cxkernel
 				vertexData[i * 3 + j] = mesh->vertices.at(i).at(j);
 			}
 
-		}
+		}*/
+
+		memcpy(indiceArray.data(), &mesh->faces[0], fcount * 3 * sizeof(uint));
+		memcpy(positionByteArray.data(), &mesh->vertices[0], vcount * 3 * sizeof(float));
+
 	}
 
 	TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer)
