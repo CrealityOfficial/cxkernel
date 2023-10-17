@@ -198,7 +198,7 @@ namespace cxkernel
 		return TriMeshPtr(newMesh);
 	}
 
-	bool ModelNData::traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, bool offset)
+	bool ModelNData::traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, float offsetValue, bool offset)
 	{
 		if (!mesh || faceID < 0 || faceID >= (int)mesh->faces.size())
 			return false;
@@ -214,9 +214,9 @@ namespace cxkernel
 			normal = trimesh::trinorm(position.at(0), position.at(1), position.at(2));
 			trimesh::normalize(normal);
 
-			position.at(0) += 0.001f * normal;
-			position.at(1) += 0.001f * normal;
-			position.at(2) += 0.001f * normal;
+			position.at(0) += offsetValue * normal;
+			position.at(1) += offsetValue * normal;
+			position.at(2) += offsetValue * normal;
 		}
 		return true;
 	}

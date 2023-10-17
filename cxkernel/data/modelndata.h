@@ -52,7 +52,7 @@ namespace cxkernel
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 		TriMeshPtr createGlobalMesh(const trimesh::fxform& matrix);
-		bool traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, bool offset = false);
+		bool traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, float offsetValue, bool offset = false);
 
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
