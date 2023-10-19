@@ -68,7 +68,7 @@ namespace cxkernel
 		ctx.create();
 
 		QSurfaceFormat fmt = ctx.format();
-		uint actualVersion = fmt.majorVersion() << 4 + fmt.minorVersion();
+		uint actualVersion = (fmt.majorVersion() << 4) + fmt.minorVersion();
 		if (!ctx.isValid() || actualVersion < openglVersion)
 			return false;
 
@@ -81,8 +81,9 @@ namespace cxkernel
 		QSurfaceFormat fmt;
 		if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
 		{	/* opengl */
-			//fmt.setVersion(3, 3);
 #ifdef Q_OS_OSX
+			fmt.setVersion(3, 3);
+			fmt.setProfile(QSurfaceFormat::CoreProfile);
 			fmt.setDepthBufferSize(24);
 			fmt.setStencilBufferSize(8);
 			fmt.setSamples(4);
@@ -92,7 +93,7 @@ namespace cxkernel
 		{	/* opengles，目前qt3d最高支持3.1 */
 			fmt.setVersion(3, 1);
 		}
-		openglVersion = fmt.majorVersion() << 4 + fmt.minorVersion();
+		openglVersion = (fmt.majorVersion() << 4) + fmt.minorVersion();
 		QSurfaceFormat::setDefaultFormat(fmt);
 
 		//dynamic plugin
