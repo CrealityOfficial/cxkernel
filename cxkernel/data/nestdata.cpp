@@ -151,4 +151,17 @@ namespace cxkernel
             setDirty(false);
         }
     }
+
+    void calculateConvex(TriMeshPtr mesh, std::vector<trimesh::vec3>& convex)
+    {
+        convex.clear();
+
+        if (mesh)
+        {
+            TriMeshPtr t(qhullWrapper::convex2DPolygon(mesh.get(), trimesh::fxform::identity(), nullptr));
+
+            if (t)
+                convex.swap(t->vertices);
+        }
+    }
 }

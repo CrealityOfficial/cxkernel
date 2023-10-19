@@ -39,6 +39,8 @@ namespace cxkernel
     };
 
     typedef std::shared_ptr<NestData> NestDataPtr;
+
+    CXKERNEL_API void calculateConvex(TriMeshPtr mesh, std::vector<trimesh::vec3>& convex);
 }
 
 #endif // QCXUTIL_NESTDATA_1685692131729_H
