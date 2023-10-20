@@ -1,5 +1,6 @@
 #include "trimeshutils.h"
 
+#include "msbase/mesh/dumplicate.h"
 #include "cxkernel/utils/utils.h"
 #include "cxbin/load.h"
 #include "cxbin/save.h"
@@ -229,6 +230,7 @@ namespace cxkernel
 	TriMeshPtr loadMeshFromName(const QString& fileName, ccglobal::Tracer* tracer)
 	{
 		TriMeshPtr mesh(cxbin::loadAll(qString2String(fileName), tracer));
+		msbase::dumplicateMesh(mesh.get());
 		return mesh;
 	}
 
