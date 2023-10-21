@@ -26,6 +26,9 @@ namespace cxkernel
 
 	CXKERNEL_API QVariant invokeQmlJs(const QString& script);
 	CXKERNEL_API QJSValue invokeJS(const QString& script, const QString& name, QObject* context);
+
+	CXKERNEL_API QObject* findItem(const QString& name);
+	CXKERNEL_API void invokeItemFunc(const QString& name, const QString& func, const QVariant& variant1 = QVariant(), const QVariant& variant2 = QVariant());
 }
 
 #endif // CXKERNEL_UIINTERFACE_1681977959351_H

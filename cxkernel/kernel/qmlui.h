@@ -26,6 +26,8 @@ namespace cxkernel
 		Q_INVOKABLE void registerRootWindow(QObject* object);
 		
 		Q_INVOKABLE QObject* itemByName(const QString& name);
+		Q_INVOKABLE void invokeItemFunc(const QString& name, const QString& func,
+			const QVariant& variant1 = QVariant(), const QVariant& variant2 = QVariant());
 
 		Q_INVOKABLE QVariant invokeQmlJs(const QString& script);
 		Q_INVOKABLE bool invokeQmlJsRt(const QString& script);

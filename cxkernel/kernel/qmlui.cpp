@@ -98,7 +98,25 @@ namespace cxkernel
 		if (!m_rootWindow)
 			return nullptr;
 
+		if (name.isEmpty())
+			return m_rootWindow;
+
 		return m_rootWindow->findChild<QObject*>(name);
+	}
+
+	void QmlUI::invokeItemFunc(const QString& name, const QString& func, const QVariant& variant1, const QVariant& variant2)
+	{
+		QObject* object = itemByName(name);
+
+		if (!object)
+			return;
+
+		if (variant1.isNull())
+			QMetaObject::invokeMethod(object, func.toStdString().c_str());
+		else if (variant2.isNull())
+			QMetaObject::invokeMethod(object, func.toStdString().c_str(), Q_ARG(QVariant, variant1));
+		else
+			QMetaObject::invokeMethod(object, func.toStdString().c_str(), Q_ARG(QVariant, variant1), Q_ARG(QVariant, variant2));
 	}
 
 	QVariant QmlUI::invokeQmlJs(const QString& script)

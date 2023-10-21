@@ -38,4 +38,14 @@ namespace cxkernel
 	{
 		return cxKernel->qmlUI()->invokeJS(script, name, context);
 	}
+
+	QObject* findItem(const QString& name)
+	{
+		return cxKernel->qmlUI()->itemByName(name);
+	}
+
+	void invokeItemFunc(const QString& name, const QString& func, const QVariant& variant1, const QVariant& variant2)
+	{
+		cxKernel->qmlUI()->invokeItemFunc(name, func, variant1, variant2);
+	}
 }
