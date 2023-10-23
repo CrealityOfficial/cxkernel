@@ -10,6 +10,8 @@ namespace cxkernel
 
 	CXKERNEL_API void runAnonymous(anonymous_work_func workFunc, anonymous_func successFunc);
 	CXKERNEL_API std::string qString2String(const QString& str);
+	CXKERNEL_API void clearModelSerializeData();
+	CXKERNEL_API QString getSerializeModelName(QString model_name);
 
 }
 
