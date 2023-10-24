@@ -7,7 +7,9 @@
 
 #include <locale>
 #include <codecvt>
-
+#include <QStandardPaths>
+#include <QDateTime>
+#include "qtusercore/string/stringtool.h"
 namespace cxkernel
 {
 	void circleDirectory(const QString& directory, circleLoadFunc func)
@@ -71,5 +73,35 @@ namespace cxkernel
 		std::wstring_convert<convert_typeX, wchar_t> converterX;
 
 		return converterX.to_bytes(wstr);
+	}
+	void clearModelSerializeData()
+	{
+		QString strPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/RecentSerializeModel/";
+		QDir d(strPath);
+		if (!d.exists())
+		{
+			return;
+		}
+
+		d.removeRecursively();
+	}
+	QString createPureName(const QString& name)
+	{
+		return qtuser_core::qstringMd5(name);
+	}
+	QString getSerializeModelName(QString model_name)
+	{
+		QString strPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/RecentSerializeModel/";
+		QDir d(strPath);
+		if (!d.exists())
+		{
+			d.mkdir(strPath);
+		}
+
+		QDateTime current_date_time = QDateTime::currentDateTime();
+		QString current_date_str = current_date_time.toString("yyyy.MM.dd hh:mm:ss.zzz");
+		QString pure_name = createPureName(model_name+ current_date_str);
+
+		return strPath + pure_name + ".ser";
 	}
 }
