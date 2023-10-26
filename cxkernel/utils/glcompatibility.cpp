@@ -81,9 +81,9 @@ namespace cxkernel
 		QSurfaceFormat fmt;
 		if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
 		{	/* opengl */
-#ifdef Q_OS_OSX
 			fmt.setVersion(3, 3);
 			fmt.setProfile(QSurfaceFormat::CoreProfile);
+#ifdef Q_OS_OSX
 			fmt.setDepthBufferSize(24);
 			fmt.setStencilBufferSize(8);
 			fmt.setSamples(4);
