@@ -132,6 +132,7 @@ namespace cxkernel
         else
             para = nestplacer::NestParaFloat(workspaceBox, m_distance, nestplacer::PlaceType(m_nestType), true, 1);
 
+        para.tracer = &tracer;
         nestplacer::layout_new_item(modelsData, transData, newItem, para, modelPositionUpdateFunc_nest);
 #else
         modelPositionUpdateFunc_nest(trimesh::vec3());
@@ -184,6 +185,7 @@ namespace cxkernel
         else
             para = nestplacer::NestParaFloat(workspaceBox, m_distance, nestplacer::PlaceType(m_nestType), true, 1);
 
+        para.tracer = &tracer;
         nestplacer::layout_all_nest(modelsData, modelIndices, para, modelPositionUpdateFunc_nest);
 #else
         for (int m = 0; m < m_items.size(); m++)
