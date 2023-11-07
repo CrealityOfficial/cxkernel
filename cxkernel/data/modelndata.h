@@ -28,7 +28,9 @@ namespace cxkernel
 		QString fileName;    // only for load
 		QString name;
 		QString description;
-		std::vector<std::string> colors; //for multi color
+		std::vector<std::string> colors; //for paint color
+		std::vector<std::string> seams; //for paint seam
+		std::vector<std::string> supports; //for paint support
 		ModelNDataType type = ModelNDataType::mdt_none;
 	};
 
@@ -58,7 +60,9 @@ namespace cxkernel
 		TriMeshPtr hull;
 		cxkernel::GeometryData renderData;
 		std::vector<KernelHullFace> faces;
-		std::vector<std::string> colors; //for multi color
+		std::vector<std::string> colors; //for paint color
+		std::vector<std::string> seams; //for paint seam
+		std::vector<std::string> supports; //for paint support
 		trimesh::vec3 offset;
 		ModelCreateInput input;
 	};

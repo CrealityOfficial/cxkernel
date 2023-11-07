@@ -259,6 +259,8 @@ namespace cxkernel
 			data->input = input;
 			data->offset = offset;
 			data->colors = input.colors;
+			data->seams = input.seams;
+			data->supports = input.supports;
 
 			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
 			msbase::dumplicateMesh(hull);
