@@ -82,11 +82,14 @@ namespace cxkernel
 		if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
 		{	/* opengl */
 			fmt.setVersion(3, 3);
-			fmt.setProfile(QSurfaceFormat::CoreProfile);
 #ifdef Q_OS_OSX
+			fmt.setProfile(QSurfaceFormat::CoreProfile);
 			fmt.setDepthBufferSize(24);
 			fmt.setStencilBufferSize(8);
 			fmt.setSamples(4);
+#else
+			fmt.setProfile(QSurfaceFormat::CompatibilityProfile);
+			fmt.setOptions(QSurfaceFormat::DeprecatedFunctions);
 #endif
 		}
 		else
