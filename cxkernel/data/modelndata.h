@@ -87,6 +87,9 @@ namespace cxkernel
 													   ccglobal::Tracer* tracer = nullptr,
 													   const ModelNDataCreateParam& param = ModelNDataCreateParam()
 													   );
+
+	CXKERNEL_API ModelNDataPtr createModelNData(TriMeshPtr mesh, const QString& name,
+		ModelNDataType type, bool toCenter = false, ccglobal::Tracer* tracer = nullptr);
 }
 
 #endif // CXKERNEL_MODELNDATA_1681019989200_H
