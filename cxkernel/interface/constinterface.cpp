@@ -10,6 +10,11 @@ namespace cxkernel
 		return cxKernel->cxConst()->version();
 	}
 
+	bool isReleaseVersion()
+	{
+		return cxKernel->cxConst()->isReleaseVersion();
+	}
+
 	QString writableLocation(const QString& subDir, const QString& subSubDir)
 	{
 		return cxKernel->cxConst()->writableLocation(subDir, subSubDir);

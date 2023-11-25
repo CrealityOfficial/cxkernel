@@ -13,6 +13,7 @@
 #if USE_TOPOMESH
 #include "topomesh/interface/letter.h"
 #include "topomesh/interface/poly.h"
+#include "cxkernel/interface/cacheinterface.h"
 #endif
 
 namespace cxkernel
@@ -60,6 +61,13 @@ namespace cxkernel
 		topomesh::LetterParam topoParam;
 		topoParam.deep = pDeep;
 		topoParam.concave = pConcave;
+		if (!cxkernel::isReleaseVersion())
+		{
+			QString cacheName = cxkernel::createNewAlgCache("letter");
+			topoParam.cacheInput = true;
+			topoParam.fileName = cacheName.toLocal8Bit().constData();
+		}
+
 		TriMeshPtr result(topomesh::letter(mesh.get(), topoCamera, topoParam, polygons, nullptr, tracer));
 #else
 		qDebug() << QString("topomesh letter missing.");

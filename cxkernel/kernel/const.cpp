@@ -30,6 +30,11 @@ namespace cxkernel {
     return QStringLiteral(PROJECT_VERSION_EXTRA);
   }
 
+  bool CXKernelConst::isReleaseVersion() const {
+      return PROJECT_VERSION_EXTRA == "Release";
+  }
+
+
   QString CXKernelConst::os() const {
     return QStringLiteral(BUILD_OS);
   }

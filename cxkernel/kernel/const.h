@@ -22,6 +22,8 @@ namespace cxkernel {
    public:
     QString version() const;
     QString versionExtra() const;
+    bool isReleaseVersion() const;
+
     QString os() const;
     QString bundleName() const;
 

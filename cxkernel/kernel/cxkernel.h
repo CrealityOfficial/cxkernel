@@ -31,6 +31,7 @@ namespace cxkernel
 	class QmlUI;
 
 	class CXKernelConst;
+	class AlgCache;
 	using CXKernelConstCreater = std::function<CXKernelConst*(void)>;
 
 	class DeviceUtil;
@@ -75,6 +76,7 @@ namespace cxkernel
 
 		QmlUI* qmlUI();
 		CXKernelConst* cxConst();
+		AlgCache* algCache();
 	protected:
 		QQmlEngine* m_engine;
 		QQmlContext* m_context;
@@ -92,6 +94,7 @@ namespace cxkernel
 		DeviceUtil* m_deviceUtil;
 
 		MeshLoader* m_meshLoader;
+		AlgCache* m_algCache;
 	};
 
 	extern CXKernel* cxKernel;

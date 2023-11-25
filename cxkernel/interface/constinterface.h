@@ -18,6 +18,7 @@
 namespace cxkernel
 {
 	CXKERNEL_API QString version();
+	CXKERNEL_API bool isReleaseVersion();
 
 	CXKERNEL_API QString writableLocation(const QString& subDir, const QString& subSubDir = QString());
 }

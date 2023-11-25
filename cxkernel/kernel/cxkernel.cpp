@@ -18,6 +18,7 @@
 #include "cxkernel/kernel/deviceutil.h"
 #include "cxkernel/kernel/qmlui.h"
 #include "cxkernel/kernel/const.h"
+#include "cxkernel/utils/algcache.h"
 
 #include "cxkernel/interface/uiinterface.h"
 
@@ -55,6 +56,7 @@ namespace cxkernel
 #endif
 		m_qmlUI = new QmlUI(this);
 		m_deviceUtil = new DeviceUtil(this);
+		m_algCache = new AlgCache(this);
 	}
 
 	// CXKernel::CXKernel(QObject* parent)
@@ -244,5 +246,10 @@ namespace cxkernel
 	CXKernelConst* CXKernel::cxConst()
 	{
 		return m_const;
+	}
+
+	AlgCache* CXKernel::algCache()
+	{
+		return m_algCache;
 	}
 }
