@@ -64,7 +64,6 @@ namespace cxkernel
 		if (!cxkernel::isReleaseVersion())
 		{
 			QString cacheName = cxkernel::createNewAlgCache("letter");
-			topoParam.cacheInput = true;
 			topoParam.fileName = cacheName.toLocal8Bit().constData();
 		}
 
