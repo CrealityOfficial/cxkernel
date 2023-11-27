@@ -18,6 +18,7 @@
 #include "ccglobal/log.h"
 #include "buildinfo.h"
 #include "qtusercore/string/resourcesfinder.h"
+#include <QTextCodec>
 
 namespace cxkernel
 {
@@ -32,7 +33,7 @@ namespace cxkernel
 		QString text = QString("[%3]").arg(msg);
 #endif
 #endif
-		switch (type)//log ÐÅÏ¢ÀàÐÍ
+		switch (type)//log ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
 		{
 		case QtDebugMsg:
 			LOGD("%s", text.toLocal8Bit().constData());
@@ -162,7 +163,7 @@ namespace cxkernel
 		QApplication app(argc, argv);
 		setlocale(LC_NUMERIC, "C");
 		app.setWindowIcon(QIcon(":/scence3d/res/logo.png"));
-
+		QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
 #ifdef Q_OS_OSX
 		QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
