@@ -55,8 +55,15 @@ namespace cxkernel
 			ccglobal::Tracer* tracer = nullptr);
 		//解析qml的图元的 坐标等属性，在主线程中调用，在子线程中进行QQmlProperty处理会有偶现崩溃
 		void parseQmlData(const QList<QObject*>& objectList);
+		static QSharedPointer<LetterConfigPara> parseLetter(QObject* object);
+
 		void generatePolygons( const QSize& surfaceSize, std::vector<PolygonsModel>& outPolygons);
-		trimesh::fxform calculateTransform(int w, int h);
+		static trimesh::fxform calculateTransform(int w, int h);
+
+		static void convertPolygons(const QList<QPolygonF>& polys, PolygonsModel& pathes);
+		static void font2Polygons(QSharedPointer<LetterConfigPara> lett, PolygonsModel& polygons);
+
+		static void transformPolygons(const QSize& surfaceSize, PolygonsModel& polygons);
 	signals:
 		void textThicknessChanged();
 		void textSideChanged();

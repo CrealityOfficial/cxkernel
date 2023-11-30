@@ -31,7 +31,7 @@ namespace cxkernel {
   }
 
   bool CXKernelConst::isReleaseVersion() const {
-      return PROJECT_VERSION_EXTRA == "Release";
+      return QString(PROJECT_VERSION_EXTRA) == QString("Release");
   }
 
 
