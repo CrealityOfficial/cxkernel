@@ -93,12 +93,15 @@ namespace cxkernel
 
 			for (int i = 0; i < fcount; ++i)
 			{
-				if (hasColor)
+				for (int j = 0; j < 3; ++j)
 				{
-					const trimesh::Color& c = mesh->colors.at(i);
-					for (int j = 0; j < 3; ++j)
+					if (hasColor)
 					{
+						const trimesh::Color& c = mesh->colors.at(i);
 						colorData[i * 3 + j] = c;
+					}
+					else {
+						colorData[i * 3 + j] = trimesh::vec3(1.0f);
 					}
 				}
 
@@ -195,7 +198,13 @@ namespace cxkernel
 		QByteArray& colorArray = data.color;
 
 		colorArray.resize(vcount * 3 * sizeof(float));
-		memset(colorArray.data(), 0x0, vcount * 3 * sizeof(float));
+		//memset(colorArray.data(), 0x0, vcount * 3 * sizeof(float));
+		float* colorPtr = (float*)colorArray.data();
+		for (size_t i = 0; i < vcount * 3; i++)
+		{
+			//默认白色
+			colorPtr[i] = 1.0f;
+		}
 
 		positionByteArray.resize(vcount * 3 * sizeof(float));
 
