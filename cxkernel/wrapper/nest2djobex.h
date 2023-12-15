@@ -5,11 +5,10 @@
 #include "qtusercore/module/job.h"
 #include "ccglobal/tracer.h"
 
-
 namespace cxkernel
 {
     class PlaceItemEx;
-
+	//
     struct  NestResultEx
     {
         trimesh::vec3 rt; // x, y translation  z rotation angle
@@ -27,6 +26,8 @@ namespace cxkernel
         void setPanDistance(float distance);
         void setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline);
         void setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems);
+
+		void setLayoutParameter(const float &modelSpacing,const float & platformSpacing,const int &angle);
     protected:
         QString name();
         QString description();
@@ -39,6 +40,7 @@ namespace cxkernel
 
         void createPlaceItemsByOutlines();
         void doLayout(ccglobal::Tracer& tracer);
+		
     protected:
         trimesh::box3 m_box;
 
@@ -54,6 +56,10 @@ namespace cxkernel
         std::vector< std::vector<trimesh::vec3> > m_fixedOutlines;
 
         std::vector< std::vector<trimesh::vec3> > m_activeOutlines;
+
+		float m_modelspacing =0.0f;
+		float m_platformSpacing = 1.0f;
+		int m_angle = 45;
     };
 }
 

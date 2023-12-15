@@ -47,7 +47,12 @@ namespace cxkernel
         m_fixedItems = fixedItems;
         m_activeItems = activeItems;
     }
-
+	void Nest2DJobEx::setLayoutParameter(const float& modelSpacing, const float& platformSpacing, const int& angle)
+	{
+		m_modelspacing = modelSpacing;
+		m_platformSpacing = platformSpacing;
+		m_angle = angle;
+	}
     QString Nest2DJobEx::name()
     {
         return "qcxutil::Nest2DJobEx";
@@ -147,11 +152,14 @@ namespace cxkernel
         YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
 
         PlacerParameter parameter;
-
+		parameter.itemGap = m_modelspacing;
+		parameter.binItemGap = m_platformSpacing;
+		parameter.rotate = true;
+		parameter.rotateAngle = m_angle;
         if (!cxkernel::isReleaseVersion())
         {
             QString cacheName = cxkernel::createNewAlgCache("autolayout");
-            parameter.fileName = cacheName.toLocal8Bit().constData();
+			parameter.fileName = cacheName.toLocal8Bit().constData();
         }
 
         std::vector<nestplacer::PlacerItem*> fixed;
