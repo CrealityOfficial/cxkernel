@@ -8,6 +8,7 @@
 #include "nestplacer/placer.h"
 #include "cxkernel/interface/constinterface.h"
 #include "cxkernel/interface/cacheinterface.h"
+#include "placeitem.h"
 
 using namespace nestplacer;
 
@@ -36,12 +37,12 @@ namespace cxkernel
         m_panDistance = distance;
     }
 
-    void Nest2DJobEx::setInsertItem(PlaceItemEx* item)
+    void Nest2DJobEx::setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline)
     {
-        m_insert = item;
+        m_insert = new PlaceItemEx(insertItemOutline, this);
     }
 
-    void Nest2DJobEx::setPlaceItems(const std::vector<nestplacer::PlacerItem*>& fixedItems, const std::vector<nestplacer::PlacerItem*>& activeItems)
+    void Nest2DJobEx::setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems)
     {
         m_fixedItems = fixedItems;
         m_activeItems = activeItems;
@@ -63,9 +64,10 @@ namespace cxkernel
 
     bool caseInsensitiveLessThan(PlaceItemEx* item1, PlaceItemEx* item2)
     {
-        trimesh::box3 b1 = item1->globalBox();
-        trimesh::box3 b2 = item2->globalBox();
-        return  b1.size().z > b2.size().z;
+        //trimesh::box3 b1 = item1->globalBox();
+        //trimesh::box3 b2 = item2->globalBox();
+        //return  b1.size().z > b2.size().z;
+        return false;
     }
 
     // invoke from main thread
@@ -76,6 +78,8 @@ namespace cxkernel
     void Nest2DJobEx::work(qtuser_core::Progressor* progressor)
     {
         beforeWork();
+
+        createPlaceItemsByOutlines();
 
         qtuser_core::ProgressorTracer tracer(progressor);
         if (!m_insert && m_activeItems.size() == 0)
@@ -99,27 +103,42 @@ namespace cxkernel
         m_fixedItems.clear();
         m_activeItems.clear();
         m_results.clear();
+        m_fixedOutlines.clear();
+        m_activeOutlines.clear();
     }
 
     void Nest2DJobEx::afterWork()
     {
-        if (m_results.empty())
-            return;
+        //if (m_results.empty())
+        //    return;
 
-        int i = 0;
-        int j = 0;
+        //int i = 0;
+        //int j = 0;
 
-        for (; i < m_fixedItems.size(); i++)
+        //for (; i < m_fixedItems.size(); i++)
+        //{
+        //    PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_fixedItems[i]);
+        //    aPlaceItem->setNestResult(m_results[i]);
+        //}
+
+        //for (; j < m_activeItems.size(); j++)
+        //{
+        //    PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_activeItems[j]);
+        //    aPlaceItem->setNestResult(m_results[i]);
+        //    i++;
+        //}
+    }
+
+    void Nest2DJobEx::createPlaceItemsByOutlines()
+    {
+        for (int i = 0; i < m_fixedOutlines.size(); i++)
         {
-            PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_fixedItems[i]);
-            aPlaceItem->setNestResult(m_results[i]);
+            m_fixedItems.push_back(new PlaceItemEx(m_fixedOutlines[i], this));
         }
 
-        for (; j < m_activeItems.size(); j++)
+        for (int k = 0; k < m_activeOutlines.size(); k++)
         {
-            PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_activeItems[j]);
-            aPlaceItem->setNestResult(m_results[i]);
-            i++;
+            m_activeItems.push_back(new PlaceItemEx(m_activeOutlines[k], this));
         }
     }
 
@@ -135,6 +154,30 @@ namespace cxkernel
             parameter.fileName = cacheName.toLocal8Bit().constData();
         }
 
-        place(m_fixedItems, m_activeItems, parameter, m_results, binExtendStrategy);
+        std::vector<nestplacer::PlacerItem*> fixed;
+        std::vector<nestplacer::PlacerItem*> actives;
+        std::vector<PlacerResultRT> results;
+
+        for (PlaceItemEx* fItem : m_fixedItems)
+        {
+            fixed.push_back(fItem);
+        }
+
+        for (PlaceItemEx* aItem : m_activeItems)
+        {
+            actives.push_back(aItem);
+        }
+
+        place(fixed, actives, parameter, results, binExtendStrategy);
+
+        m_results.resize(results.size());
+
+        for (int i = 0; i < results.size(); i++)
+        {
+            m_results[i].rt = results[i].rt;
+            m_results[i].binIndex = results[i].binIndex;
+        }
+
+
     }
 }

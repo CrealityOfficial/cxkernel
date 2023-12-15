@@ -4,24 +4,16 @@
 
 #include "qtusercore/module/job.h"
 #include "ccglobal/tracer.h"
-#include "nestplacer/placer.h"
+
 
 namespace cxkernel
 {
+    class PlaceItemEx;
 
-    class PlaceItemEx : public nestplacer::PlacerItem
+    struct  NestResultEx
     {
-    public:
-        virtual ~PlaceItemEx() {}
-
-        virtual trimesh::vec3 position() = 0;
-        virtual trimesh::box3 globalBox() = 0;
-        virtual std::vector<trimesh::vec3> outLine(bool global = false) = 0;
-        virtual std::vector<trimesh::vec3> outLine_concave() = 0;
-
-        void setNestResult(const nestplacer::PlacerResultRT& _result) { result = _result; }
-    public:
-        nestplacer::PlacerResultRT result;
+        trimesh::vec3 rt; // x, y translation  z rotation angle
+        int binIndex = 0;
     };
 
     class CXKERNEL_API Nest2DJobEx : public qtuser_core::Job
@@ -33,8 +25,8 @@ namespace cxkernel
 
         void setBounding(const trimesh::box3& box);
         void setPanDistance(float distance);
-        void setInsertItem(PlaceItemEx* item);
-        void setPlaceItems(const std::vector<nestplacer::PlacerItem*>& fixedItems, const std::vector<nestplacer::PlacerItem*>& activeItems);
+        void setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline);
+        void setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems);
     protected:
         QString name();
         QString description();
@@ -44,6 +36,8 @@ namespace cxkernel
 
         virtual void beforeWork();
         virtual void afterWork();
+
+        void createPlaceItemsByOutlines();
         void doLayout(ccglobal::Tracer& tracer);
     protected:
         trimesh::box3 m_box;
@@ -52,9 +46,14 @@ namespace cxkernel
 
         float m_panDistance;
 
-        std::vector<nestplacer::PlacerItem*> m_fixedItems;
-        std::vector<nestplacer::PlacerItem*> m_activeItems;
-        std::vector<nestplacer::PlacerResultRT> m_results;
+        std::vector<PlaceItemEx*> m_fixedItems;
+        std::vector<PlaceItemEx*> m_activeItems;
+        std::vector<NestResultEx> m_results;
+
+        //each outline relates to one  fixed "nestplacer::PlacerItem"
+        std::vector< std::vector<trimesh::vec3> > m_fixedOutlines;
+
+        std::vector< std::vector<trimesh::vec3> > m_activeOutlines;
     };
 }
 
