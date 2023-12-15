@@ -7,3 +7,4 @@ libtess2/0.0.1
 enchase/0.0.3
 sensors_analytics_sdk/0.0.1
 topomesh/0.0.2
+nestplacer/2.0.0
