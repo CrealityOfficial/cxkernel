@@ -105,33 +105,10 @@ namespace cxkernel
 
     void Nest2DJobEx::beforeWork()
     {
-        m_fixedItems.clear();
-        m_activeItems.clear();
-        m_results.clear();
-        m_fixedOutlines.clear();
-        m_activeOutlines.clear();
     }
 
     void Nest2DJobEx::afterWork()
     {
-        //if (m_results.empty())
-        //    return;
-
-        //int i = 0;
-        //int j = 0;
-
-        //for (; i < m_fixedItems.size(); i++)
-        //{
-        //    PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_fixedItems[i]);
-        //    aPlaceItem->setNestResult(m_results[i]);
-        //}
-
-        //for (; j < m_activeItems.size(); j++)
-        //{
-        //    PlaceItemEx* aPlaceItem = (PlaceItemEx*)(m_activeItems[j]);
-        //    aPlaceItem->setNestResult(m_results[i]);
-        //    i++;
-        //}
     }
 
     void Nest2DJobEx::createPlaceItemsByOutlines()
@@ -178,14 +155,20 @@ namespace cxkernel
 
         place(fixed, actives, parameter, results, binExtendStrategy);
 
-        m_results.resize(results.size());
-
+        const float EPSINON = 0.00001f;
         for (int i = 0; i < results.size(); i++)
         {
-            m_results[i].rt = results[i].rt;
-            m_results[i].binIndex = results[i].binIndex;
-        }
+            if (results[i].rt.x >= -EPSINON && results[i].rt.x <= EPSINON
+                && results[i].rt.y >= -EPSINON && results[i].rt.y <= EPSINON)
+            {
+                continue;
+            }
 
+            NestResultEx aResult;
+            aResult.binIndex = results[i].binIndex;
+            aResult.rt = results[i].rt;
+            m_results.push_back(aResult);
+        }
 
     }
 }
