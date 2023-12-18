@@ -57,9 +57,9 @@ namespace cxkernel
 
         std::vector< std::vector<trimesh::vec3> > m_activeOutlines;
 
-		float m_modelspacing =0.0f;
-		float m_platformSpacing = 1.0f;
-		int m_angle = 45;
+		float m_modelspacing;
+		float m_platformSpacing;
+		int m_angle;
     };
 }
 

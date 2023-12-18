@@ -17,6 +17,9 @@ namespace cxkernel
     Nest2DJobEx::Nest2DJobEx(QObject* parent)
         : Job(parent)
         , m_insert(nullptr)
+        , m_modelspacing(1.0f)
+        , m_platformSpacing(1.0f)
+        , m_angle(45)
         , m_panDistance(10.0f)
     {
 
