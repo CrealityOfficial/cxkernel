@@ -27,7 +27,7 @@ namespace cxkernel
         void setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline);
         void setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems);
 
-		void setLayoutParameter(const float &modelSpacing,const float & platformSpacing,const int &angle);
+		void setLayoutParameter(const float &modelSpacing,const float & platformSpacing,const int &angle, const bool alignMove = false);
     protected:
         QString name();
         QString description();
@@ -60,6 +60,7 @@ namespace cxkernel
 		float m_modelspacing;
 		float m_platformSpacing;
 		int m_angle;
+		bool m_alignMove;
     };
 }
 
