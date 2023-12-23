@@ -1,6 +1,6 @@
 #include "entry.h"
 #include <QtWidgets/QApplication>
-
+#include <QResource>
 #include <QtCore/QDebug>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
@@ -162,6 +162,16 @@ namespace cxkernel
 
 		QApplication app(argc, argv);
 		setlocale(LC_NUMERIC, "C");
+		QString rcc = qApp->applicationDirPath() + "/CrealityUIRes.rcc";
+    #ifdef Q_OS_OSX
+        rcc = qApp->applicationDirPath() + "/../Resources/CrealityUIRes.rcc";
+    #endif
+    #ifdef Q_OS_LINUX
+    #endif
+		if(QResource::registerResource(rcc))
+		{
+			qDebug() << "success";
+		}
 		app.setWindowIcon(QIcon(":/scence3d/res/logo.png"));
 
 #ifdef Q_OS_OSX
