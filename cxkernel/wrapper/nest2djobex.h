@@ -24,8 +24,6 @@ namespace cxkernel
 
         void setBounding(const trimesh::box3& box);
         void setPanDistance(float distance);
-        void setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline);
-        void setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems);
 
 		void setLayoutParameter(const float &modelSpacing,const float & platformSpacing,const int &angle, const bool alignMove = false);
     protected:
@@ -43,8 +41,6 @@ namespace cxkernel
 		
     protected:
         trimesh::box3 m_box;
-
-        PlaceItemEx* m_insert;
 
         float m_panDistance;
 

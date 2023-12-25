@@ -16,7 +16,6 @@ namespace cxkernel
 {
     Nest2DJobEx::Nest2DJobEx(QObject* parent)
         : Job(parent)
-        , m_insert(nullptr)
         , m_modelspacing(1.0f)
         , m_platformSpacing(1.0f)
         , m_angle(45)
@@ -40,16 +39,12 @@ namespace cxkernel
         m_panDistance = distance;
     }
 
-    void Nest2DJobEx::setInsertItemOutline(const std::vector<trimesh::vec3>& insertItemOutline)
-    {
-        m_insert = new PlaceItemEx(insertItemOutline, this);
-    }
-
     void Nest2DJobEx::setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems)
     {
         m_fixedItems = fixedItems;
         m_activeItems = activeItems;
     }
+	
 	void Nest2DJobEx::setLayoutParameter(const float& modelSpacing, const float& platformSpacing, const int& angle, const bool alignMove)
 	{
 		m_modelspacing = modelSpacing;
@@ -57,6 +52,7 @@ namespace cxkernel
 		m_angle = angle;
 		m_alignMove = alignMove;
 	}
+
     QString Nest2DJobEx::name()
     {
         return "qcxutil::Nest2DJobEx";
@@ -91,16 +87,6 @@ namespace cxkernel
         createPlaceItemsByOutlines();
 
         qtuser_core::ProgressorTracer tracer(progressor);
-        if (!m_insert && m_activeItems.size() == 0)
-        {
-            tracer.failed("Nest2DJobEx::work invalid input.");
-            return;
-        }
-
-        if (m_insert)
-        {
-            m_activeItems.push_back(m_insert);
-        }
 
         doLayout(tracer);
 
@@ -138,6 +124,7 @@ namespace cxkernel
 		parameter.rotate = (m_angle ==0 ? false : true);
 		parameter.rotateAngle = m_angle;
 		parameter.needAlign = m_alignMove;
+		
         if (!cxkernel::isReleaseVersion())
         {
             QString cacheName = cxkernel::createNewAlgCache("autolayout");
