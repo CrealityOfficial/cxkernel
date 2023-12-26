@@ -36,7 +36,6 @@ namespace cxkernel
         virtual void beforeWork();
         virtual void afterWork();
 
-        void createPlaceItemsByOutlines();
         void doLayout(ccglobal::Tracer& tracer);
 		
     protected:
@@ -44,8 +43,6 @@ namespace cxkernel
 
         float m_panDistance;
 
-        std::vector<PlaceItemEx*> m_fixedItems;
-        std::vector<PlaceItemEx*> m_activeItems;
         std::vector<NestResultEx> m_results;
 
         //each outline relates to one  fixed "nestplacer::PlacerItem"

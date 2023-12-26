@@ -21,7 +21,6 @@ namespace cxkernel
         , m_angle(45)
         , m_panDistance(10.0f)
     {
-
     }
 
     Nest2DJobEx::~Nest2DJobEx()
@@ -37,12 +36,6 @@ namespace cxkernel
     void Nest2DJobEx::setPanDistance(float distance)
     {
         m_panDistance = distance;
-    }
-
-    void Nest2DJobEx::setPlaceItems(const std::vector<PlaceItemEx*>& fixedItems, const std::vector<PlaceItemEx*>& activeItems)
-    {
-        m_fixedItems = fixedItems;
-        m_activeItems = activeItems;
     }
 	
 	void Nest2DJobEx::setLayoutParameter(const float& modelSpacing, const float& platformSpacing, const int& angle, const bool alignMove)
@@ -84,8 +77,6 @@ namespace cxkernel
     {
         beforeWork();
 
-        createPlaceItemsByOutlines();
-
         qtuser_core::ProgressorTracer tracer(progressor);
 
         doLayout(tracer);
@@ -99,19 +90,6 @@ namespace cxkernel
 
     void Nest2DJobEx::afterWork()
     {
-    }
-
-    void Nest2DJobEx::createPlaceItemsByOutlines()
-    {
-        for (int i = 0; i < m_fixedOutlines.size(); i++)
-        {
-            m_fixedItems.push_back(new PlaceItemEx(m_fixedOutlines[i], this));
-        }
-
-        for (int k = 0; k < m_activeOutlines.size(); k++)
-        {
-            m_activeItems.push_back(new PlaceItemEx(m_activeOutlines[k], this));
-        }
     }
 
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
@@ -135,14 +113,14 @@ namespace cxkernel
         std::vector<nestplacer::PlacerItem*> actives;
         std::vector<PlacerResultRT> results;
 
-        for (PlaceItemEx* fItem : m_fixedItems)
+        for (int i = 0; i < m_fixedOutlines.size(); i++)
         {
-            fixed.push_back(fItem);
+            fixed.push_back(new PlaceItemEx(m_fixedOutlines[i]));
         }
 
-        for (PlaceItemEx* aItem : m_activeItems)
+        for (int k = 0; k < m_activeOutlines.size(); k++)
         {
-            actives.push_back(aItem);
+            actives.push_back(new PlaceItemEx(m_activeOutlines[k]));
         }
 
         place(fixed, actives, parameter, results, binExtendStrategy);
@@ -160,6 +138,24 @@ namespace cxkernel
             aResult.binIndex = results[i].binIndex;
             aResult.rt = results[i].rt;
             m_results.push_back(aResult);
+        }
+
+        for (int i = 0; i < fixed.size(); i++)
+        {
+            if (fixed[i])
+            {
+                delete fixed[i];
+                fixed[i] = nullptr;
+            }
+        }
+
+        for (int j = 0; j < actives.size(); j++)
+        {
+            if (actives[j])
+            {
+                delete actives[j];
+                actives[j] = nullptr;
+            }
         }
 
     }

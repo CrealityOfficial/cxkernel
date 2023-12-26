@@ -10,6 +10,10 @@ namespace cxkernel
 
     PlaceItemEx::~PlaceItemEx()
     {
+#ifdef DEBUG
+        qInfo() << "==== " << Q_FUNC_INFO;
+#endif // DEBUG
+
     }
 
     void PlaceItemEx::polygon(nestplacer::PlacerItemGeometry& geometry)
