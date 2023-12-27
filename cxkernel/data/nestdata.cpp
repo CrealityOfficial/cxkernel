@@ -20,16 +20,6 @@ namespace cxkernel
     {
     }
 
-    void NestData::setDirty(bool dirty)
-    {
-        m_dirty = dirty;
-    }
-
-    bool NestData::dirty()
-    {
-        return m_dirty;
-    }
-
     std::vector<trimesh::vec3> NestData::path(TriMeshPtr hull, const trimesh::vec3& scale, bool simple)
     {
         calculateXYConvex(hull, msbase::fromQuaterian(rotation), scale);
@@ -127,7 +117,7 @@ namespace cxkernel
 
     void NestData::calculateXYConvex(TriMeshPtr hull, const trimesh::fxform& rxf, const trimesh::vec3& scale)
     {
-        if (!dirty())
+        if (!m_dirty)
             return;
 
         if (hull)
@@ -148,7 +138,7 @@ namespace cxkernel
             simples.push_back(trimesh::vec3(dmax.x, dmin.y, 0.0f));
             simples.push_back(trimesh::vec3(dmax.x, dmax.y, 0.0f));
             simples.push_back(trimesh::vec3(dmin.x, dmax.y, 0.0f));
-            setDirty(false);
+            m_dirty = false;
         }
     }
 
