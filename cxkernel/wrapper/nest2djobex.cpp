@@ -9,6 +9,7 @@
 #include "cxkernel/interface/constinterface.h"
 #include "cxkernel/interface/cacheinterface.h"
 #include "placeitem.h"
+#include <QDateTime>
 
 using namespace nestplacer;
 
@@ -123,7 +124,16 @@ namespace cxkernel
             actives.push_back(new PlaceItemEx(m_activeOutlines[k]));
         }
 
+#ifdef DEBUG
+        qint64 t1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
+#endif // DEBUG 
+
         place(fixed, actives, parameter, results, binExtendStrategy);
+
+#ifdef DEBUG
+        qint64 t1_1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
+        qInfo() << "==== place Time use " << (t1_1 - t1) << " ms";
+#endif // DEBUG
 
         const float EPSINON = 0.00001f;
         for (int i = 0; i < results.size(); i++)
