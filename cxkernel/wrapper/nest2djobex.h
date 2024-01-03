@@ -25,7 +25,7 @@ namespace cxkernel
         void setBounding(const trimesh::box3& box);
         void setPanDistance(float distance);
 
-		void setLayoutParameter(const float &modelSpacing,const float & platformSpacing,const int &angle, const bool alignMove = false);
+		void setLayoutParameter(float modelSpacing, float platformSpacing, int angle, bool alignMove, bool outlineConcave);
     protected:
         QString name();
         QString description();
@@ -54,6 +54,7 @@ namespace cxkernel
 		float m_platformSpacing;
 		int m_angle;
 		bool m_alignMove;
+        bool m_outlineConcave;
     };
 }
 

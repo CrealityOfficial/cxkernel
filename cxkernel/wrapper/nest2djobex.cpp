@@ -21,6 +21,7 @@ namespace cxkernel
         , m_platformSpacing(1.0f)
         , m_angle(45)
         , m_panDistance(10.0f)
+        , m_outlineConcave(false)
     {
     }
 
@@ -39,12 +40,13 @@ namespace cxkernel
         m_panDistance = distance;
     }
 	
-	void Nest2DJobEx::setLayoutParameter(const float& modelSpacing, const float& platformSpacing, const int& angle, const bool alignMove)
+	void Nest2DJobEx::setLayoutParameter(float modelSpacing, float platformSpacing, int angle, bool alignMove, bool outlineConcave)
 	{
 		m_modelspacing = modelSpacing;
 		m_platformSpacing = platformSpacing;
 		m_angle = angle;
 		m_alignMove = alignMove;
+        m_outlineConcave = outlineConcave;
 	}
 
     QString Nest2DJobEx::name()
@@ -103,6 +105,7 @@ namespace cxkernel
 		parameter.rotate = (m_angle ==0 ? false : true);
 		parameter.rotateAngle = m_angle;
 		parameter.needAlign = m_alignMove;
+        parameter.concaveCal = m_outlineConcave;
 		
         if (!cxkernel::isReleaseVersion())
         {
