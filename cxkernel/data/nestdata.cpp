@@ -76,16 +76,21 @@ namespace cxkernel
         return rotation;
     }
 
-    std::vector<trimesh::vec3> NestData::concave_path(TriMeshPtr mesh, const trimesh::vec3 scale)
+    std::vector<trimesh::vec3> NestData::q_concave_path(TriMeshPtr mesh, const trimesh::quaternion& _rotation, const trimesh::vec3& scale)
     {
         std::vector<trimesh::vec3> concave;
 
 #if USE_TOPOMESH
-        topomesh::meshConcave(mesh.get(), concave, rotation, scale);
+        topomesh::meshConcave(mesh.get(), concave, _rotation, scale);
 #else
         qWarning() << QString("NestData::concave_path need link topomesh.");
 #endif
         return concave;
+    }
+
+    std::vector<trimesh::vec3> NestData::concave_path(TriMeshPtr mesh, const trimesh::vec3 scale)
+    {
+        return q_concave_path(mesh, rotation, scale);
     }
 
     void NestData::copyData(const NestData* nd)

@@ -17,7 +17,9 @@ namespace cxkernel
 
         const std::vector<trimesh::vec3>& cPath(bool simple = false);
         std::vector<trimesh::vec3> debug_path();
-        std::vector<trimesh::vec3> concave_path(TriMeshPtr mesh, const trimesh::vec3 scale);
+
+        std::vector<trimesh::vec3> q_concave_path(TriMeshPtr hull, const trimesh::quaternion& rotation, const trimesh::vec3& scale = trimesh::vec3(1.0f, 1.0f, 1.0f));
+        std::vector<trimesh::vec3> concave_path(TriMeshPtr mesh, const trimesh::vec3 scale = trimesh::vec3(1.0f, 1.0f, 1.0f));
 
         void setNestRotation(const trimesh::quaternion& rotation);
         trimesh::quaternion nestRotation();
