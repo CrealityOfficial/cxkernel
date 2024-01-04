@@ -7,6 +7,7 @@
 #include "msbase/mesh/checker.h"
 #include "msbase/mesh/dumplicate.h"
 #include "msbase/mesh/tinymodify.h"
+#include "msbase/mesh/merge.h"
 
 #include "qtusercore/module/progressortracer.h"
 
@@ -16,14 +17,45 @@
 
 namespace cxkernel
 {
-	ModelNData::ModelNData()
+	ModelNData::ModelNData() 
+		: defaultColor(0)
 	{
-
+	
 	}
 
 	ModelNData::~ModelNData()
 	{
+	}
 
+	ModelNDataPtr ModelNData::clone()
+	{
+		ModelNData* clones = new ModelNData;
+
+		trimesh::TriMesh* tempMesh = new trimesh::TriMesh;
+		msbase::copyTrimesh2Trimesh(mesh.get(), tempMesh);
+		clones->mesh.reset(tempMesh);
+
+		tempMesh = new trimesh::TriMesh;
+		msbase::copyTrimesh2Trimesh(hull.get(), tempMesh);
+		clones->hull.reset(tempMesh);
+
+		clones->colors =  colors;
+		clones->defaultColor = defaultColor;
+		clones->spreadFaces = spreadFaces;
+		clones->spreadFaceCount = spreadFaceCount;
+		clones->seams = seams;
+		clones->supports = supports;
+		clones->offset = offset;
+		clones->input.mesh = clones->mesh;
+		clones->input.colors = clones->colors;
+		clones->input.seams = clones->seams;
+		clones->input.supports = clones->supports;
+		clones->input.fileName = input.fileName;
+		clones->input.name = input.name;
+		clones->input.description = input.description;
+		clones->input.type = input.type;
+
+		return ModelNDataPtr(clones);
 	}
 
 	int ModelNData::primitiveNum()

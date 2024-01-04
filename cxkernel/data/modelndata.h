@@ -34,11 +34,15 @@ namespace cxkernel
 		ModelNDataType type = ModelNDataType::mdt_none;
 	};
 
+	class ModelNData;
+	typedef std::shared_ptr<ModelNData> ModelNDataPtr;
 	class CXKERNEL_API ModelNData
 	{
 	public:
 		ModelNData();
 		~ModelNData();
+
+		ModelNDataPtr clone();
 
 		int primitiveNum();
 		void updateRenderData();
@@ -61,13 +65,14 @@ namespace cxkernel
 		cxkernel::GeometryData renderData;
 		std::vector<KernelHullFace> faces;
 		std::vector<std::string> colors; //for paint color
+		int defaultColor;
+		std::vector<int> spreadFaces; //for paint color spread face
+		int spreadFaceCount;
 		std::vector<std::string> seams; //for paint seam
 		std::vector<std::string> supports; //for paint support
 		trimesh::vec3 offset;
 		ModelCreateInput input;
 	};
-
-	typedef std::shared_ptr<ModelNData> ModelNDataPtr;
 
 	class ModelNDataProcessor
 	{
