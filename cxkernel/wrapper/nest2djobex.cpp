@@ -106,6 +106,7 @@ namespace cxkernel
 		parameter.rotateAngle = m_angle;
 		parameter.needAlign = m_alignMove;
         parameter.concaveCal = m_outlineConcave;
+        parameter.tracer = &tracer;
 		
         if (!cxkernel::isReleaseVersion())
         {
