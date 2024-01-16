@@ -258,8 +258,8 @@ namespace cxkernel
 	{
 		if (input.mesh)
 		{
-			if (tracer)
-				tracer->resetProgressScope();
+			//if (tracer)
+			//	tracer->resetProgressScope();
 
 			input.mesh->normals.clear();
 
