@@ -5,6 +5,11 @@
 #include "qtusercore/module/job.h"
 #include "ccglobal/tracer.h"
 
+namespace nestplacer
+{
+    class BinExtendStrategy;
+};
+
 namespace cxkernel
 {
     class PlaceItemEx;
@@ -22,6 +27,7 @@ namespace cxkernel
         Nest2DJobEx(QObject* parent = nullptr);
         virtual ~Nest2DJobEx();
 
+        void setStrategy(nestplacer::BinExtendStrategy* strategy);
         void setBounding(const trimesh::box3& box);
         void setPanDistance(float distance);
 
@@ -40,6 +46,8 @@ namespace cxkernel
 
     protected:
         trimesh::box3 m_box;
+
+        nestplacer::BinExtendStrategy* m_strategy { NULL };
 
         float m_panDistance;
 

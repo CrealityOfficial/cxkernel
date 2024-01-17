@@ -31,6 +31,11 @@ namespace cxkernel
 
     }
 
+    void Nest2DJobEx::setStrategy(nestplacer::BinExtendStrategy* strategy)
+    {
+        m_strategy = strategy;
+    }
+
     void Nest2DJobEx::setBounding(const trimesh::box3& box)
     {
         m_box = box;
@@ -97,13 +102,16 @@ namespace cxkernel
 
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
     {
-        YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
+        // YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
+        if (m_strategy == NULL)
+            return;
 
         PlacerParameter parameter;
 		parameter.itemGap = m_modelspacing;
 		parameter.binItemGap = m_platformSpacing;
-		parameter.rotate = (m_angle ==0 ? false : true);
-		parameter.rotateAngle = m_angle;
+		// parameter.rotate = (m_angle ==0 ? false : true);
+		// parameter.rotateAngle = m_angle;
+		parameter.rotate = false;
 		parameter.needAlign = m_alignMove;
         parameter.concaveCal = m_outlineConcave;
         parameter.box = m_box;
@@ -152,7 +160,8 @@ namespace cxkernel
         }
         qDebug() << "act output :" << str;
 
-        place(fixed, actives, parameter, results, binExtendStrategy);
+        place(fixed, actives, parameter, results, *m_strategy);
+        // place(fixed, actives, parameter, results, binExtendStrategy);
 
         qDebug() << " < result output > ";
         str = "";
