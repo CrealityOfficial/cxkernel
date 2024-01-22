@@ -17,9 +17,12 @@ namespace cxkernel
 
         void setNestResult(const nestplacer::PlacerResultRT& _result);
 
+        void setFixPanIndex(int panIndex);
+
     public:
         std::vector<trimesh::vec3> m_outline;
         nestplacer::PlacerResultRT result;
+        int m_panIndex;
     };
 
 }

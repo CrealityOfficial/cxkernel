@@ -56,6 +56,9 @@ namespace cxkernel
         //each outline relates to one  fixed "nestplacer::PlacerItem"
         std::vector< std::vector<trimesh::vec3> > m_fixedOutlines;
 
+        //in MultiBin situation, each element refer to the model's pan index
+        std::vector<int> m_fixedBinIndexs;
+
         std::vector< std::vector<trimesh::vec3> > m_activeOutlines;
 
 		float m_modelspacing;

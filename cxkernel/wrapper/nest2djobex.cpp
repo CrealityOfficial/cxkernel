@@ -102,7 +102,7 @@ namespace cxkernel
 
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
     {
-        // YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
+         //YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
         if (m_strategy == NULL)
             return;
 
@@ -128,7 +128,9 @@ namespace cxkernel
 
         for (int i = 0; i < m_fixedOutlines.size(); i++)
         {
-            fixed.push_back(new PlaceItemEx(m_fixedOutlines[i]));
+            PlaceItemEx* fixPlaceItem = new PlaceItemEx(m_fixedOutlines[i]);
+            fixPlaceItem->setFixPanIndex(m_fixedBinIndexs[i]);
+            fixed.push_back(fixPlaceItem);
         }
 
         for (int k = 0; k < m_activeOutlines.size(); k++)
@@ -140,38 +142,10 @@ namespace cxkernel
         qint64 t1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
 #endif // DEBUG 
 
-        qDebug() << "************** input info ****************";
-        QString str;
-        for (auto fix : fixed)
-        {
-            PlaceItemEx* fixEx = (PlaceItemEx*)fix;
-            QString data = QString("( %1, %2, %3, %4 )  ");
-            data = data.arg(fixEx->m_outline[0][0]).arg(fixEx->m_outline[0][1]).arg(fixEx->m_outline[0][2]).arg(fixEx->m_outline[0][3]);
-            str += data;
-        }
-        qDebug() << "fix output :" << str;
-        str = "";
-        for (auto at : actives)
-        {
-            PlaceItemEx* fixEx = (PlaceItemEx*)at;
-            QString data = QString("( %1, %2, %3, %4 )  ");
-            data = data.arg(fixEx->m_outline[0][0]).arg(fixEx->m_outline[0][1]).arg(fixEx->m_outline[0][2]).arg(fixEx->m_outline[0][3]);
-            str += data;
-        }
-        qDebug() << "act output :" << str;
 
         place(fixed, actives, parameter, results, *m_strategy);
         // place(fixed, actives, parameter, results, binExtendStrategy);
 
-        qDebug() << " < result output > ";
-        str = "";
-        for (auto re : results)
-        {
-            QString data = QString("( %1, %2, %3 )  ");
-            data = data.arg(re.rt[0]).arg(re.rt[1]).arg(re.rt[2]);
-            str += data;
-        }
-        qDebug() << str;
 
 #ifdef DEBUG
         qint64 t1_1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
