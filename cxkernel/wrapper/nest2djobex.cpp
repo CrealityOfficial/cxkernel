@@ -22,8 +22,6 @@ namespace cxkernel
         , m_angle(45)
         , m_panDistance(10.0f)
         , m_outlineConcave(false)
-        , m_curBin(0)
-        , m_binGap(50.0f)
     {
 
     }
@@ -33,10 +31,9 @@ namespace cxkernel
 
     }
 
-    void Nest2DJobEx::setStrategy(nestplacer::BinExtendStrategy* strategy, int curBin)
+    void Nest2DJobEx::setStrategy(nestplacer::BinExtendStrategy* strategy)
     {
         m_strategy = strategy;
-        m_curBin = curBin;
     }
 
     void Nest2DJobEx::setBounding(const trimesh::box3& box)
@@ -48,12 +45,6 @@ namespace cxkernel
     void Nest2DJobEx::setPanDistance(float distance)
     {
         m_panDistance = distance;
-    }
-
-    void Nest2DJobEx::setMultiBinInfo(const std::vector<trimesh::box3>& multiBinBoxs, float binGap)
-    {
-        m_multiBinBoxs = multiBinBoxs;
-        m_binGap = binGap;
     }
 	
 	void Nest2DJobEx::setLayoutParameter(float modelSpacing, float platformSpacing, int angle, bool alignMove, bool outlineConcave)
@@ -124,9 +115,6 @@ namespace cxkernel
 		parameter.needAlign = m_alignMove;
         parameter.concaveCal = m_outlineConcave;
         parameter.box = m_box;
-        parameter.curBinId = m_curBin;
-        parameter.multiBins = m_multiBinBoxs;
-        parameter.binDist = m_binGap;
 		
         if (!cxkernel::isReleaseVersion())
         {
@@ -154,10 +142,7 @@ namespace cxkernel
         qint64 t1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
 #endif // DEBUG 
 
-
         place(fixed, actives, parameter, results, *m_strategy);
-        // place(fixed, actives, parameter, results, binExtendStrategy);
-
 
 #ifdef DEBUG
         qint64 t1_1 = QDateTime::currentDateTime().toMSecsSinceEpoch();

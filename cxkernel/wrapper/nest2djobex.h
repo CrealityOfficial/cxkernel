@@ -27,10 +27,9 @@ namespace cxkernel
         Nest2DJobEx(QObject* parent = nullptr);
         virtual ~Nest2DJobEx();
 
-        void setStrategy(nestplacer::BinExtendStrategy* strategy, int curBin=0);
+        void setStrategy(nestplacer::BinExtendStrategy* strategy);
         void setBounding(const trimesh::box3& box);
         void setPanDistance(float distance);
-        void setMultiBinInfo(const std::vector<trimesh::box3>& multiBinBoxs, float binGap);
 
 		void setLayoutParameter(float modelSpacing, float platformSpacing, int angle, bool alignMove, bool outlineConcave);
     protected:
@@ -67,12 +66,7 @@ namespace cxkernel
 
 
         // ==== MultiBin related parameters ====
-        
-        std::vector<int> m_fixedBinIndexs; // each element refer to the model's pan index
-        int m_curBin;              //the current operated bin index
-        std::vector<trimesh::box3> m_multiBinBoxs;
-        float m_binGap;
-
+        std::vector<int> m_fixedBinIndexs; // each element refer to the model's plate index
         // ==== MultiBin related parameters ====
         
     };
