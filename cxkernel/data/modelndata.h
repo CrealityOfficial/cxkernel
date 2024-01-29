@@ -80,6 +80,7 @@ namespace cxkernel
 	public:
 		virtual ~ModelNDataProcessor() {}
 		virtual void process(ModelNDataPtr data) = 0;
+		virtual void modelMeshLoadStarted(int iMeshNum) {};
 	};
 
 	struct ModelNDataCreateParam

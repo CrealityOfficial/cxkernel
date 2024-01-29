@@ -43,6 +43,10 @@ namespace cxkernel
 
 	void MeshLoader::load(const QStringList& fileNames)
 	{
+		// fix me ;  can not emit signal here
+		if (m_processor)
+			m_processor->modelMeshLoadStarted(fileNames.size());
+
 		QList<qtuser_core::JobPtr> jobs;
 		for (const QString& fileName : fileNames)
 		{

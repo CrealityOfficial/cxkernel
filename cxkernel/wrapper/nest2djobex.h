@@ -66,6 +66,7 @@ namespace cxkernel
 
 
         // ==== MultiBin related parameters ====
+        int m_maxBinId;
         std::vector<int> m_fixedBinIndexs; // each element refer to the model's plate index
         // ==== MultiBin related parameters ====
         
