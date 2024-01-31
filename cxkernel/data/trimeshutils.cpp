@@ -87,7 +87,9 @@ namespace cxkernel
 					if (hasColor && vertexColor)
 					{
 						//逐顶点颜色，使用第一个顶点的上的颜色
-						colorData[i * 3 + j] = mesh->colors.at(idx - (idx%3));
+						//colorData[i * 3 + j] = mesh->colors.at(idx - (idx%3));
+						//逐顶点颜色
+						colorData[i * 3 + j] = mesh->colors.at(idx);
 					}
 				}
 
