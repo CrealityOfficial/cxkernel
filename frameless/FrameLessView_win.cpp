@@ -103,6 +103,7 @@ public:
     bool m_isMax = false;
     bool m_isFull = false;
     QQuickItem* m_titleItem = nullptr;
+    QQuickItem* m_maskItem = nullptr;
     HMENU mMenuHandler = NULL;
     bool borderless = true;        // is the window currently borderless
     bool borderless_resize = true; // should the window allow resizing by dragging the borders while borderless
@@ -201,6 +202,10 @@ QQuickItem* FrameLessView::titleItem() const
 void FrameLessView::setTitleItem(QQuickItem* item)
 {
     d->m_titleItem = item;
+}
+void FrameLessView::setMaskItem(QQuickItem* item)
+{
+    d->m_maskItem = item;
 }
 QRect FrameLessView::calcCenterGeo(const QRect& screenGeo, const QSize& normalSize)
 {
@@ -340,7 +345,18 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
                     return true;
                 }
             }
-
+            if(d->m_maskItem)
+            {
+                auto titlePos = d->m_maskItem->mapToGlobal({ 0, 0 });
+                titlePos = mapFromGlobal(titlePos.toPoint());
+                auto titleRect = QRect(titlePos.x(), titlePos.y(), d->m_maskItem->width(), d->m_maskItem->height());
+                double dpr = qApp->devicePixelRatio();
+                QPoint pos = mapFromGlobal(QPoint(x / dpr, y / dpr));
+                if (titleRect.contains(pos))
+                {
+                    return false;
+                }
+            }
             if (d->m_titleItem)
             {
                 auto titlePos = d->m_titleItem->mapToGlobal({ 0, 0 });

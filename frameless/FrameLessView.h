@@ -26,6 +26,7 @@ public slots:
     void setIsMax(bool isMax);
     void setIsFull(bool isFull);
     void setTitleItem(QQuickItem* item);
+    void setMaskItem(QQuickItem* item);
 
 signals:
     void isMaxChanged(bool isMax);
