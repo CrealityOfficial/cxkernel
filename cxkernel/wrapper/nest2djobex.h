@@ -20,6 +20,13 @@ namespace cxkernel
         int binIndex = 0;
     };
 
+    struct NestFixedItemInfo
+    {
+        int fixBinId;
+        trimesh::box3 fixBinGlobalBox;
+        std::vector<trimesh::vec3>  fixOutline;
+    };
+
     class CXKERNEL_API Nest2DJobEx : public qtuser_core::Job
     {
         Q_OBJECT
@@ -53,8 +60,7 @@ namespace cxkernel
 
         std::vector<NestResultEx> m_results;
 
-        //each outline relates to one  fixed "nestplacer::PlacerItem"
-        std::vector< std::vector<trimesh::vec3> > m_fixedOutlines;
+        std::vector<NestFixedItemInfo> m_fixInfos;
 
         std::vector< std::vector<trimesh::vec3> > m_activeOutlines;
 
@@ -67,7 +73,6 @@ namespace cxkernel
 
         // ==== MultiBin related parameters ====
         int m_maxBinId;
-        std::vector<int> m_fixedBinIndexs; // each element refer to the model's plate index
         // ==== MultiBin related parameters ====
         
     };

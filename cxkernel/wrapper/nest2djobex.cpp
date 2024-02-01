@@ -103,7 +103,6 @@ namespace cxkernel
 
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
     {
-         //YDefaultBinExtendStrategy binExtendStrategy(m_box, m_panDistance);
         if (m_strategy == NULL)
             return;
 
@@ -127,10 +126,10 @@ namespace cxkernel
         std::vector<nestplacer::PlacerItem*> actives;
         std::vector<PlacerResultRT> results;
 
-        for (int i = 0; i < m_fixedOutlines.size(); i++)
+        for (int i = 0; i < m_fixInfos.size(); i++)
         {
-            PlaceItemEx* fixPlaceItem = new PlaceItemEx(m_fixedOutlines[i]);
-            fixPlaceItem->setFixPanIndex(m_fixedBinIndexs[i]);
+            PlaceItemEx* fixPlaceItem = new PlaceItemEx(m_fixInfos[i].fixOutline);
+            fixPlaceItem->setFixPanIndex(m_fixInfos[i].fixBinId);
             fixed.push_back(fixPlaceItem);
         }
 
