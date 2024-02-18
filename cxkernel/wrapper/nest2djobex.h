@@ -27,6 +27,12 @@ namespace cxkernel
         std::vector<trimesh::vec3>  fixOutline;
     };
 
+    enum class NestMode
+    {
+        NEST_LAYOUT,
+        NEST_EXTEND_FILL
+    };
+
     class CXKERNEL_API Nest2DJobEx : public qtuser_core::Job
     {
         Q_OBJECT
@@ -39,6 +45,9 @@ namespace cxkernel
         void setPanDistance(float distance);
 
 		void setLayoutParameter(float modelSpacing, float platformSpacing, int angle, bool alignMove, bool outlineConcave);
+
+        void setNestMode(int nestMode);
+
     protected:
         QString name();
         QString description();
@@ -74,6 +83,8 @@ namespace cxkernel
         // ==== MultiBin related parameters ====
         int m_maxBinId;
         // ==== MultiBin related parameters ====
+
+        NestMode m_nestMode;
         
     };
 }

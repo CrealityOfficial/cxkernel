@@ -23,6 +23,7 @@ namespace cxkernel
         , m_panDistance(10.0f)
         , m_outlineConcave(false)
         , m_maxBinId(0)
+        , m_nestMode(NestMode::NEST_LAYOUT)
     {
 
     }
@@ -56,6 +57,11 @@ namespace cxkernel
 		m_alignMove = alignMove;
         m_outlineConcave = outlineConcave;
 	}
+
+    void Nest2DJobEx::setNestMode(int nestMode)
+    {
+        m_nestMode = (NestMode)nestMode;
+    }
 
     QString Nest2DJobEx::name()
     {
@@ -103,7 +109,7 @@ namespace cxkernel
 
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
     {
-        if (m_strategy == NULL)
+        if (m_strategy == NULL && NestMode::NEST_LAYOUT == m_nestMode)
             return;
 
         PlacerParameter parameter;
@@ -142,7 +148,16 @@ namespace cxkernel
         qint64 t1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
 #endif // DEBUG 
 
-        place(fixed, actives, parameter, results, *m_strategy);
+        if (NestMode::NEST_LAYOUT == m_nestMode)
+        {
+            place(fixed, actives, parameter, results, *m_strategy);
+        }
+        else if (NestMode::NEST_EXTEND_FILL == m_nestMode)
+        {
+            Q_ASSERT(actives.size() == 1);
+            extendFill(fixed, actives[0], parameter, results);
+        }
+        
 
 #ifdef DEBUG
         qint64 t1_1 = QDateTime::currentDateTime().toMSecsSinceEpoch();
