@@ -82,6 +82,10 @@ namespace cxkernel
 
         // ==== MultiBin related parameters ====
         int m_maxBinId;
+
+        //the current operated bin index
+        int m_curBinIndex;
+
         // ==== MultiBin related parameters ====
 
         NestMode m_nestMode;

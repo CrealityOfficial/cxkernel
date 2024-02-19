@@ -23,6 +23,7 @@ namespace cxkernel
         , m_panDistance(10.0f)
         , m_outlineConcave(false)
         , m_maxBinId(0)
+        , m_curBinIndex(0)
         , m_nestMode(NestMode::NEST_LAYOUT)
     {
 
@@ -121,6 +122,8 @@ namespace cxkernel
 		parameter.needAlign = m_alignMove;
         parameter.concaveCal = m_outlineConcave;
         parameter.box = m_box;
+        parameter.curBinId = m_curBinIndex;
+        parameter.tracer = &tracer;
 		
         if (!cxkernel::isReleaseVersion())
         {
