@@ -19,7 +19,7 @@
 #include "buildinfo.h"
 #include "qtusercore/string/resourcesfinder.h"
 #include <QTextCodec>
-
+#include <QFontMetrics>
 namespace cxkernel
 {
 	void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -148,7 +148,23 @@ namespace cxkernel
 
 		engine.setImportPathList(qmlPathList);
 	}
-
+	float getScreenScaleFactor()
+	{
+#ifdef __APPLE__
+		QFont font = qApp->font();
+		font.setPointSize(12);
+		qApp->setFont(font);
+		return 1;
+#else
+		QFont font = qApp->font();
+		font.setPointSize(10);
+		qApp->setFont(font);
+		//int ass = QFontMetrics(font).ascent();
+		float fontPixelRatio = QFontMetrics(qApp->font()).ascent() / 11.0;
+		fontPixelRatio = int(fontPixelRatio * 4) / 4.0;
+		return fontPixelRatio;
+#endif
+	}
 	int appMain(int argc, char* argv[], AppModuleCreateFunc func)
 	{
 		initializeLog(argc, argv);
@@ -194,7 +210,7 @@ namespace cxkernel
 				if (useFrameless)
 				{
 					FrameLessView* view = new FrameLessView();
-					view->setMinimumSize({ 1280, 720 });
+					view->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
 					view->setColor(QColor("transparent"));
 					engine = view->engine();
 					object = view;
