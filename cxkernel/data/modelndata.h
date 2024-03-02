@@ -28,6 +28,8 @@ namespace cxkernel
 		QString fileName;    // only for load
 		QString name;
 		QString description;
+
+		int defaultColor { 0 };
 		std::vector<std::string> colors; //for paint color
 		std::vector<std::string> seams; //for paint seam
 		std::vector<std::string> supports; //for paint support

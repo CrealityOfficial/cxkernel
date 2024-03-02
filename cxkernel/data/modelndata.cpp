@@ -290,6 +290,7 @@ namespace cxkernel
 			data->mesh = input.mesh;
 			data->input = input;
 			data->offset = offset;
+			data->defaultColor = input.defaultColor;
 			data->colors = input.colors;
 			data->seams = input.seams;
 			data->supports = input.supports;
