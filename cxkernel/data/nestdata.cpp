@@ -88,9 +88,14 @@ namespace cxkernel
 
     std::vector<trimesh::vec3> NestData::concave_path(TriMeshPtr mesh, const trimesh::vec3 scale)
     {
+        return q_concave_path(mesh, rotation, scale);
+    }
+
+    std::vector<trimesh::vec3> NestData::q_concave_path(TriMeshPtr mesh, const trimesh::quaternion& _rotation, const trimesh::vec3& scale)
+    {
         std::vector<trimesh::vec3> concave;
 
-        trimesh::fxform rot = msbase::fromQuaterian(rotation);
+        trimesh::fxform rot = msbase::fromQuaterian(_rotation);
 
         TriMeshPtr rotMesh(new trimesh::TriMesh());
         *rotMesh = *(mesh);

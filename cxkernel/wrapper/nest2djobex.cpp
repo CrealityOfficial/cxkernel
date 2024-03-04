@@ -111,7 +111,9 @@ namespace cxkernel
     void Nest2DJobEx::doLayout(ccglobal::Tracer& tracer)
     {
         if (m_strategy == NULL && NestMode::NEST_LAYOUT == m_nestMode)
-            return;
+        {
+            m_strategy = new nestplacer::YDefaultBinExtendStrategy(m_box, m_panDistance);
+        }
 
         PlacerParameter parameter;
 		parameter.itemGap = m_modelspacing;
