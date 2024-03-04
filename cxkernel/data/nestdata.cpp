@@ -90,8 +90,16 @@ namespace cxkernel
     {
         std::vector<trimesh::vec3> concave;
 
+        trimesh::fxform rot = msbase::fromQuaterian(rotation);
+
+        TriMeshPtr rotMesh(new trimesh::TriMesh());
+        *rotMesh = *(mesh);
+        trimesh::apply_xform(rotMesh.get(), trimesh::xform(rot));
+
+        trimesh::quaternion unitRot;
+
 #if USE_TOPOMESH
-        topomesh::meshConcave(mesh.get(), concave, rotation, scale);
+        topomesh::meshConcave(rotMesh.get(), concave, unitRot, scale);
 #else
         qWarning() << QString("NestData::concave_path need link topomesh.");
 #endif
