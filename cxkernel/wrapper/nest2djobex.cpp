@@ -19,7 +19,7 @@ namespace cxkernel
         : Job(parent)
         , m_modelspacing(1.0f)
         , m_platformSpacing(1.0f)
-        , m_angle(45)
+        , m_angle(0)
         , m_panDistance(10.0f)
         , m_outlineConcave(false)
         , m_maxBinId(0)
@@ -118,9 +118,8 @@ namespace cxkernel
         PlacerParameter parameter;
 		parameter.itemGap = m_modelspacing;
 		parameter.binItemGap = m_platformSpacing;
-		// parameter.rotate = (m_angle ==0 ? false : true);
-		// parameter.rotateAngle = m_angle;
-		parameter.rotate = false;
+		parameter.rotate = (m_angle ==0 ? false : true);
+		parameter.rotateAngle = m_angle;
 		parameter.needAlign = m_alignMove;
         parameter.concaveCal = m_outlineConcave;
         parameter.box = m_box;
