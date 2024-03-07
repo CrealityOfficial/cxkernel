@@ -66,6 +66,7 @@ namespace cxkernel
 		TriMeshPtr hull;
 		cxkernel::GeometryData renderData;
 		std::vector<KernelHullFace> faces;
+		QMap<int, trimesh::vec3> colorMap;
 		QSet<int> colorIndexs;
 		std::vector<std::string> colors; //for paint color
 		int defaultColor;
