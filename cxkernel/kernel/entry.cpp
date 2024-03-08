@@ -178,6 +178,8 @@ namespace cxkernel
 
 		QApplication app(argc, argv);
 		setlocale(LC_NUMERIC, "C");
+		QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
+
 		QString rcc = qApp->applicationDirPath() + "/CrealityUIRes.rcc";
     #ifdef Q_OS_OSX
         rcc = qApp->applicationDirPath() + "/../Resources/CrealityUIRes.rcc";
