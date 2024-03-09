@@ -4,9 +4,10 @@
 #include <QQuickItem>
 #include <QScreen>
 #include <QWindow>
-
+#include <QShortcutEvent>
+#include <QKeySequence>
 #include <windows.h>
-
+#include <QApplication>
 #include <VersionHelpers.h>
 #include <WinUser.h>
 #include <dwmapi.h>
@@ -266,6 +267,9 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
 #endif
 
 {
+    const auto msg = static_cast<LPMSG>(message);
+    
+
     const long border_width = 4;
     if (!result)
     {
@@ -278,7 +282,7 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
     // Work-around a bug caused by typo which only exists in Qt 5.11.1
     const auto msg = *reinterpret_cast<MSG**>(message);
 #else
-    const auto msg = static_cast<LPMSG>(message);
+ 
 #endif
 
     if (!msg || !msg->hwnd)
@@ -325,6 +329,28 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
             *result = 1;
             return true;
         }
+        break;
+    }
+    case WM_SYSKEYDOWN: {
+        const quint32 modifiers = LOWORD(msg->wParam);
+        qDebug() << "event:" << modifiers;
+        if(modifiers == 83) //ALT+S
+        {
+            //QShortcutEvent keyPress(QKeySequence("Alt+S"),100);
+            QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_S, Qt::AltModifier);
+            QApplication::sendEvent(this, &keyPress);
+        }
+        if(modifiers == 77)
+        {
+            QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_M, Qt::AltModifier);
+            QApplication::sendEvent(this, &keyPress);
+        }
+        if(modifiers == 67)
+        {
+            QKeyEvent keyPress(QEvent::KeyPress, Qt::Key_C, Qt::AltModifier);
+            QApplication::sendEvent(this, &keyPress);
+        }
+
         break;
     }
     case WM_NCHITTEST: {

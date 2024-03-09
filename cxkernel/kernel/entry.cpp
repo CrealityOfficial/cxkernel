@@ -220,6 +220,7 @@ namespace cxkernel
 					view->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
 					view->setColor(QColor("transparent"));
 					engine = view->engine();
+					QObject::connect(engine,&QQmlEngine::quit,[&](){QCoreApplication::quit();});
 					object = view;
 				}
 				else
