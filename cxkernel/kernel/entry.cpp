@@ -219,6 +219,7 @@ namespace cxkernel
 					FrameLessView* view = new FrameLessView();
 					view->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
 					view->setColor(QColor("transparent"));
+					view->setTitle(QStringLiteral(BUNDLE_NAME).replace(QStringLiteral("_"), QStringLiteral(" ")));
 					engine = view->engine();
 					QObject::connect(engine,&QQmlEngine::quit,[&](){QCoreApplication::quit();});
 					object = view;
