@@ -12,7 +12,7 @@
 #include <WinUser.h>
 #include <dwmapi.h>
 #include <objidl.h> // Fixes error C2504: 'IUnknown' : base class undefined
-
+#include <qwindow.h>
 #include <windowsx.h>
 #include <wtypes.h>
 #pragma comment(lib, "Dwmapi.lib") // Adds missing library, fixes error LNK2019: unresolved
@@ -152,6 +152,14 @@ FrameLessView::FrameLessView(QWindow* parent)
         setIsMax(windowState() == Qt::WindowMaximized);
         setIsFull(windowState() == Qt::WindowFullScreen);
     });
+}
+void FrameLessView::showLessViewMinimized()
+{
+#ifdef Q_OS_WIN
+    PostMessage((HWND)winId(), WM_SYSCOMMAND, SC_MINIMIZE, 0);
+#else
+    showMinimized();
+#endif
 }
 void FrameLessView::showEvent(QShowEvent* e)
 {

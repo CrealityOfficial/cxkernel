@@ -35,6 +35,10 @@ void FrameLessView::showEvent(QShowEvent* e)
 {
     Super::showEvent(e);
 }
+void FrameLessView::showLessViewMinimized()
+{
+    showMinimized();
+}
 QRect FrameLessView::calcCenterGeo(const QRect& screenGeo, const QSize& normalSize)
 {
     int w = normalSize.width();
