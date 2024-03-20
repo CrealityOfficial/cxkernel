@@ -34,6 +34,8 @@ namespace cxkernel
 		std::vector<std::string> seams; //for paint seam
 		std::vector<std::string> supports; //for paint support
 		ModelNDataType type = ModelNDataType::mdt_none;
+
+		trimesh::xform mxform;  // used when loading 3mf
 	};
 
 	class ModelNData;
