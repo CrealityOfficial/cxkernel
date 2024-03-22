@@ -36,6 +36,7 @@ namespace cxkernel
 		ModelNDataType type = ModelNDataType::mdt_none;
 
 		trimesh::xform mxform;  // used when loading 3mf
+		int objectId3mf{ 0 };  // used when loading 3mf
 	};
 
 	class ModelNData;
