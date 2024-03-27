@@ -37,6 +37,7 @@ namespace cxkernel
 
 		trimesh::xform mxform;  // used when loading 3mf
 		int objectId3mf{ 0 };  // used when loading 3mf
+		trimesh::xform componentxform;  // 3mf object component transform
 	};
 
 	class ModelNData;
