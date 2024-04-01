@@ -20,7 +20,7 @@ namespace cxkernel
 
 	QString MeshLoader::filter()
 	{
-		QString _filter = "Mesh File (*.stl *.obj *.dae *.3mf *.3ds *.wrl *.cxbin *.off *.ply)";
+		QString _filter = "Mesh File (*.stl *.obj *.dae *.3mf *.3ds *.wrl *.off *.ply)";
 		return _filter;
 	}
 
