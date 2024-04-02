@@ -66,4 +66,9 @@ namespace cxkernel {
 #endif
   }
 
+  int CXKernelConst::generateUniqueId()
+  {
+      return m_uniqueID++;
+  }
+
 }  // namespace cxkernel

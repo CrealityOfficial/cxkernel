@@ -29,6 +29,10 @@ namespace cxkernel {
 
     QString writableLocation(const QString& subDir, const QString& subSubDir = QString());
     Q_INVOKABLE bool useCXCloud();
+
+    Q_INVOKABLE int generateUniqueId();
+  protected:
+      std::atomic<int> m_uniqueID = 0;
   };
 
 }  // namespace cxkernel
