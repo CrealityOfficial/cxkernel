@@ -17,6 +17,8 @@ namespace cxkernel {
     QCoreApplication::setOrganizationName(QStringLiteral(ORGANIZATION));
     QCoreApplication::setOrganizationDomain(QStringLiteral("CX"));
     QCoreApplication::setApplicationName(QStringLiteral(PROJECT_NAME));
+
+    m_uniqueID = 0;
   }
 
   QString CXKernelConst::version() const {

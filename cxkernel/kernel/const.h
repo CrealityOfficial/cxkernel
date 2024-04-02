@@ -33,7 +33,7 @@ namespace cxkernel {
 
     Q_INVOKABLE int generateUniqueId();
   protected:
-      std::atomic<int> m_uniqueID = 0;
+      std::atomic<int> m_uniqueID;
   };
 
 }  // namespace cxkernel
