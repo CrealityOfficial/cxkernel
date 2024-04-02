@@ -3,6 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
+#include <atomic>
 
 #include "cxkernel/cxkernelinterface.h"
 
