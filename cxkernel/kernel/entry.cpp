@@ -35,9 +35,11 @@ namespace cxkernel
 #endif
 		switch (type)//log ��Ϣ����
 		{
+#ifdef QT_DEBUG
 		case QtDebugMsg:
 			LOGD("%s", text.toLocal8Bit().constData());
 			break;
+#endif
 		case QtInfoMsg:
 			LOGI("%s", text.toLocal8Bit().constData());
 			break;
@@ -58,11 +60,16 @@ namespace cxkernel
 
 	void initializeLog(int argc, char* argv[])
 	{
-#ifdef QT_NO_DEBUG
 
-		qApp->setOrganizationName(ORGANIZATION);
-		qApp->setOrganizationDomain("FDM");
-		qApp->setApplicationName(PROJECT_NAME);//by TCJ "Creative3D"
+
+		QCoreApplication::setOrganizationName(QStringLiteral(ORGANIZATION));
+    	QCoreApplication::setOrganizationDomain(QStringLiteral("FDM"));
+#ifdef Q_OS_LINUX
+    	QCoreApplication::setApplicationName(
+      	QStringLiteral(BUNDLE_NAME).replace(QStringLiteral("_"), QStringLiteral(" ")));
+#else
+    	QCoreApplication::setApplicationName(QStringLiteral("Creative3D"));
+#endif
 
 		QString logDirectory = qtuser_core::getOrCreateAppDataLocation("Log");
 
@@ -74,7 +81,7 @@ namespace cxkernel
 
 		LOGNAMEFUNC(func);
 		LOGDIR(logDirectory.toLocal8Bit().data());
-#else
+#ifdef QT_DEBUG
 		LOGCONSOLE();
 #endif
 		LOGLEVEL(1);
