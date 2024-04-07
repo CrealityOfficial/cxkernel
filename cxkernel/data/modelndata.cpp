@@ -130,7 +130,7 @@ namespace cxkernel
 		{
 			std::vector<qhullWrapper::HullFace> _faces;
 			qhullWrapper::hullFacesFromConvexMesh(hull.get(), _faces);
-
+			qhullWrapper::hullFacesFromMeshNear(mesh, _faces);
 			int size = _faces.size();
 			if (size > 0)
 			{
