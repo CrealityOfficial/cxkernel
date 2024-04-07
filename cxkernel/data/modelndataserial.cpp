@@ -58,7 +58,8 @@ namespace cxkernel
 
 	int ModelNDataSerial::version()
 	{
-		return 0;
+		//return 0;
+		return 1; //add spread
 	}
 
 	bool ModelNDataSerial::save(std::fstream& out, ccglobal::Tracer* tracer)
@@ -68,6 +69,13 @@ namespace cxkernel
 
 		msbase::saveTrimesh(out, m_data->hull.get());
 		ccglobal::cxndSaveT<trimesh::vec3>(out, m_data->offset);
+
+		if (version() >= 1)
+		{
+			ccglobal::cxndSaveStrs(out, m_data->colors);
+			ccglobal::cxndSaveStrs(out, m_data->seams);
+			ccglobal::cxndSaveStrs(out, m_data->supports);
+		}
 		return true;
 	}
 
@@ -86,6 +94,13 @@ namespace cxkernel
 			TriMeshPtr hull(msbase::loadTrimesh(in));
 			m_data->hull = hull;
 			ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
+
+			if (version() >= 1)
+			{
+				ccglobal::cxndLoadStrs(in, m_data->colors);
+				ccglobal::cxndLoadStrs(in, m_data->seams);
+				ccglobal::cxndLoadStrs(in, m_data->supports);
+			}
 			return true;
 		}
 
