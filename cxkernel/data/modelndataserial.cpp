@@ -81,29 +81,25 @@ namespace cxkernel
 
 	bool ModelNDataSerial::load(std::fstream& in, int ver, ccglobal::Tracer* tracer)
 	{
-		if (ver == 0)
+		TriMeshPtr mesh(msbase::loadTrimesh(in));
+		if (!mesh)
+			return false;
+
+		m_data->mesh = mesh;
+		m_data->input.description = QString("quick");
+		m_data->input.mesh = mesh;
+
+		TriMeshPtr hull(msbase::loadTrimesh(in));
+		m_data->hull = hull;
+		ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
+
+		if (version() >= 1)
 		{
-			TriMeshPtr mesh(msbase::loadTrimesh(in));
-			if (!mesh)
-				return false;
-
-			m_data->mesh = mesh;
-			m_data->input.description = QString("quick");
-			m_data->input.mesh = mesh;
-
-			TriMeshPtr hull(msbase::loadTrimesh(in));
-			m_data->hull = hull;
-			ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
-
-			if (version() >= 1)
-			{
-				ccglobal::cxndLoadStrs(in, m_data->colors);
-				ccglobal::cxndLoadStrs(in, m_data->seams);
-				ccglobal::cxndLoadStrs(in, m_data->supports);
-			}
-			return true;
+			ccglobal::cxndLoadStrs(in, m_data->colors);
+			ccglobal::cxndLoadStrs(in, m_data->seams);
+			ccglobal::cxndLoadStrs(in, m_data->supports);
 		}
+		return true;
 
-		return false;
 	}
 }
