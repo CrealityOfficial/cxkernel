@@ -155,6 +155,41 @@ namespace cxkernel
 		}
 	}
 
+	void ModelNData::adaptSmallBox(const trimesh::box3& box)
+	{
+		if (!box.valid)
+			return;
+
+		trimesh::xform xf = trimesh::xform::scale(1000.0);
+
+		if (mesh)
+			trimesh::apply_xform(mesh.get(), xf);
+		if (hull)
+			trimesh::apply_xform(hull.get(), xf);
+	}
+
+	void ModelNData::adaptBigBox(const trimesh::box3& box)
+	{
+		trimesh::box3 _box = box;
+		trimesh::box3 _b = calculateBox();
+
+		if (!_box.valid)
+			return;
+
+		if (!_b.valid)
+			return;
+
+		trimesh::vec3 bsize = 0.9f * _box.size();
+		trimesh::vec3 scale = bsize / _b.size();
+		float s = scale.min();
+		trimesh::xform xf = trimesh::xform::scale(s);
+
+		if (mesh)
+			trimesh::apply_xform(mesh.get(), xf);
+		if (hull)
+			trimesh::apply_xform(hull.get(), xf);
+	}
+
 	void ModelNData::convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas)
 	{
 		std::vector<trimesh::vec2> hullPoints2D;

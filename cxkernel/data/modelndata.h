@@ -61,6 +61,9 @@ namespace cxkernel
 		void calculateFaces();
 		void resetHull();
 
+		void adaptSmallBox(const trimesh::box3& box);
+		void adaptBigBox(const trimesh::box3& box);
+
 		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool offset = false);
 		TriMeshPtr createGlobalMesh(const trimesh::fxform& matrix);
