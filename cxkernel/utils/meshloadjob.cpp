@@ -32,9 +32,18 @@ namespace cxkernel
 		return "Load Mesh.";
 	}
 
+	void MeshLoadJob::setModelNDataProcessor(ModelNDataProcessor* processor)
+	{
+		m_processor = processor;
+	}
+
 	void MeshLoadJob::failed()
 	{
 		qDebug() << "MeshLoadJob::failed.";
+		if (m_processor)
+		{
+			m_processor->onMeshLoadFail();
+		}
 	}
 
 	void MeshLoadJob::successed(qtuser_core::Progressor* progressor)

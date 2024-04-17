@@ -51,6 +51,7 @@ namespace cxkernel
 		for (const QString& fileName : fileNames)
 		{
 			MeshLoadJob* loadJob = new MeshLoadJob();
+			loadJob->setModelNDataProcessor(m_processor);
 			loadJob->setFileName(fileName);
 			jobs.push_back(qtuser_core::JobPtr(loadJob));
 		}

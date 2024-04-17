@@ -91,6 +91,7 @@ namespace cxkernel
 		virtual ~ModelNDataProcessor() {}
 		virtual void process(ModelNDataPtr data) = 0;
 		virtual void modelMeshLoadStarted(int iMeshNum) {};
+		virtual void onMeshLoadFail() {};
 	};
 
 	struct ModelNDataCreateParam
