@@ -16,7 +16,9 @@ FrameLessView::FrameLessView(QWindow* parent)
     : Super(parent)
     , d(new FrameLessViewPrivate)
 {
+#ifndef __APPLE__
     setFlags(Qt::CustomizeWindowHint | Qt::Window | Qt::FramelessWindowHint | Qt::WindowMinMaxButtonsHint | Qt::WindowTitleHint | Qt::WindowSystemMenuHint);
+#endif
     setResizeMode(SizeRootObjectToView);
 
     setIsMax(windowState() == Qt::WindowMaximized);
