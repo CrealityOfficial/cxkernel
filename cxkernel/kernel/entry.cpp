@@ -223,9 +223,9 @@ namespace cxkernel
 				QObject* object = nullptr;
 				if (useFrameless)
 				{
-#ifdef Q_OS_OSX
+//#ifdef Q_OS_OSX
 					setDefaultAfterApp();
-#endif
+//#endif
 					FrameLessView* view = new FrameLessView();
 					view->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
 					view->setColor(QColor("transparent"));
@@ -233,9 +233,9 @@ namespace cxkernel
 					engine = view->engine();
 					QObject::connect(engine,&QQmlEngine::quit,[&](){QCoreApplication::quit();});
 					object = view;
-#ifdef Q_OS_WIN
-						setDefaultAfterApp();
-#endif
+//#ifdef Q_OS_WIN
+//						setDefaultAfterApp();
+//#endif
 				}
 				else
 				{
