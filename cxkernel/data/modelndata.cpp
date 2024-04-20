@@ -334,7 +334,7 @@ namespace cxkernel
 			data->supports.swap(input.supports);
 			data->input = input;
 
-			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
+			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());  
 			msbase::dumplicateMesh(hull);
 
 			data->hull.reset(hull);
