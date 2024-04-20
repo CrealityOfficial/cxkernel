@@ -308,9 +308,13 @@ namespace cxkernel
 				}
 			}
 
-			bool have = msbase::checkDegenerateFace(input.mesh.get(), true);
+			std::vector<bool> valids;
+			bool have = msbase::checkDegenerateFace(input.mesh.get(), valids, true);
 			if (have)
 			{
+				msbase::mantainValids(input.colors, valids);
+				msbase::mantainValids(input.seams, valids);
+				msbase::mantainValids(input.supports, valids);
 				qDebug() << QString("msbase::checkDegenerateFace true : [have degenerate face]");
 			}
 
@@ -323,12 +327,12 @@ namespace cxkernel
 
 			ModelNDataPtr data(new ModelNData());
 			data->mesh = input.mesh;
-			data->input = input;
 			data->offset = offset;
 			data->defaultColor = input.defaultColor;
-			data->colors = input.colors;
-			data->seams = input.seams;
-			data->supports = input.supports;
+			data->colors.swap(input.colors);
+			data->seams.swap(input.seams);
+			data->supports.swap(input.supports);
+			data->input = input;
 
 			trimesh::TriMesh* hull = qhullWrapper::convex_hull_3d(input.mesh.get());
 			msbase::dumplicateMesh(hull);
