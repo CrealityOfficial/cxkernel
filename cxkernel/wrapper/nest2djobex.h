@@ -79,10 +79,6 @@ namespace cxkernel
 		bool m_alignMove;
         bool m_outlineConcave;
 
-
-        // ==== MultiBin related parameters ====
-        int m_maxBinId;
-
         //the current operated bin index
         int m_curBinIndex;
 
