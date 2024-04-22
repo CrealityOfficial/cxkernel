@@ -63,23 +63,6 @@ namespace cxkernel
 		return mesh ? (int)mesh->faces.size() : 0;
 	}
 
-	void ModelNData::updateRenderData()
-	{
-		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-			generateGeometryDataFromMesh(mesh.get(), renderData);
-	}
-
-	void ModelNData::updateRenderDataForced()
-	{
-		generateGeometryDataFromMesh(mesh.get(), renderData);
-	}
-
-	void ModelNData::updateIndexRenderData()
-	{
-		if (mesh && ((int)mesh->faces.size() != renderData.fcount))
-			cxkernel::generateIndexGeometryDataFromMesh(mesh.get(), renderData);
-	}
-
 	trimesh::box3 ModelNData::calculateBox(const trimesh::fxform& matrix)
 	{
 		trimesh::box3 b;
@@ -338,11 +321,6 @@ namespace cxkernel
 			msbase::dumplicateMesh(hull);
 
 			data->hull.reset(hull);
-			
-			if (param.indexRender && input.mesh->colors.size() == 0)
-				data->updateIndexRenderData();
-			else
-				data->updateRenderData();
 
 			return data;
 		}

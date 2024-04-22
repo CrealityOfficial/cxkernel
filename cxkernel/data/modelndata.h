@@ -51,9 +51,6 @@ namespace cxkernel
 		ModelNDataPtr clone();
 
 		int primitiveNum();
-		void updateRenderData();
-		void updateRenderDataForced();
-		void updateIndexRenderData();
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix = trimesh::fxform::identity());
 		trimesh::box3 localBox();
 		float localZ();
@@ -71,7 +68,7 @@ namespace cxkernel
 
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
-		cxkernel::GeometryData renderData;
+
 		std::vector<KernelHullFace> faces;
 		QMap<int, trimesh::vec3> colorMap;
 		QSet<int> colorIndexs;
