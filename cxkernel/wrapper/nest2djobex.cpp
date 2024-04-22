@@ -22,7 +22,6 @@ namespace cxkernel
         , m_angle(0)
         , m_panDistance(10.0f)
         , m_outlineConcave(false)
-        , m_maxBinId(0)
         , m_curBinIndex(0)
         , m_nestMode(NestMode::NEST_LAYOUT)
     {
@@ -169,12 +168,9 @@ namespace cxkernel
 #endif // DEBUG
 
         const float EPSINON = 0.00001f;
-        m_maxBinId = 0;
+
         for (int i = 0; i < results.size(); i++)
         {
-            if (results[i].binIndex >= m_maxBinId)
-                m_maxBinId = results[i].binIndex;
-
             if (results[i].rt.x >= -EPSINON && results[i].rt.x <= EPSINON
                 && results[i].rt.y >= -EPSINON && results[i].rt.y <= EPSINON)
             {
