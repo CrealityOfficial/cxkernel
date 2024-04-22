@@ -129,10 +129,13 @@ namespace cxkernel
         {
             TriMeshPtr mesh(qhullWrapper::convex2DPolygon(hull.get(), rxf, nullptr));
 
-            for (trimesh::vec3& v : mesh->vertices)
-                v *= scale;
+            if (mesh && !mesh->vertices.empty())
+            {
+                for (trimesh::vec3& v : mesh->vertices)
+                    v *= scale;
 
-            convex2D = mesh->vertices;
+                convex2D = mesh->vertices;
+            }
         }
 
         return convex2D;
