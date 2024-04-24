@@ -167,16 +167,8 @@ namespace cxkernel
         qInfo() << "==== place Time use " << (t1_1 - t1) << " ms";
 #endif // DEBUG
 
-        const float EPSINON = 0.00001f;
-
         for (int i = 0; i < results.size(); i++)
         {
-            if (results[i].rt.x >= -EPSINON && results[i].rt.x <= EPSINON
-                && results[i].rt.y >= -EPSINON && results[i].rt.y <= EPSINON)
-            {
-                continue;
-            }
-
             NestResultEx aResult;
             aResult.binIndex = results[i].binIndex;
             aResult.rt = results[i].rt;
