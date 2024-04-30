@@ -6,7 +6,7 @@
 namespace cxkernel
 {
 
-    class PlaceItemEx : public QObject, public nestplacer::PlacerItem
+    class CXKERNEL_API PlaceItemEx : public QObject, public nestplacer::PlacerItem
     {
         Q_OBJECT
     public:
