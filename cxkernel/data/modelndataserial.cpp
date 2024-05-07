@@ -25,6 +25,26 @@ namespace cxkernel
 		return m_data;
 	}
 
+	void ModelNDataSerial::setMeshData(MeshDataPtr meshData)
+	{
+		m_meshData = meshData;
+	}
+
+	void ModelNDataSerial::setColorData(const std::vector<std::string>& colors)
+	{
+		m_colors = colors;
+	}
+
+	void ModelNDataSerial::setSeamData(const std::vector<std::string>& seams)
+	{
+		m_seams = seams;
+	}
+
+	void ModelNDataSerial::setSupportData(const std::vector<std::string>& supports)
+	{
+		m_supports = supports;
+	}
+
 	void ModelNDataSerial::load(const QString& fileName, ccglobal::Tracer* tracer)
 	{
 		if (m_data)
@@ -59,45 +79,92 @@ namespace cxkernel
 	int ModelNDataSerial::version()
 	{
 		//return 0;
-		return 1; //add spread
+		//return 1; //add spread
+		return 2; // meshData + spread
 	}
 
 	bool ModelNDataSerial::save(std::fstream& out, ccglobal::Tracer* tracer)
 	{
-		TriMeshPtr mesh = m_data->mesh;
-		msbase::saveTrimesh(out, mesh.get());
-
-		msbase::saveTrimesh(out, m_data->hull.get());
-		ccglobal::cxndSaveT<trimesh::vec3>(out, m_data->offset);
-
-		if (version() >= 1)
+		if (version() >= 2)
 		{
-			ccglobal::cxndSaveStrs(out, m_data->colors);
-			ccglobal::cxndSaveStrs(out, m_data->seams);
-			ccglobal::cxndSaveStrs(out, m_data->supports);
+			TriMeshPtr mesh = m_meshData->mesh;
+			msbase::saveTrimesh(out, mesh.get());
+
+			msbase::saveTrimesh(out, m_meshData->hull.get());
+			ccglobal::cxndSaveT<trimesh::vec3>(out, m_meshData->offset);
+
+			ccglobal::cxndSaveStrs(out, m_colors);
+			ccglobal::cxndSaveStrs(out, m_seams);
+			ccglobal::cxndSaveStrs(out, m_supports);
+		}
+		else
+		{
+			TriMeshPtr mesh = m_data->mesh;
+			msbase::saveTrimesh(out, mesh.get());
+
+			msbase::saveTrimesh(out, m_data->hull.get());
+			ccglobal::cxndSaveT<trimesh::vec3>(out, m_data->offset);
+
+			if (version() >= 1)
+			{
+				ccglobal::cxndSaveStrs(out, m_data->colors);
+				ccglobal::cxndSaveStrs(out, m_data->seams);
+				ccglobal::cxndSaveStrs(out, m_data->supports);
+			}
 		}
 		return true;
 	}
 
 	bool ModelNDataSerial::load(std::fstream& in, int ver, ccglobal::Tracer* tracer)
 	{
-		TriMeshPtr mesh(msbase::loadTrimesh(in));
-		if (!mesh)
-			return false;
-
-		m_data->mesh = mesh;
-		m_data->input.description = QString("quick");
-		m_data->input.mesh = mesh;
-
-		TriMeshPtr hull(msbase::loadTrimesh(in));
-		m_data->hull = hull;
-		ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
-
-		if (version() >= 1)
+		if (version() >= 2)
 		{
-			ccglobal::cxndLoadStrs(in, m_data->colors);
-			ccglobal::cxndLoadStrs(in, m_data->seams);
-			ccglobal::cxndLoadStrs(in, m_data->supports);
+			TriMeshPtr mesh(msbase::loadTrimesh(in));
+			if (!mesh)
+				return false;
+
+			m_meshData->mesh = mesh;
+
+			TriMeshPtr hull(msbase::loadTrimesh(in));
+			m_meshData->hull = hull;
+			ccglobal::cxndLoadT<trimesh::vec3>(in, m_meshData->offset);
+
+			ccglobal::cxndLoadStrs(in, m_colors);
+			ccglobal::cxndLoadStrs(in, m_seams);
+			ccglobal::cxndLoadStrs(in, m_supports);
+
+			if (!m_data)
+			{
+				m_data.reset(new ModelNData);
+				m_data->mesh = m_meshData->mesh;
+				m_data->hull = m_meshData->hull;
+				m_data->offset = m_meshData->offset;
+
+				m_data->colors = m_colors;
+				m_data->seams = m_seams;
+				m_data->supports = m_supports;
+			}
+		}
+		else
+		{
+			TriMeshPtr mesh(msbase::loadTrimesh(in));
+			if (!mesh)
+				return false;
+
+			m_data->mesh = mesh;
+			m_data->input.description = QString("quick");
+			m_data->input.mesh = mesh;
+
+			TriMeshPtr hull(msbase::loadTrimesh(in));
+			m_data->hull = hull;
+			ccglobal::cxndLoadT<trimesh::vec3>(in, m_data->offset);
+
+			if (version() >= 1)
+			{
+				ccglobal::cxndLoadStrs(in, m_data->colors);
+				ccglobal::cxndLoadStrs(in, m_data->seams);
+				ccglobal::cxndLoadStrs(in, m_data->supports);
+			}
 		}
 		return true;
 
