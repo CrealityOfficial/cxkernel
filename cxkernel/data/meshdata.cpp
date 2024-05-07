@@ -17,7 +17,7 @@
 
 namespace cxkernel
 {
-	MeshData::MeshData(trimesh::TriMesh* mesh, bool toCenter)
+	MeshData::MeshData(TriMeshPtr mesh, bool toCenter)
     {
 		setMesh(mesh, toCenter);
     }
@@ -27,16 +27,23 @@ namespace cxkernel
 
     }
 
-	void MeshData::setMesh(trimesh::TriMesh* _mesh, bool toCenter)
+	void MeshData::setMesh(TriMeshPtr _mesh, bool toCenter)
 	{
-		mesh.reset(_mesh);
+		mesh = _mesh;
+        if (!mesh)
+            return;
+
         mesh->normals.clear();
-		msbase::dumplicateMesh(mesh.get());
+        bool processResult = msbase::dumplicateMesh(mesh.get());
+        if (!processResult)
+        {
+            hull = mesh;
+            return;
+        }
 
 		mesh->clear_bbox();
 		mesh->need_bbox();
 
-        trimesh::vec3 offset;
         if(toCenter)
             offset = msbase::moveTrimesh2Center(mesh.get(), false);
 

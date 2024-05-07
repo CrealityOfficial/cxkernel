@@ -25,7 +25,7 @@ namespace cxkernel
 		return m_data;
 	}
 
-	void ModelNDataSerial::setMeshData(MeshDataPtr meshData)
+	void ModelNDataSerial::setMeshData(cxkernel::MeshDataPtr meshData)
 	{
 		m_meshData = meshData;
 	}

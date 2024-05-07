@@ -6,7 +6,6 @@
 
 namespace cxkernel
 {
-	typedef std::shared_ptr<cxkernel::MeshData> MeshDataPtr;
 	class CXKERNEL_API ModelNDataSerial : public ccglobal::Serializeable
 	{
 	public:
@@ -16,7 +15,7 @@ namespace cxkernel
 		void setData(ModelNDataPtr data);
 		ModelNDataPtr getData();
 
-		void setMeshData(MeshDataPtr meshData);
+		void setMeshData(cxkernel::MeshDataPtr meshData);
 		void setColorData(const std::vector<std::string>& colors);
 		void setSeamData(const std::vector<std::string>& seams);
 		void setSupportData(const std::vector<std::string>& supports);
@@ -29,7 +28,7 @@ namespace cxkernel
 		bool load(std::fstream& in, int ver, ccglobal::Tracer* tracer) override;
 	protected:
 		ModelNDataPtr m_data;
-		MeshDataPtr m_meshData;
+		cxkernel::MeshDataPtr m_meshData;
 		std::vector<std::string> m_colors;
 		std::vector<std::string> m_seams;
 		std::vector<std::string> m_supports;

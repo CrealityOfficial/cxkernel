@@ -10,10 +10,10 @@ namespace cxkernel
 	class CXKERNEL_API MeshData 
 	{
 	public:
-		MeshData(trimesh::TriMesh* mesh, bool toCenter = true);
+		MeshData(TriMeshPtr mesh, bool toCenter = true);
 		MeshData();
 		
-		void setMesh(trimesh::TriMesh* mesh, bool toCenter = true);
+		void setMesh(TriMeshPtr mesh, bool toCenter = true);
 
 		trimesh::box3 calculateBox(const trimesh::fxform& matrix = trimesh::fxform::identity());
 
@@ -45,6 +45,7 @@ namespace cxkernel
 
 	};
 
+	typedef std::shared_ptr<cxkernel::MeshData> MeshDataPtr;
 }
 
 #endif // CXKERNEL_MESHDATA_1681019989200_H
