@@ -15,32 +15,26 @@ namespace cxkernel
 		
 		void setMesh(TriMeshPtr mesh, bool toCenter = true);
 
-		trimesh::box3 calculateBox(const trimesh::fxform& matrix = trimesh::fxform::identity());
+		trimesh::dbox3 calculateBox(const trimesh::xform& matrix = trimesh::xform::identity());
+		trimesh::dbox3 localBox();
 
-		trimesh::box3 localBox();
-
-		float localZ();
-
+		double localZ();
 		void calculateFaces();
-
 		void resetHull();
 
-		void adaptSmallBox(const trimesh::box3& box);
+		void adaptSmallBox(const trimesh::dbox3& box);
+		void adaptBigBox(const trimesh::dbox3& box);
 
-		void adaptBigBox(const trimesh::box3& box);
+		void convex(const trimesh::xform& matrix, std::vector<trimesh::dvec3>& datas);
+		TriMeshPtr createGlobalMesh(const trimesh::xform& matrix);
 
-		void convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas);
-
+		//for render
 		bool traitTriangle(int faceID, std::vector<trimesh::vec3>& position, const trimesh::fxform& matrix, bool _offset);
-
-		TriMeshPtr createGlobalMesh(const trimesh::fxform& matrix);
-
 		bool traitTriangleEx(int faceID, std::vector<trimesh::vec3>& position, trimesh::vec3& normal, const trimesh::fxform& matrix, float offsetValue, bool _offset);
-
 	public:
 		TriMeshPtr mesh;
 		TriMeshPtr hull;
-		trimesh::vec3 offset;
+		trimesh::dvec3 offset;
 		std::vector<cxkernel::KernelHullFace> faces;
 
 	};

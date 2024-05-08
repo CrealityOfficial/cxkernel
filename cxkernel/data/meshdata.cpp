@@ -52,28 +52,28 @@ namespace cxkernel
 		hull.reset(_hull);
 	}
 
-    trimesh::box3 MeshData::calculateBox(const trimesh::fxform& matrix)
+    trimesh::dbox3 MeshData::calculateBox(const trimesh::xform& matrix)
     {
-        trimesh::box3 b;
+        trimesh::dbox3 b;
 
         if (hull)
         {
             for (const trimesh::vec3& v : hull->vertices)
-                b += matrix * v;
+                b += matrix * trimesh::dvec3(v);
         }
         else if (mesh)
         {
             if (mesh->flags.size() == mesh->vertices.size())
             {
                 for (int i : mesh->flags)
-                    b += matrix * mesh->vertices.at(i);
+                    b += matrix * trimesh::dvec3(mesh->vertices.at(i));
             }
             else
             {
                 int size = (int)mesh->vertices.size();
                 for (int i = 0; i < size; ++i)
                 {
-                    trimesh::vec3 v = mesh->vertices.at(i);
+                    trimesh::dvec3 v = (trimesh::dvec3)mesh->vertices.at(i);
                     b += matrix * v;
                 }
             }
@@ -82,17 +82,20 @@ namespace cxkernel
         return b;
     }
 
-    trimesh::box3 MeshData::localBox()
+    trimesh::dbox3 MeshData::localBox()
     {
-        trimesh::box3 b;
+        trimesh::dbox3 b;
         if (mesh)
-            b = mesh->bbox;
+        {
+            b += trimesh::dvec3(mesh->bbox.min);
+            b += trimesh::dvec3(mesh->bbox.max);
+        }
         return b;
     }
 
-    float MeshData::localZ()
+    double MeshData::localZ()
     {
-        trimesh::box3 b = localBox();
+        trimesh::dbox3 b = localBox();
         return b.min.z - offset.z;
     }
 
@@ -127,7 +130,7 @@ namespace cxkernel
         }
     }
 
-    void MeshData::adaptSmallBox(const trimesh::box3& box)
+    void MeshData::adaptSmallBox(const trimesh::dbox3& box)
     {
         if (!box.valid)
             return;
@@ -140,10 +143,10 @@ namespace cxkernel
             trimesh::apply_xform(hull.get(), xf);
     }
 
-    void MeshData::adaptBigBox(const trimesh::box3& box)
+    void MeshData::adaptBigBox(const trimesh::dbox3& box)
     {
-        trimesh::box3 _box = box;
-        trimesh::box3 _b = calculateBox();
+        trimesh::dbox3 _box = box;
+        trimesh::dbox3 _b = calculateBox();
 
         if (!_box.valid)
             return;
@@ -151,8 +154,8 @@ namespace cxkernel
         if (!_b.valid)
             return;
 
-        trimesh::vec3 bsize = 0.9f * _box.size();
-        trimesh::vec3 scale = bsize / _b.size();
+        trimesh::dvec3 bsize = 0.9 * _box.size();
+        trimesh::dvec3 scale = bsize / _b.size();
         float s = scale.min();
         trimesh::xform xf = trimesh::xform::scale(s);
 
@@ -162,7 +165,7 @@ namespace cxkernel
             trimesh::apply_xform(hull.get(), xf);
     }
 
-    void MeshData::convex(const trimesh::fxform& matrix, std::vector<trimesh::vec3>& datas)
+    void MeshData::convex(const trimesh::xform& matrix, std::vector<trimesh::dvec3>& datas)
     {
         std::vector<trimesh::vec2> hullPoints2D;
         if (hull)
@@ -226,14 +229,14 @@ namespace cxkernel
         return true;
     }
 
-    TriMeshPtr MeshData::createGlobalMesh(const trimesh::fxform& matrix)
+    TriMeshPtr MeshData::createGlobalMesh(const trimesh::xform& matrix)
     {
         if (!mesh)
             return nullptr;
 
         trimesh::TriMesh* newMesh = new trimesh::TriMesh();
         *newMesh = *mesh;
-        trimesh::apply_xform(newMesh, trimesh::xform(matrix));
+        trimesh::apply_xform(newMesh, matrix);
         return TriMeshPtr(newMesh);
     }
 

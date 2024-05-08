@@ -91,7 +91,8 @@ namespace cxkernel
 			msbase::saveTrimesh(out, mesh.get());
 
 			msbase::saveTrimesh(out, m_meshData->hull.get());
-			ccglobal::cxndSaveT<trimesh::vec3>(out, m_meshData->offset);
+			trimesh::vec3 _offset(m_meshData->offset);
+			ccglobal::cxndSaveT<trimesh::vec3>(out, _offset);
 
 			ccglobal::cxndSaveStrs(out, m_colors);
 			ccglobal::cxndSaveStrs(out, m_seams);
@@ -127,7 +128,9 @@ namespace cxkernel
 
 			TriMeshPtr hull(msbase::loadTrimesh(in));
 			m_meshData->hull = hull;
-			ccglobal::cxndLoadT<trimesh::vec3>(in, m_meshData->offset);
+			trimesh::vec3 _offset;
+			ccglobal::cxndLoadT<trimesh::vec3>(in, _offset);
+			m_meshData->offset = trimesh::dvec3(_offset);
 
 			ccglobal::cxndLoadStrs(in, m_colors);
 			ccglobal::cxndLoadStrs(in, m_seams);
