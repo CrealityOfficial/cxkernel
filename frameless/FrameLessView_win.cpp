@@ -167,7 +167,7 @@ void FrameLessView::showEvent(QShowEvent* e)
     {
         d->m_firstRun = false;
         // 第一次show的时候，设置无边框。不在构造函数中设置。取winId会触发QWindowsWindow::create,直接创建win32窗口,引起错乱(win7 或者虚拟机启动即黑屏)。
-        d->setBorderLess((HWND)(winId()), d->borderless);
+        //d->setBorderLess((HWND)(winId()), d->borderless);
         {
             // Qt 5.15.2 的bug; 问题复现及解决方法：当使用WM_NCCALCSIZE 修改非客户区大小后，移动窗口到其他屏幕时，qwindows.dll 源码 qwindowswindow.cpp:2447
             // updateFullFrameMargins() 函数 处会调用qwindowswindow.cpp:2453 的
