@@ -37,6 +37,10 @@ namespace cxkernel
 		trimesh::dvec3 offset;
 		std::vector<cxkernel::KernelHullFace> faces;
 
+	public:
+		static std::vector<cxkernel::KernelHullFace> calculateFaces(TriMeshPtr mesh, TriMeshPtr hull);
+		static TriMeshPtr calculateHull(TriMeshPtr mesh);
+
 	};
 
 	typedef std::shared_ptr<cxkernel::MeshData> MeshDataPtr;

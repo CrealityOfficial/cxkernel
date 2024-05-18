@@ -263,4 +263,31 @@ namespace cxkernel
         return true;
     }
 
+	std::vector<cxkernel::KernelHullFace> MeshData::calculateFaces(TriMeshPtr mesh, TriMeshPtr hull)
+    {
+        std::vector<cxkernel::KernelHullFace> faces;
+        std::vector<qhullWrapper::HullFace> _faces;
+        qhullWrapper::hullFacesFromConvexMesh(hull.get(), _faces);
+        qhullWrapper::hullFacesFromMeshNear(mesh, _faces);
+        int size = _faces.size();
+        if (size > 0)
+        {
+            faces.resize(size);
+            for (int i = 0; i < size; ++i)
+            {
+                KernelHullFace& face = faces.at(i);
+                const qhullWrapper::HullFace& _face = _faces.at(i);
+                face.mesh = _face.mesh;
+                face.normal = _face.normal;
+                face.hullarea = _face.hullarea;
+            }
+        }
+        return faces;
+    }
+
+    TriMeshPtr MeshData::calculateHull(TriMeshPtr mesh)
+    {
+        trimesh::TriMesh* _hull = qhullWrapper::convex_hull_3d(mesh.get());
+        return TriMeshPtr(_hull);
+    }
 }
