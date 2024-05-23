@@ -3,10 +3,11 @@
 #include "qtusercore/module/job.h"
 #include "cxkernel/kernel/data.h"
 #include "cxkernel/data/modelndata.h"
+#include "cxkernel/utils/meshjob.h"
 
 namespace cxkernel
 {
-	class MeshLoadJob: public qtuser_core::Job
+	class MeshLoadJob: public MeshJob
 	{
 	public:
 		MeshLoadJob(QObject* parent = nullptr);

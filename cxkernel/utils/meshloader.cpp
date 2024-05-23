@@ -26,13 +26,23 @@ namespace cxkernel
 
 	void MeshLoader::handle(const QString& fileName)
 	{
-		QStringList fileNames;
-		fileNames << fileName;
-		load(fileNames);
+		if (!m_jobs.empty())
+		{
+			m_tasks.emplace_back(fileName);
+			return;
+		}
+
+		load(QStringList{ fileName });
     }
 
 	void MeshLoader::handle(const QStringList& fileNames)
 	{
+		if (!m_jobs.empty())
+		{
+			m_tasks.emplace_back(fileNames);
+			return;
+		}
+
 		load(fileNames);
     }
 
@@ -53,7 +63,9 @@ namespace cxkernel
 			MeshLoadJob* loadJob = new MeshLoadJob();
 			loadJob->setModelNDataProcessor(m_processor);
 			loadJob->setFileName(fileName);
+			loadJob->attachObserver(this);
 			jobs.push_back(qtuser_core::JobPtr(loadJob));
+			m_jobs.emplace(loadJob);
 		}
 		executeJobs(jobs);
 	}
@@ -65,6 +77,8 @@ namespace cxkernel
 			ModelFromMeshJob* job = new ModelFromMeshJob(m_processor);
 			job->setParam(m_param);
 			job->setInput(input);
+			job->attachObserver(this);
+			m_jobs.emplace(job);
 			executeJob(qtuser_core::JobPtr(job), true);
 		}
 	}
@@ -72,5 +86,14 @@ namespace cxkernel
 	void MeshLoader::setModelNDataProcessor(ModelNDataProcessor* processor)
 	{
 		m_processor = processor;
+	}
+
+	void MeshLoader::onFinished(MeshJob* job) {
+		m_jobs.erase(job);
+		if (m_jobs.empty() && !m_tasks.empty()) {
+			auto files = std::move(m_tasks.front());
+			m_tasks.pop_front();
+			load(files);
+		}
 	}
 }
