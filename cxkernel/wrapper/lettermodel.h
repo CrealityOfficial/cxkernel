@@ -53,6 +53,9 @@ namespace cxkernel
 		TriMeshPtr _generate(TriMeshPtr mesh,
 			const QSize& surfaceSize, const CameraModel& camera,
 			ccglobal::Tracer* tracer = nullptr);
+
+		void _generatrGroup(const std::vector<TriMeshPtr>& input, const QSize& surfaceSize, const CameraModel& camera, 
+			std::vector<TriMeshPtr>& output, ccglobal::Tracer* tracer = nullptr);
 		//解析qml的图元的 坐标等属性，在主线程中调用，在子线程中进行QQmlProperty处理会有偶现崩溃
 		void parseQmlData(const QList<QObject*>& objectList);
 		static QSharedPointer<LetterConfigPara> parseLetter(QObject* object);

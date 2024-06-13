@@ -48,6 +48,34 @@ namespace cxkernel
 		pConcave = outSide;
 	}
 
+	void  LetterModel::_generatrGroup(const std::vector<TriMeshPtr>& input, const QSize& surfaceSize, const CameraModel& camera,
+		std::vector<TriMeshPtr>& output, ccglobal::Tracer* tracer)
+	{
+		std::vector<PolygonsModel> polygons;
+		generatePolygons(surfaceSize, polygons);
+
+		topomesh::SimpleCamera topoCamera;
+		memcpy(&topoCamera, &camera, sizeof(topomesh::SimpleCamera));
+
+		topomesh::LetterParam topoParam;
+		topoParam.deep = pDeep;
+		topoParam.concave = pConcave;
+		if (!cxkernel::isReleaseVersion())
+		{
+			QString cacheName = cxkernel::createNewAlgCache("letter");
+			topoParam.fileName = cacheName.toLocal8Bit().constData();
+		}
+		std::vector<trimesh::TriMesh*> inputgroup;
+		std::vector<trimesh::TriMesh*> outputgroup;
+		for (TriMeshPtr tp : input)
+			inputgroup.push_back(tp.get());
+		topomesh::MeshGroupInterface(inputgroup, topoCamera, topoParam, polygons, outputgroup, nullptr, tracer);
+		for (trimesh::TriMesh* mesh : outputgroup)
+		{
+			output.push_back(TriMeshPtr(mesh));
+		}
+	}
+
 	TriMeshPtr LetterModel::_generate(TriMeshPtr mesh,
 		const QSize& surfaceSize, const CameraModel& camera, ccglobal::Tracer* tracer)
 	{
