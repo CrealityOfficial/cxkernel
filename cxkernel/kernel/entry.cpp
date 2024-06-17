@@ -249,10 +249,12 @@ namespace cxkernel
 
 				showDetailSystemInfo();
 
+				if (useFrameless)
+					qobject_cast<FrameLessView*>(object)->showMinimized();
+
 				if (appModule->loadQmlEngine(object, *engine))
 				{
-					if(useFrameless)
-						qobject_cast<FrameLessView*>(object)->showMaximized();
+					qobject_cast<FrameLessView*>(object)->showMaximized();
 					ret = app.exec();
 				}
 
