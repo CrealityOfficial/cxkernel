@@ -12,6 +12,7 @@
 #include "qtusercore/module/systemutil.h"
 #include "cxkernel/utils/glcompatibility.h"
 #include "frameless/FrameLessView.h"
+#include "framelesswindow/mainwindow.h"
 #include <QIcon>
 #include <locale.h>
 
@@ -20,6 +21,7 @@
 #include "qtusercore/string/resourcesfinder.h"
 #include <QTextCodec>
 #include <QFontMetrics>
+#include <QQuickWidget>
 namespace cxkernel
 {
 	void outputMessage(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -221,21 +223,32 @@ namespace cxkernel
 
 				QQmlEngine* engine = nullptr;
 				QObject* object = nullptr;
+				MainWindow* mainwindow=nullptr;
+				QQuickWidget* view = nullptr;
 				if (useFrameless)
 				{
-//#ifdef Q_OS_OSX
+
 					setDefaultAfterApp();
-//#endif
-					FrameLessView* view = new FrameLessView();
+
+					mainwindow = new MainWindow();
+					QQuickWidget *view = new QQuickWidget(mainwindow);
+
+					//QQuickView *view = new QQuickView();
+					mainwindow->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
 					view->setMinimumSize({ static_cast<int>(1280* getScreenScaleFactor()), static_cast<int>(720* getScreenScaleFactor()) });
-					view->setColor(QColor("transparent"));
-					view->setTitle(QStringLiteral(BUNDLE_NAME).replace(QStringLiteral("_"), QStringLiteral(" ")));
+					//view->setColor(QColor("transparent"));
+					mainwindow->setWindowTitle(QStringLiteral(BUNDLE_NAME).replace(QStringLiteral("_"), QStringLiteral(" ")));
 					engine = view->engine();
 					QObject::connect(engine,&QQmlEngine::quit,[&](){QCoreApplication::quit();});
 					object = view;
-//#ifdef Q_OS_WIN
-//						setDefaultAfterApp();
-//#endif
+					//widget = QWidget::createWindowContainer(view, mainwindow);
+					//widget->setAttribute(Qt::WA_AlwaysStackOnTop);
+
+    				//widget->setMinimumSize(view->size());
+    				mainwindow->setCenterWidget(view);
+					engine->rootContext()->setContextProperty("frameLessView", mainwindow);
+					engine->setObjectOwnership(mainwindow, QQmlEngine::CppOwnership);
+					
 				}
 				else
 				{
@@ -248,13 +261,18 @@ namespace cxkernel
 				setDefaultQmlAfterApp(*engine);
 
 				showDetailSystemInfo();
-
-				if (useFrameless)
-					qobject_cast<FrameLessView*>(object)->showMinimized();
+					
 
 				if (appModule->loadQmlEngine(object, *engine))
 				{
-					qobject_cast<FrameLessView*>(object)->showMaximized();
+					
+					if(mainwindow)
+					{
+						mainwindow->showNormal();
+						//QRect rect = mainwindow->windowHandle()->geometry();
+						//view->setGeometry(QRect(0,40,rect.size().width(),rect.size().height()));
+					}	
+						
 					ret = app.exec();
 				}
 

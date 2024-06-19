@@ -21,7 +21,7 @@
 #include "cxkernel/utils/algcache.h"
 
 #include "cxkernel/interface/uiinterface.h"
-
+#include <QQuickWidget>
 namespace cxkernel
 {
 	CXKernel* cxKernel = nullptr;
@@ -151,8 +151,8 @@ namespace cxkernel
 
 		if (useFrameless())
 		{
-			m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
-			m_context->setContextProperty("frameLessView", object);
+			
+			//m_context->setContextProperty("frameLessView", object);
 		}
 		m_context->setContextProperty("cxkernel_kernel", this);
 		m_context->setContextProperty("cxkernel_const", m_const);
@@ -181,7 +181,7 @@ namespace cxkernel
 
 		if (useFrameless())
 		{
-			qobject_cast<QQuickView*>(object)->setSource(QUrl(qml));
+			qobject_cast<QQuickWidget*>(object)->setSource(QUrl(qml));
 		}
 		else
 		{

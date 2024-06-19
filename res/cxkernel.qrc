@@ -1,5 +1,12 @@
 <RCC>
     <qresource prefix="/cxkernel">
         <file>main.qml</file>
+        <file>images/menu_down_light.svg</file>
+        <file>images/menu_down.svg</file>
+        <file>images/close_light.svg</file>
+         <file>images/close.svg</file>
+          <file>images/logo.svg</file>
+          <file>images/Boat.png</file>
+          
     </qresource>
 </RCC>
