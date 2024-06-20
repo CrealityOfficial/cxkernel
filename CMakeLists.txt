@@ -21,10 +21,13 @@ __assert_target(libtess2)
 __cc_find(enchase)
 __assert_target(enchase)
 
+__cc_find(tbb_static)
+__assert_target(tbb_static)
+
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc)
 
-set(LIBS cxbin ssl crypto qhullWrapper libtess2 enchase)
+set(LIBS cxbin ssl crypto qhullWrapper libtess2 enchase tbb_static)
 
 __assert_target(msbase)
 set(ILIBS qtuser_core trimesh2 msbase)
