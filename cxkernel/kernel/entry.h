@@ -2,7 +2,7 @@
 #define CXKERNEL_QUICK_MAIN_1601388211209_H
 #include "cxkernel/cxkernelinterface.h"
 #include <QtQml/QQmlContext>
-#include <QtQml/QQmlApplicationEngine>
+//#include <QtQml/QQmlApplicationEngine>
 #include <functional>
 
 class QApplication;
