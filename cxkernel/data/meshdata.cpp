@@ -73,7 +73,7 @@ namespace cxkernel
                     return totalBox;
                 }, std::plus<trimesh::dbox3>());
 
-            return total_box;
+            b = total_box;
 
             //for (const trimesh::vec3& v : hull->vertices)
             //    b += matrix * trimesh::dvec3(v);

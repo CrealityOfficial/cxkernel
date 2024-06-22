@@ -14,6 +14,8 @@
 #include <QtCore/QDebug>
 #include <QtCore/QFile>
 #include <QtCore/QDataStream>
+#include <tbb/parallel_for.h>
+#include <tbb/parallel_reduce.h>
 
 namespace cxkernel
 {
@@ -69,8 +71,23 @@ namespace cxkernel
 
 		if (hull)
 		{
-			for (const trimesh::vec3& v : hull->vertices)
-				b += matrix * v;
+			auto total_box = tbb::parallel_reduce(
+				tbb::blocked_range<int>(0, hull->vertices.size()),
+				trimesh::box3(),
+				[&](tbb::blocked_range<int> r, trimesh::box3 totalBox)
+				{
+					for (int i = r.begin(); i < r.end(); ++i)
+					{
+						totalBox += matrix * hull->vertices[i];
+					}
+
+					return totalBox;
+				}, std::plus<trimesh::box3>());
+
+			b = total_box;
+
+			//for (const trimesh::vec3& v : hull->vertices)
+			//	b += matrix * v;
 		}
 		else if (mesh)
 		{
