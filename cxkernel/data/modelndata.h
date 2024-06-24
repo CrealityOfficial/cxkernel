@@ -4,6 +4,10 @@
 #include "cxkernel/data/attribute.h"
 #include "cxkernel/data/header.h"
 
+namespace common_3mf
+{
+	struct Scene3MF;
+}
 namespace cxkernel
 {
 	struct KernelHullFace {
@@ -87,6 +91,7 @@ namespace cxkernel
 	public:
 		virtual ~ModelNDataProcessor() {}
 		virtual void process(ModelNDataPtr data) = 0;
+		virtual void process(common_3mf::Scene3MF data) = 0;
 		virtual void modelMeshLoadStarted(int iMeshNum) {};
 		virtual void onMeshLoadFail() {};
 	};

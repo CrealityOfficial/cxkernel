@@ -3,8 +3,10 @@
 #include "qtusercore/module/job.h"
 #include "cxkernel/kernel/data.h"
 #include "cxkernel/data/modelndata.h"
+//#include "data/rawdata.h"
+//#include "data/interface.h"
 #include "cxkernel/utils/meshjob.h"
-
+#include "common_3mf.h"
 namespace cxkernel
 {
 	class MeshLoadJob: public MeshJob
@@ -23,10 +25,10 @@ namespace cxkernel
 		void failed();                        // invoke from main thread
 		void successed(qtuser_core::Progressor* progressor);                     // invoke from main thread
 		void work(qtuser_core::Progressor* progressor);    // invoke from worker thread
-
 	protected:
 		QString m_fileName;
 		TriMeshPtr m_mesh;
+		common_3mf::Scene3MF m_scene;
 		ModelNDataProcessor* m_processor;
 	};
 }

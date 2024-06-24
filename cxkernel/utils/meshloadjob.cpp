@@ -5,7 +5,8 @@
 
 #include "cxkernel/interface/modelninterface.h"
 #include "cxkernel/data/trimeshutils.h"
-
+#include <QFileInfo>
+#include "cxkernel/utils/utils.h"
 namespace cxkernel
 {
 	MeshLoadJob::MeshLoadJob(QObject* parent)
@@ -47,28 +48,44 @@ namespace cxkernel
 
 		notifyObserver(&MeshJobObserver::onFinished);
 	}
-
+	
 	void MeshLoadJob::successed(qtuser_core::Progressor* progressor)
 	{
-		QString shortName = m_fileName;
-		QStringList stringList = shortName.split("/");
-		if (stringList.size() > 0)
-			shortName = stringList.back();
+		QFileInfo info(m_fileName);
+		if(info.suffix().toLower()=="3mf")
+		{
+			m_processor->process(m_scene);
+		}
+		else{
+			QString shortName = m_fileName;
+			QStringList stringList = shortName.split("/");
+			if (stringList.size() > 0)
+				shortName = stringList.back();
 
-		ModelCreateInput input;
-		input.mesh = m_mesh;
-		input.fileName = m_fileName;
-		input.name = shortName;
-		input.type = ModelNDataType::mdt_file;
-		addModelFromCreateInput(input);
-
+			ModelCreateInput input;
+			input.mesh = m_mesh;
+			input.fileName = m_fileName;
+			input.name = shortName;
+			input.type = ModelNDataType::mdt_file;
+			addModelFromCreateInput(input);
+		}
 		notifyObserver(&MeshJobObserver::onFinished);
 	}
 
 	void MeshLoadJob::work(qtuser_core::Progressor* progressor)
 	{
 		qtuser_core::ProgressorTracer tracer(progressor);
-
-		m_mesh = loadMeshFromName(m_fileName, &tracer);
+		
+		QFileInfo info(m_fileName);
+		if(info.suffix().toLower()=="3mf")
+		{
+			common_3mf::Read3MF reader(cxkernel::qString2String(m_fileName));
+			if (reader.read_all_3mf(m_scene, &tracer))
+			{
+			}
+		}else{
+			m_mesh = loadMeshFromName(m_fileName, &tracer);
+		}
+			
 	}
 }
