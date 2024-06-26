@@ -4,7 +4,7 @@
 #include "cxkernel/utils/meshloadjob.h"
 #include "cxkernel/utils/modelfrommeshjob.h"
 #include "cxkernel/interface/jobsinterface.h"
-
+#include <QFileInfo>
 namespace cxkernel
 {
 	MeshLoader::MeshLoader(QObject* parent)
@@ -53,11 +53,8 @@ namespace cxkernel
 
 	void MeshLoader::load(const QStringList& fileNames)
 	{
-		// fix me ;  can not emit signal here
-		if (m_processor)
-			m_processor->modelMeshLoadStarted(fileNames.size());
-
 		QList<qtuser_core::JobPtr> jobs;
+		int jobCount=0;
 		for (const QString& fileName : fileNames)
 		{
 			MeshLoadJob* loadJob = new MeshLoadJob();
@@ -66,7 +63,14 @@ namespace cxkernel
 			loadJob->attachObserver(this);
 			jobs.push_back(qtuser_core::JobPtr(loadJob));
 			m_jobs.emplace(loadJob);
+			QFileInfo info(fileName);
+			if(info.suffix().toLower()!="3mf")
+			{
+				jobCount++;
+			}
 		}
+		if (m_processor)
+			m_processor->modelMeshLoadStarted(jobCount);
 		executeJobs(jobs);
 	}
 
