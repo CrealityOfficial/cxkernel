@@ -298,15 +298,15 @@ namespace cxkernel
 
 			input.mesh->normals.clear();
 
-			bool processResult = true;
-			if (param.dumplicate)
-			{
-				processResult = msbase::dumplicateMesh(input.mesh.get(), tracer);
-				if (!processResult)
-				{
-					return nullptr;
-				}
-			}
+// 			bool processResult = true;
+// 			if (param.dumplicate)
+// 			{
+// 				processResult = msbase::dumplicateMesh(input.mesh.get(), tracer);
+// 				if (!processResult)
+// 				{
+// 					return nullptr;
+// 				}
+// 			}
 
 			std::vector<bool> valids;
 			bool have = msbase::checkDegenerateFace(input.mesh.get(), valids, true);
@@ -324,6 +324,16 @@ namespace cxkernel
 			trimesh::vec3 offset;
 			if(param.toCenter)
 				offset = msbase::moveTrimesh2Center(input.mesh.get(), false);
+
+            bool processResult = true;
+            if (param.dumplicate)
+            {
+                processResult = msbase::dumplicateMesh(input.mesh.get(), tracer);
+                if (!processResult)
+                {
+                    return nullptr;
+                }
+            }
 
 			ModelNDataPtr data(new ModelNData());
 			data->mesh = input.mesh;

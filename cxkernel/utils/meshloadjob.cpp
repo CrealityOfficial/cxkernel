@@ -7,6 +7,7 @@
 #include "cxkernel/data/trimeshutils.h"
 #include <QFileInfo>
 #include "cxkernel/utils/utils.h"
+#include "cxbin/load.h"
 namespace cxkernel
 {
 	MeshLoadJob::MeshLoadJob(QObject* parent)
@@ -84,7 +85,10 @@ namespace cxkernel
 			{
 			}
 		}else{
-			m_mesh = loadMeshFromName(m_fileName, &tracer);
+			//m_mesh = loadMeshFromName(m_fileName, &tracer);
+			//don't need do dumplicate here,addModelFromCreateInput will call it
+            TriMeshPtr mesh_ptr(cxbin::loadAll(qString2String(m_fileName), &tracer));
+            m_mesh = mesh_ptr;
 		}
 			
 	}
