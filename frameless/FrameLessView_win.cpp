@@ -15,6 +15,10 @@
 #include <qwindow.h>
 #include <windowsx.h>
 #include <wtypes.h>
+#include <QOperatingSystemVersion>
+#include <QOpenGLContext>
+#include <QOpenGLFunctions>
+#include <QOffscreenSurface>
 #pragma comment(lib, "Dwmapi.lib") // Adds missing library, fixes error LNK2019: unresolved
 #pragma comment(lib, "User32.lib")
 #pragma comment(lib, "Gdi32.lib")
@@ -103,6 +107,7 @@ public:
     bool m_firstRun = true;
     bool m_isMax = false;
     bool m_isFull = false;
+    bool m_isCompatible = false;
     QQuickItem* m_titleItem = nullptr;
     QQuickItem* m_maskItem = nullptr;
     HMENU mMenuHandler = NULL;
@@ -135,6 +140,15 @@ public:
             setShadow(handle, enabled);
         }
     }
+    void checkCompatible(QString glVendor)
+    {
+        QOperatingSystemVersion version = QOperatingSystemVersion::current();
+        m_isCompatible = version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<=1809 &&glVendor.indexOf("Intel")>=0;
+        if(m_isCompatible)
+        {
+            qDebug()<<version.microVersion();
+        }
+    }
 };
 FrameLessView::FrameLessView(QWindow* parent)
     : QQuickView(parent)
@@ -143,6 +157,21 @@ FrameLessView::FrameLessView(QWindow* parent)
     // 此处不需要设置flags
     //     setFlags(Qt::CustomizeWindowHint | Qt::Window | Qt::FramelessWindowHint | Qt::WindowMinMaxButtonsHint | Qt::WindowTitleHint |
     //     Qt::WindowSystemMenuHint);
+    QOffscreenSurface surface;
+    surface.create();
+
+    QOpenGLContext context;
+    context.create();
+    context.makeCurrent(&surface);
+    QOpenGLContext ctx;
+	ctx.create();
+    QOpenGLFunctions *funcs = ctx.functions();
+    d->checkCompatible(QString("%1").arg((char *)funcs->glGetString(GL_VENDOR)));
+
+    if(d->m_isCompatible)
+    {
+        setFlags(this->flags() | Qt::FramelessWindowHint); 
+    }
     setResizeMode(SizeRootObjectToView);
 
     setIsMax(windowState() == Qt::WindowMaximized);
@@ -163,7 +192,7 @@ void FrameLessView::showLessViewMinimized()
 }
 void FrameLessView::showEvent(QShowEvent* e)
 {
-    if (d->m_firstRun)
+    if (d->m_firstRun && !d->m_isCompatible)
     {
         d->m_firstRun = false;
         // 第一次show的时候，设置无边框。不在构造函数中设置。取winId会触发QWindowsWindow::create,直接创建win32窗口,引起错乱(win7 或者虚拟机启动即黑屏)。
@@ -300,6 +329,10 @@ bool FrameLessView::nativeEvent(const QByteArray& eventType, void* message, long
     switch (msg->message)
     {
     case WM_NCCALCSIZE: {
+        if(d->m_isCompatible)
+        {
+            return false;
+        }
 #if 1
         const auto mode = static_cast<BOOL>(msg->wParam);
         const auto clientRect = mode ? &(reinterpret_cast<LPNCCALCSIZE_PARAMS>(msg->lParam)->rgrc[0]) : reinterpret_cast<LPRECT>(msg->lParam);
