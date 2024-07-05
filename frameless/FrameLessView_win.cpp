@@ -143,7 +143,7 @@ public:
     void checkCompatible(QString glVendor)
     {
         QOperatingSystemVersion version = QOperatingSystemVersion::current();
-        m_isCompatible = version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<=1809 &&glVendor.indexOf("Intel")>=0;
+        m_isCompatible = version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<20000 &&glVendor.indexOf("Intel")>=0;
         if(m_isCompatible)
         {
             qDebug()<<version.microVersion();
