@@ -9,6 +9,9 @@ namespace cxkernel
 {
 	CXKERNEL_API bool rayMeshCheck(trimesh::TriMesh* mesh, const trimesh::fxform& matrix, int primitiveID, const Ray& ray,
 		trimesh::vec3& position, trimesh::vec3& normal);
+
+	CXKERNEL_API bool rayMeshCheckEx(trimesh::TriMesh* mesh, const trimesh::fxform& matrix, const trimesh::fxform& normalMatrix, int primitiveID, const Ray& ray,
+		trimesh::vec3& position, trimesh::vec3& normal);
 }
 
 #endif // CXND_RAYMESH_1642582336569_H

@@ -27,4 +27,30 @@ namespace cxkernel
 		normal = trimesh::normalized(d);
 		return ray.collidePlane(v1, d, position);
 	}
+
+	bool rayMeshCheckEx(trimesh::TriMesh* mesh, const trimesh::fxform& matrix, const trimesh::fxform& normalMatrix, int primitiveID, const Ray& ray,
+		trimesh::vec3& position, trimesh::vec3& normal)
+	{
+		if (!mesh || primitiveID >= mesh->faces.size())
+			return false;
+
+		trimesh::TriMesh::Face f = mesh->faces.at(primitiveID);
+		trimesh::vec3 v1 = mesh->vertices.at(f[0]);
+		trimesh::vec3 v2 = mesh->vertices.at(f[1]);
+		trimesh::vec3 v3 = mesh->vertices.at(f[2]);
+
+		v1 = matrix * v1;
+		v2 = matrix * v2;
+		v3 = matrix * v3;
+
+		trimesh::vec3 v12 = mesh->vertices.at(f[1]) - mesh->vertices.at(f[0]);
+		trimesh::vec3 v13 = mesh->vertices.at(f[2]) - mesh->vertices.at(f[0]);
+
+		trimesh::normalize(v12);
+		trimesh::normalize(v13);
+		trimesh::vec3 d = normalMatrix * (v12 TRICROSS v13);
+
+		normal = trimesh::normalized(d);
+		return ray.collidePlane(v1, d, position);
+	}
 }
