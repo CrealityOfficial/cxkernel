@@ -7,6 +7,7 @@
 #include "qtusercore/module/cxopenandsavefilemanager.h"
 #include "qtusercore/module/creativeplugincenter.h"
 #include "qtusercore/module/jobexecutor.h"
+#include "qtusercore/util/translateutil.h"
 #include "qtusercore/util/undoproxy.h"
 
 #if USE_CXCLOUD
@@ -149,6 +150,7 @@ namespace cxkernel
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 
+		m_context->setContextObject(new cx::QmlTranslator{ this });
 		if (useFrameless())
 		{
 			m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
