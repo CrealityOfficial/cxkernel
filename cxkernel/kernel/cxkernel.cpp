@@ -150,7 +150,8 @@ namespace cxkernel
 		//register context
 		m_engine->setObjectOwnership(this, QQmlEngine::CppOwnership);
 
-		m_context->setContextObject(new cx::QmlTranslator{ this });
+		cx::InitializeQmlTrasnlateUtil(m_engine);
+
 		if (useFrameless())
 		{
 			m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
