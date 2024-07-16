@@ -53,11 +53,14 @@ namespace cxkernel
 	void MeshLoadJob::successed(qtuser_core::Progressor* progressor)
 	{
 		QFileInfo info(m_fileName);
+#ifndef CXKERNEL_DISABLE_3MF
 		if(info.suffix().toLower()=="3mf")
 		{
 			m_processor->process(m_scene);
 		}
-		else{
+		else
+#endif
+		{
 			QString shortName = m_fileName;
 			QStringList stringList = shortName.split("/");
 			if (stringList.size() > 0)
@@ -78,13 +81,16 @@ namespace cxkernel
 		qtuser_core::ProgressorTracer tracer(progressor);
 		
 		QFileInfo info(m_fileName);
+#ifndef CXKERNEL_DISABLE_3MF
 		if(info.suffix().toLower()=="3mf")
 		{
 			common_3mf::Read3MF reader(cxkernel::qString2String(m_fileName));
 			if (reader.read_all_3mf(m_scene, &tracer))
 			{
 			}
-		}else{
+		}else
+#endif
+		{
 			//m_mesh = loadMeshFromName(m_fileName, &tracer);
 			//don't need do dumplicate here,addModelFromCreateInput will call it
             TriMeshPtr mesh_ptr(cxbin::loadAll(qString2String(m_fileName), &tracer));

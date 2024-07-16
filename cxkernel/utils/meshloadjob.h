@@ -3,10 +3,12 @@
 #include "qtusercore/module/job.h"
 #include "cxkernel/kernel/data.h"
 #include "cxkernel/data/modelndata.h"
-//#include "data/rawdata.h"
-//#include "data/interface.h"
 #include "cxkernel/utils/meshjob.h"
+
+#ifndef CXKERNEL_DISABLE_3MF
 #include "common_3mf.h"
+#endif
+
 namespace cxkernel
 {
 	class MeshLoadJob: public MeshJob
@@ -28,7 +30,9 @@ namespace cxkernel
 	protected:
 		QString m_fileName;
 		TriMeshPtr m_mesh;
+#ifndef CXKERNEL_DISABLE_3MF
 		common_3mf::Scene3MF m_scene;
+#endif
 		ModelNDataProcessor* m_processor;
 	};
 }

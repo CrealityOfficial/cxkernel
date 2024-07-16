@@ -27,7 +27,7 @@ __assert_target(tbb_static)
 __files_group(${CMAKE_CURRENT_SOURCE_DIR}/cxkernel/ SRCS)
 set(QRCS res/cxkernel.qrc)
 
-set(LIBS cxbin ssl crypto qhullWrapper libtess2 enchase tbb_static common_3mf)
+set(LIBS cxbin ssl crypto qhullWrapper libtess2 enchase tbb_static)
 
 __assert_target(msbase)
 set(ILIBS qtuser_core trimesh2 msbase)
@@ -70,12 +70,21 @@ endif()
 
 set(INCS ${CMAKE_CURRENT_SOURCE_DIR})
 set(DEFS CXKERNEL_DLL NOMINMAX)
+set(INTERFACE_DEFS)
+
+if(CXKERNEL_NO_USE_3MF)
+	list(APPEND INTERFACE_DEFS CXKERNEL_DISABLE_3MF)
+	list(APPEND DEFS CXKERNEL_DISABLE_3MF)
+else()
+	list(APPEND LIBS common_3mf)
+endif()
 
 __add_real_target(cxkernel dll SOURCE ${SRCS}
 								LIB ${LIBS}
 								ILIB ${ILIBS}
 								INC ${INCS}
 								DEF ${DEFS}
+								INTERFACE_DEF ${INTERFACE_DEFS}
 								INTERFACE ${INCS}
 								QTQRC ${QRCS}
 								)

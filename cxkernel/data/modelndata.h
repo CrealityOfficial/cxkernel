@@ -91,7 +91,9 @@ namespace cxkernel
 	public:
 		virtual ~ModelNDataProcessor() {}
 		virtual void process(ModelNDataPtr data) = 0;
+#ifndef CXKERNEL_DISABLE_3MF
 		virtual void process(common_3mf::Scene3MF data) = 0;
+#endif
 		virtual void modelMeshLoadStarted(int iMeshNum) {};
 		virtual void onMeshLoadFail() {};
 	};
