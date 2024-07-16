@@ -67,6 +67,13 @@ namespace cxkernel
 		cxkernel::executeJob(job);
 	}
 
+	void runAnonymous(anonymous_work_func workFunc, anonymous_func successFunc, anonymous_func failedFunc)
+	{
+		AnonymousJob* job = new AnonymousJob(workFunc, successFunc, nullptr);
+		job->setFailedFunc(failedFunc);
+		cxkernel::executeJob(job);
+	}
+
 	std::string qString2String(const QString& str)
 	{
 		std::wstring wstr = str.toStdWString();

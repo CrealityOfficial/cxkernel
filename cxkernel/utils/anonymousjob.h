@@ -11,6 +11,7 @@ namespace cxkernel
 		AnonymousJob(anonymous_work_func wf, anonymous_func sf, QObject* parent = nullptr);
 		virtual ~AnonymousJob();
 
+		void setFailedFunc(anonymous_func func);
 	protected:
 		QString name();
 		QString description();
@@ -21,6 +22,7 @@ namespace cxkernel
 	protected:
 		anonymous_work_func work_func;
 		anonymous_func success_func;
+		anonymous_func failed_func;
 	};
 }
 

@@ -16,6 +16,11 @@ namespace cxkernel
 
 	}
 
+	void AnonymousJob::setFailedFunc(anonymous_func func)
+	{
+		failed_func = func;
+	}
+
 	QString AnonymousJob::name()
 	{
 		return QString("AnonymousJob");
@@ -28,7 +33,8 @@ namespace cxkernel
 
 	void AnonymousJob::failed()
 	{
-
+		if (failed_func)
+			failed_func();
 	}
 
 	void AnonymousJob::successed(qtuser_core::Progressor* progressor)
