@@ -152,6 +152,8 @@ namespace cxkernel
 
 		cx::InitializeQmlTrasnlateUtil(m_engine);
 
+		cxcloud_->setJsEngine(m_engine);
+
 		if (useFrameless())
 		{
 			m_engine->setObjectOwnership(object, QQmlEngine::CppOwnership);
