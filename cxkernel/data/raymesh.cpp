@@ -3,7 +3,7 @@
 namespace cxkernel
 {
 	bool rayMeshCheck(trimesh::TriMesh* mesh, const trimesh::fxform& matrix, int primitiveID, const Ray& ray,
-		trimesh::vec3& position, trimesh::vec3& normal)
+		trimesh::vec3& position, trimesh::vec3& normal, bool accurate)
 	{
 		if (!mesh || primitiveID >= mesh->faces.size())
 			return false;
@@ -25,7 +25,35 @@ namespace cxkernel
 		trimesh::vec3 d = v12 TRICROSS v13;
 
 		normal = trimesh::normalized(d);
-		return ray.collidePlane(v1, d, position);
+		
+		if (!ray.collidePlane(v1, normal, position))
+			return false;
+
+		if (!accurate)
+			return true;
+
+		/* Check if position is on the triangle*/
+		trimesh::vec3 e1 = v1 - v3;
+		trimesh::vec3 e2 = v2 - v3;
+		trimesh::vec3 e3;
+		float totalArea = 0.5 * trimesh::len(e1 TRICROSS e2);
+
+		e1 = v1 - position;
+		e2 = v2 - position;
+		e3 = v3 - position;
+		float area1 = 0.5 * trimesh::len(e1 TRICROSS e2);
+		if (area1 >= totalArea)
+			return false;
+
+		float area2 = 0.5 * trimesh::len(e1 TRICROSS e3);
+		if (area2 >= totalArea)
+			return false;
+
+		float area3 = 0.5 * trimesh::len(e2 TRICROSS e3);
+		if (area3 >= totalArea)
+			return false;
+
+		return std::abs(area1 + area2 + area3 - totalArea) < 1e-4;
 	}
 
 	bool rayMeshCheckEx(trimesh::TriMesh* mesh, const trimesh::fxform& matrix, const trimesh::fxform& normalMatrix, int primitiveID, const Ray& ray,
