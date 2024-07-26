@@ -144,6 +144,36 @@ public:
     {
         QOperatingSystemVersion version = QOperatingSystemVersion::current();
         m_isCompatible = false;//version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<20000 &&glVendor.indexOf("Intel")>=0;
+        auto readCompatibleList = []{ 
+            QStringList graphicscards;
+            QFile file(QCoreApplication::applicationDirPath()+"/graphicscard_blacklist.txt");
+            if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                qDebug() << "无法打开文件";
+                return graphicscards;
+            }
+        
+            QTextStream in(&file);
+            while (!in.atEnd()) {
+                QString line = in.readLine();
+                graphicscards.append(line);
+            }
+            file.close();
+            return graphicscards;
+             };
+        //只对window进行处理
+        if(version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<30000)
+        {
+            QStringList graphicscards = readCompatibleList();
+            Q_FOREACH(QString card, graphicscards)
+            {
+                if(glVendor.indexOf(card)>=0)
+                {
+                    m_isCompatible = true;
+                    break;
+                }
+            }
+           
+        }
     }
 };
 FrameLessView::FrameLessView(QWindow* parent)
@@ -162,7 +192,7 @@ FrameLessView::FrameLessView(QWindow* parent)
     QOpenGLContext ctx;
 	ctx.create();
     QOpenGLFunctions *funcs = ctx.functions();
-    d->checkCompatible(QString("%1").arg((char *)funcs->glGetString(GL_VENDOR)));
+    d->checkCompatible(QString("%1").arg((char *)funcs->glGetString(GL_RENDERER)));
 
     if(d->m_isCompatible)
     {
@@ -177,6 +207,11 @@ FrameLessView::FrameLessView(QWindow* parent)
         setIsMax(windowState() == Qt::WindowMaximized);
         setIsFull(windowState() == Qt::WindowFullScreen);
     });
+}
+
+bool FrameLessView::isCompatible() const
+{   
+    return d->m_isCompatible;
 }
 void FrameLessView::showLessViewMinimized()
 {

@@ -13,12 +13,14 @@ class FrameLessView : public QQuickView
     using Super = QQuickView;
     Q_PROPERTY(bool isMax READ isMax NOTIFY isMaxChanged)
     Q_PROPERTY(bool isFull READ isFull NOTIFY isFullChanged)
+    Q_PROPERTY(bool isCompatible READ isCompatible)
 public:
     explicit FrameLessView(QWindow* parent = nullptr);
     virtual ~FrameLessView();
     void moveToScreenCenter();
     bool isMax() const;
     bool isFull() const;
+    bool isCompatible() const;
     QQuickItem* titleItem() const;
     Q_INVOKABLE void showLessViewMinimized();
     static QRect calcCenterGeo(const QRect& screenGeo, const QSize& normalSize);

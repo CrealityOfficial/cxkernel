@@ -78,6 +78,10 @@ bool FrameLessView::isFull() const
 {
     return d->m_isFull;
 }
+bool FrameLessView::isCompatible() const
+{
+    return false;
+}
 QQuickItem* FrameLessView::titleItem() const
 {
     return d->m_titleItem;
