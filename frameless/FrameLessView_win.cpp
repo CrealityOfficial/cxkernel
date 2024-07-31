@@ -22,6 +22,7 @@
 #pragma comment(lib, "Dwmapi.lib") // Adds missing library, fixes error LNK2019: unresolved
 #pragma comment(lib, "User32.lib")
 #pragma comment(lib, "Gdi32.lib")
+#include <QMessageBox>
 // we cannot just use WS_POPUP style
 // WS_THICKFRAME: without this the window cannot be resized and so aero snap, de-maximizing and minimizing won't work
 // WS_SYSMENU: enables the context menu with the move, close, maximize, minize... commands (shift + right-click on the task bar item)
@@ -161,9 +162,10 @@ public:
             return graphicscards;
              };
         //只对window进行处理
-        if(version.name()=="Windows" && version.majorVersion()==10 && version.microVersion()<30000)
+        if(version.name()=="Windows" && version.majorVersion()<=10 && version.microVersion()<30000)
         {
             QStringList graphicscards = readCompatibleList();
+            
             Q_FOREACH(QString card, graphicscards)
             {
                 if(glVendor.indexOf(card)>=0)
