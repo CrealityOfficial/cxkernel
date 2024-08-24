@@ -153,7 +153,7 @@ namespace cxkernel
         if (!box.valid)
             return;
 
-        trimesh::xform xf = trimesh::xform::scale(1000.0);
+        trimesh::xform xf = trimesh::xform::scale(25.4);
 
         if (mesh)
             trimesh::apply_xform(mesh.get(), xf);
